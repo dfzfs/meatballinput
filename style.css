@@ -81,3 +81,11 @@
 #mbd_panel .mbd-chip small { color: var(--mb-dim); }
 #mbd_panel .mbd-chip.mbd-add { cursor: pointer; background: var(--mbt-card, #fff); }
 #mbd_panel .mbd-chip.mbd-add:hover { border-color: var(--mb-acc); }
+
+/* on/off switch (name swap) */
+#mbd_panel .mbd-switch { display: inline-flex; align-items: center; gap: 8px; margin: 10px 0 4px; cursor: pointer; font-size: 13px; color: var(--mb-ink); }
+#mbd_panel .mbd-switch input { display: none; }
+#mbd_panel .mbd-knob { width: 40px; height: 22px; border-radius: 999px; background: var(--mb-line); position: relative; transition: background .15s; flex: 0 0 auto; }
+#mbd_panel .mbd-knob::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left .15s; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+#mbd_panel .mbd-switch input:checked + .mbd-knob { background: var(--mb-acc); }
+#mbd_panel .mbd-switch input:checked + .mbd-knob::after { left: 21px; }
