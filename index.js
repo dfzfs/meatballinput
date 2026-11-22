@@ -19,7 +19,7 @@ const T = ko ? {
   helpName: '<b>AI에게 보내는 글에서만 이름을 잠깐 바꿔요.</b> 캐릭터 · 페르소나 · 채팅 · 퀵리플은 하나도 안 바뀌어요.<br>· 지금 {{char}}는 <b>{C}</b>, {{user}}는 <b>{U}</b>로 들어가고 있어요. 이 낱말이 나온 자리를 아래 이름으로 바꿔서 보내요.<br>· 「다음 생성 한 번」은 한 번 쓰고 저절로 꺼져요. 「끌 때까지」는 새로고침하면 꺼져요.<br>· 퀵리플에서는 <code>/mbname char=이름 user=이름</code> 다음에 <code>/gen …</code>. 다음 생성 한 번만 바뀌어요. 본문에 다른 이름으로 적혀 있으면 <code>also=Kkangtong,깡통 사장</code>도. 적용되면 「이름 바꿈 적용 (n곳)」 알림이 떠요.',
   helpRules: '<b>지침 · 말버릇.</b> 지킬 것을 한 줄로 적기만 하면 돼요. 미트볼이 답을 정리할 때 같이 훑어보고, 어긴 게 보이면 <b>다음 답 하나에만</b> "이전 답에 이게 나왔으니 이번엔 주의"를 붙여요. 그다음엔 꺼져요. 「항상」이면 늘 붙여요.',
   rMode: { auto: '보이면 주의', always: '항상', off: '끔' }, rHit: '이전 답에서 보임 → 다음 답에 주의 붙음', rCycle: '눌러서 바꾸기: 보이면 주의 → 항상 → 끔', rEdit: '눌러서 고치기', rMine: '내 지침', rNone: '아직 없어요. 위에 한 줄 적고 Enter', rPresets: '기본 지침 {n}개', dLeft: '채팅 왼쪽에 붙이기 (PC)', dRight: '채팅 오른쪽에 붙이기 (PC)', dBottom: '🎬 위에 띄우기', close: '닫기', rNew: '새 지침', rText: '예: 깡캐를 바보처럼 그리지 않는다', rAdd: '추가', rDel: '지우기', rPreset: '기본',
-  nChar: '{{char}} 자리에 넣을 이름', nFrom: '캐릭터의 다른 이름도 같이 바꾸기 (선택, 쉼표로)', nFromPh: '예: Kkangtong, 깡통 사장 — 본문에 이렇게 적혀 있으면', nUser: '{{user}} 자리에 넣을 이름', nBlank: '비우면 그대로', nOnce: '다음 생성 한 번', nOn: '끌 때까지', nOff: '끄기', nNow: '켜져 있음', nOnceNow: '다음 생성 한 번만', nOffNow: '꺼져 있음', nShort: '한 글자 이름은 안 바꿔요(엉뚱한 데까지 바뀌어서)',
+  nWill: '이렇게 바뀌어요', nInCard: '카드에 {n}곳', nCard: '카드에 자주 나오는 이름 (누르면 같이 바꾸기에 추가)', nChar: '{{char}} 자리에 넣을 이름', nFrom: '캐릭터의 다른 이름도 같이 바꾸기 (선택, 쉼표로)', nFromPh: '예: Kkangtong, 깡통 사장 — 본문에 이렇게 적혀 있으면', nUser: '{{user}} 자리에 넣을 이름', nBlank: '비우면 그대로', nOnce: '다음 생성 한 번', nOn: '끌 때까지', nOff: '끄기', nNow: '켜져 있음', nOnceNow: '다음 생성 한 번만', nOffNow: '꺼져 있음', nShort: '한 글자 이름은 안 바꿔요(엉뚱한 데까지 바뀌어서)',
   helpOrder: '<b>AI에게 시킬 것.</b> 채팅에는 안 남고 본편 AI만 봐요.<br>· 그냥 적어 두면 <b>다음 답 한 번</b>에만 들어가요.<br>· 오래 지켜야 하면 📌 버튼으로 고정하세요. 「이 장면 동안」은 장면이 바뀌면 계속할지 물어봐요.<br>· 시간을 넘기고 싶으면 그냥 「사흘 뒤」처럼 적으면 돼요.',
   orderPh: '예: 깡캐가 먼저 말을 건다', fresh: '다음 답에 들어가요', used: '이미 들어갔어요. 그 답을 다시 뽑을 때만 또 들어가요', empty: '',
   pinScene: '📌 이 장면 동안', pinAlways: '📌 계속', clear: '지우기', pinned: '고정된 지시', pinnedScene: '이 장면 동안', pinnedAlways: '계속',
@@ -35,7 +35,7 @@ const T = ko ? {
   helpName: '<b>Swaps names only in the text sent to the AI.</b> Character, persona, chat and quick replies stay as they are.<br>· {{char}} is now <b>{C}</b> and {{user}} is <b>{U}</b>. Where those words appear, the names below go out instead.<br>· "Next generation" switches itself off after one use. "Until off" ends on reload.<br>· In a quick reply: <code>/mbname char=Name user=Name</code> then <code>/gen …</code> (next generation only). <code>/mbname</code> alone switches it off.',
   helpRules: '<b>Guidelines · habits.</b> Just write the rule in one line. Meatball checks the reply while sorting it; if the rule was broken, the next reply only gets "the last reply did this, watch it". "Always" sends it every time.',
   rMode: { auto: 'warn when seen', always: 'always', off: 'off' }, rHit: 'seen in the last reply → warned in the next', rCycle: 'click: warn when seen → always → off', rEdit: 'click to edit', rMine: 'My rules', rNone: 'None yet. Type one above and press Enter', rPresets: '{n} preset rules', dLeft: 'dock left of the chat (PC)', dRight: 'dock right of the chat (PC)', dBottom: 'pop up above 🎬', close: 'Close', rNew: 'New rule', rText: 'e.g. never treat B like a child', rAdd: 'Add', rDel: 'Delete', rPreset: 'preset',
-  nChar: 'name in place of {{char}}', nFrom: 'other names of the character to swap too (optional, comma)', nFromPh: 'e.g. how the story spells the name', nUser: 'name in place of {{user}}', nBlank: 'empty = unchanged', nOnce: 'Next generation', nOn: 'Until off', nOff: 'Off', nNow: 'on', nOnceNow: 'next generation only', nOffNow: 'off', nShort: 'one-letter names are not swapped',
+  nWill: 'Will be swapped', nInCard: '{n} in the card', nCard: 'Names the card uses often (tap to add)', nChar: 'name in place of {{char}}', nFrom: 'other names of the character to swap too (optional, comma)', nFromPh: 'e.g. how the story spells the name', nUser: 'name in place of {{user}}', nBlank: 'empty = unchanged', nOnce: 'Next generation', nOn: 'Until off', nOff: 'Off', nNow: 'on', nOnceNow: 'next generation only', nOffNow: 'off', nShort: 'one-letter names are not swapped',
   helpOrder: '<b>What the AI should do.</b> Not kept in the chat; only the story AI sees it.<br>· Typed here, it goes into <b>the next reply only</b>.<br>· Pin it with 📌 to keep it. "This scene" asks again when the scene changes.<br>· To skip time, just write "three days later".',
   orderPh: 'e.g. B speaks first', fresh: 'Goes into the next reply', used: 'Already used; goes in again only when that reply is redone', empty: '',
   pinScene: '📌 This scene', pinAlways: '📌 Always', clear: 'Clear', pinned: 'Pinned', pinnedScene: 'this scene', pinnedAlways: 'always',
@@ -46,7 +46,7 @@ const T = ko ? {
   helpGoal: '<b>Where the story should end up.</b> Never sent: told, the AI rushes there.<br>· Rushing ahead shows ⚠.<br>· "Hint" sends only "nothing is settled yet, it moves slowly".<br>· Press "Arrived" when it gets there.',
   gV: 'Direction', gVPh: 'e.g. in the end they choose each other', gSigns: 'Words that mean it rushed (optional, comma)', gSignsPh: 'e.g. confession, kiss', gHint: 'Hint', arrived: 'Arrived',
 };
-const TIP = ko ? {"pinScene": "적은 지시를 이 장면이 끝날 때까지 매 답에 넣어요. 미트볼이 장면이 바뀐 걸 알아채면 계속할지 물어요.", "pinAlways": "적은 지시를 이 채팅 내내 매 답에 넣어요.", "clear": "적은 지시를 지워요.", "sWho": "비밀을 가진 사람 이름.", "sV": "AI가 먼저 말하면 안 되는 내용. AI에게는 절대 안 가고 미트볼만 알아요.", "sShows": "겉으로 티 나도 되는 모습. 이것만 AI에게 가요. 예: 반지만 보면 눈을 피한다.", "sSigns": "답에 이 낱말이 나오면 비밀이 샌 걸로 보고 상태줄에 ⚠를 띄워요.", "open": "풀기: 이제 비밀이 아니게 돼요(AI도 알게 됨). 다시 잠글 수도 있어요.", "gV": "이야기가 결국 갔으면 하는 곳. AI는 몰라요. 미트볼은 너무 빨리 가는지만 지켜봐요.", "gSigns": "답에 이 낱말이 나오면 너무 빨리 간 걸로 보고 ⚠.", "gHint": "켜면 AI에게 「아직 정해진 건 없고 천천히 흘러간다」 한 줄만 알려요. 목표 자체는 안 알려요.", "arrived": "그 방향에 도착했으면 눌러서 목록에서 빼요.", "nChar": "{{char}} 자리에 잠깐 들어갈 이름. 보내는 글에서만 바뀌고 캐릭터 카드는 그대로예요.", "nUser": "{{user}} 자리에 잠깐 들어갈 이름.", "nFrom": "본문에 캐릭터 이름이 다른 철자로 적혀 있으면 여기 적어서 같이 바꿔요. 쉼표로 여러 개.", "nOnce": "다음 답 한 번만 바꿔요.", "nOn": "끌 때까지 계속 바꿔요.", "nOff": "이름 바꾸기를 꺼요.", "rText": "지킬 것을 한 줄로 적고 Enter. 미트볼이 답을 정리할 때 어겼는지 같이 보고, 어겼으면 다음 답에만 주의를 붙여요.", "rPresets": "자주 쓰는 지침 8개. 켜고 끄고, 제목을 눌러 내용도 고칠 수 있어요."} : {"pinScene": "Keeps the order in every reply until the scene ends.", "pinAlways": "Keeps the order in every reply of this chat.", "clear": "Clears the order.", "sWho": "Who holds the secret.", "sV": "What the AI must not blurt out. Never sent; only Meatball knows.", "sShows": "What may show on the outside. Only this goes to the AI.", "sSigns": "If a reply uses these words, ⚠ shows.", "open": "Release: no longer a secret. You can lock it again.", "gV": "Where the story should end up. The AI is not told.", "gSigns": "If a reply uses these words, it rushed: ⚠.", "gHint": "Tells the AI only \"nothing is settled yet, it moves slowly\".", "arrived": "Remove it once the story got there.", "nChar": "Name for {{char}} in the text sent to the AI only.", "nUser": "Name for {{user}} in the text sent to the AI only.", "nFrom": "Other spellings of the character name in the story (comma).", "nOnce": "Next reply only.", "nOn": "Until switched off.", "nOff": "Stop swapping.", "rText": "Write a rule and press Enter. Meatball checks the reply while sorting it.", "rPresets": "Eight common rules. Toggle them or click a title to edit."};
+const TIP = ko ? {"pinScene": "적은 지시를 이 장면이 끝날 때까지 매 답에 넣어요. 미트볼이 장면이 바뀐 걸 알아채면 계속할지 물어요.", "pinAlways": "적은 지시를 이 채팅 내내 매 답에 넣어요.", "clear": "적은 지시를 지워요.", "sWho": "비밀을 가진 사람 이름.", "sV": "AI가 먼저 말하면 안 되는 내용. AI에게는 절대 안 가고 미트볼만 알아요.", "sShows": "겉으로 티 나도 되는 모습. 이것만 AI에게 가요. 예: 반지만 보면 눈을 피한다.", "sSigns": "답에 이 낱말이 나오면 비밀이 샌 걸로 보고 상태줄에 ⚠를 띄워요.", "open": "풀기: 이제 비밀이 아니게 돼요(AI도 알게 됨). 다시 잠글 수도 있어요.", "gV": "이야기가 결국 갔으면 하는 곳. AI는 몰라요. 미트볼은 너무 빨리 가는지만 지켜봐요.", "gSigns": "답에 이 낱말이 나오면 너무 빨리 간 걸로 보고 ⚠.", "gHint": "켜면 AI에게 「아직 정해진 건 없고 천천히 흘러간다」 한 줄만 알려요. 목표 자체는 안 알려요.", "arrived": "그 방향에 도착했으면 눌러서 목록에서 빼요.", "nChar": "{{char}} 자리에 잠깐 들어갈 이름. 보내는 글에서만 바뀌고 캐릭터 카드는 그대로예요.", "nUser": "{{user}} 자리에 잠깐 들어갈 이름.", "nFrom": "본문에 캐릭터 이름이 다른 철자로 적혀 있으면 여기 적어서 같이 바꿔요. 쉼표로 여러 개.", "nCard":"카드 본문에 3번 넘게 나오는 영어 이름 후보예요. 카드가 {{char}} 대신 이름을 직접 적어 두었으면, 그 이름도 같이 바꿔야 AI가 새 이름으로 봐요.","nOnce": "다음 답 한 번만 바꿔요.", "nOn": "끌 때까지 계속 바꿔요.", "nOff": "이름 바꾸기를 꺼요.", "rText": "지킬 것을 한 줄로 적고 Enter. 미트볼이 답을 정리할 때 어겼는지 같이 보고, 어겼으면 다음 답에만 주의를 붙여요.", "rPresets": "자주 쓰는 지침 8개. 켜고 끄고, 제목을 눌러 내용도 고칠 수 있어요."} : {"pinScene": "Keeps the order in every reply until the scene ends.", "pinAlways": "Keeps the order in every reply of this chat.", "clear": "Clears the order.", "sWho": "Who holds the secret.", "sV": "What the AI must not blurt out. Never sent; only Meatball knows.", "sShows": "What may show on the outside. Only this goes to the AI.", "sSigns": "If a reply uses these words, ⚠ shows.", "open": "Release: no longer a secret. You can lock it again.", "gV": "Where the story should end up. The AI is not told.", "gSigns": "If a reply uses these words, it rushed: ⚠.", "gHint": "Tells the AI only \"nothing is settled yet, it moves slowly\".", "arrived": "Remove it once the story got there.", "nChar": "Name for {{char}} in the text sent to the AI only.", "nUser": "Name for {{user}} in the text sent to the AI only.", "nFrom": "Other spellings of the character name in the story (comma).", "nCard":"Capitalized names the card text uses 3+ times. If the card writes the name instead of {{char}}, add it here too.","nOnce": "Next reply only.", "nOn": "Until switched off.", "nOff": "Stop swapping.", "rText": "Write a rule and press Enter. Meatball checks the reply while sorting it.", "rPresets": "Eight common rules. Toggle them or click a title to edit."};
 // a small ? with a tip (mouse-over, or tap on phones); one bubble for the whole panel
 const q = (k) => (TIP[k] ? ` <span class="mbd-qi" tabindex="0" data-mbdtip="${h(TIP[k])}">?</span>` : '');
 const tipAt = (k) => (TIP[k] ? ` data-mbdtip="${h(TIP[k])}"` : '');
@@ -219,6 +219,16 @@ function tabGoal(body, A, S) {
   });
 }
 // 이름: swap the rendered {{char}}/{{user}} names in the outgoing prompt only
+// The card's own text (what the AI reads about the character)
+function cardText() { const c = ctx(), ch = c.characters?.[c.characterId] || {}; return [ch.description, ch.personality, ch.scenario, ch.first_mes, ch.mes_example, ch.data?.system_prompt].filter(Boolean).join('\n'); }
+const STOPW = new Set('The He She His Her Hers Him They Them Their It Its I You Your We Our When If In On At A An And But Or As With This That These Those What Who Where Why How Not No Yes Do Does Did Is Are Was Were Be Been Has Have Had Will Would Can Could Should May Might Must For From To Of By About After Before Then Than So Very Just Only Also Even Still Now Here There One Two All Any Some Each Every Most More Less Such Into Over Under Again User Char System Note OOC'.split(' '));
+function cardNames() {
+  const t = cardText(), count = new Map();
+  const add = (w) => { if (w.split(/\s+/).some((x) => STOPW.has(x))) return; count.set(w, (count.get(w) || 0) + 1); };
+  for (const m of t.matchAll(/\b[A-Z][a-z']{1,}\b/g)) add(m[0]);                                    // single names
+  for (const m of t.matchAll(/(?=\b([A-Z][a-z']{1,}\s+[A-Z][a-z']{1,})\b)/g)) add(m[1]);              // two-word names (overlapping)
+  return [...count].filter(([w, n]) => n >= 3 && !STOPW.has(w)).sort((a, b) => b[1] - a[1]).slice(0, 8);
+}
 function tabName(body) {
   const c = ctx(), now = !N.mode ? T.nOffNow : N.mode === 'once' ? T.nOnceNow : T.nNow;
   body.innerHTML = `<div class="mbd-help">${T.helpName.replace('{C}', h(c.name2 || '')).replace('{U}', h(c.name1 || ''))}</div>
@@ -226,11 +236,18 @@ function tabName(body) {
     <label>${h(T.nUser)}${q('nUser')}</label><input id="mbd_nu" class="text_pole" placeholder="${h(T.nBlank)}" value="${h(N.user)}" />
     <label>${h(T.nFrom)}${q('nFrom')}</label><input id="mbd_nf" class="text_pole" placeholder="${h(T.nFromPh)}" value="${h(N.charFrom)}" />
     <div class="mbd-row"><div id="mbd_n1" class="menu_button${N.mode === 'once' ? ' on' : ''}"${tipAt('nOnce')}>${h(T.nOnce)}</div><div id="mbd_n2" class="menu_button${N.mode === 'on' ? ' on' : ''}"${tipAt('nOn')}>${h(T.nOn)}</div><div id="mbd_n0" class="menu_button"${tipAt('nOff')}>${h(T.nOff)}</div></div>
-    <div class="mbd-dim">${h(now)} · ${h(T.nShort)}</div>`;
+    <div class="mbd-dim">${h(now)} · ${h(T.nShort)}</div>
+    ${(() => { const p = N.char || N.user ? (swapPairsFor() || []) : []; const t = cardText();
+      const cnt = (w) => (t.match(new RegExp(/^[\x00-\x7f]+$/.test(w) ? `(^|[^A-Za-z0-9_])${esc(w)}(?![A-Za-z0-9_])` : esc(w), 'g')) || []).length;
+      const cover = p.length ? `<div class="mbd-lab">${h(T.nWill)}</div><div class="mbd-chips">${p.map(([f, to]) => `<span class="mbd-chip">${h(f)} → ${h(to)}${cnt(f) ? ` <small>${h(T.nInCard.replace('{n}', cnt(f)))}</small>` : ''}</span>`).join('')}</div>` : '';
+      const have = new Set(p.map(([f]) => f)), cand = cardNames().filter(([w]) => !have.has(w));
+      return cover + (cand.length ? `<div class="mbd-lab">${h(T.nCard)}${q('nCard')}</div><div class="mbd-chips">${cand.map(([w, n]) => `<span class="mbd-chip mbd-add" data-add="${h(w)}">+ ${h(w)} <small>${n}</small></span>`).join('')}</div>` : ''); })()}`;
   const set = (mode) => { swapSet(document.getElementById('mbd_nc').value, document.getElementById('mbd_nu').value, mode, document.getElementById('mbd_nf').value); render(); };
   document.getElementById('mbd_n1').addEventListener('click', () => set('once'));
   document.getElementById('mbd_n2').addEventListener('click', () => set('on'));
   document.getElementById('mbd_n0').addEventListener('click', () => set(''));
+  body.querySelectorAll('[data-add]').forEach((b) => b.addEventListener('click', () => { const f = document.getElementById('mbd_nf'); f.value = [...commas(f.value), b.dataset.add].join(', '); N.charFrom = f.value; render(); }));
+  for (const id of ['mbd_nc', 'mbd_nu', 'mbd_nf']) document.getElementById(id)?.addEventListener('change', () => { N.char = document.getElementById('mbd_nc').value.trim(); N.user = document.getElementById('mbd_nu').value.trim(); N.charFrom = document.getElementById('mbd_nf').value.trim(); render(); });
 }
 function swapSet(ch, us, mode, from = '') { N.char = String(ch || '').trim(); N.user = String(us || '').trim(); N.charFrom = String(from || '').trim(); N.mode = mode && (N.char || N.user) ? mode : ''; N.at = Date.now(); }
 const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -255,13 +272,17 @@ function swapReport(pairs) {
 }
 function swapPairs() {
   if (!N.mode) return null;
+  return swapPairsFor();
+}
+function swapPairsFor() {
   if (N.mode === 'once' && Date.now() - N.at > 10 * 60e3) { N.mode = ''; return null; }   // a forgotten one-shot does not linger
   // also the other names the character goes by in the text (e.g. a Korean spelling), longest first
   // everywhere the name shows up: the full name, each word of a multi-word name (a card written "First Last" is often
   // called just "Last" in the text), and the other names typed in. Longest first, so the full name goes before its parts.
   const c = ctx(), parts = (full) => String(full || '').split(/\s+/).filter((w) => w.length >= 2 && w !== full);
-  const charNames = N.char ? [...new Set([c.name2, ...commas(N.charFrom), ...parts(c.name2)])].filter(Boolean) : [];
-  const userNames = N.user ? [...new Set([c.name1, ...parts(c.name1)])].filter(Boolean) : [];
+  const known = (n) => { try { return api()?.namesFor?.(n) || window.MeatballAPI?.namesFor?.(n) || []; } catch (e) { return []; } };
+  const charNames = N.char ? [...new Set([c.name2, ...commas(N.charFrom), ...parts(c.name2), ...known(c.name2).flatMap((x) => [x, ...parts(x)])])].filter(Boolean) : [];
+  const userNames = N.user ? [...new Set([c.name1, ...parts(c.name1), ...known(c.name1).flatMap((x) => [x, ...parts(x)])])].filter(Boolean) : [];
   const pairs = [...charNames.map((x) => [x, N.char]), ...userNames.map((x) => [x, N.user])].filter(([f, t]) => f && t && f !== t).sort((a, b) => b[0].length - a[0].length);
   return pairs.length ? pairs : null;
 }
