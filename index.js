@@ -257,8 +257,12 @@ function swapPairs() {
   if (!N.mode) return null;
   if (N.mode === 'once' && Date.now() - N.at > 10 * 60e3) { N.mode = ''; return null; }   // a forgotten one-shot does not linger
   // also the other names the character goes by in the text (e.g. a Korean spelling), longest first
-  const c = ctx(), also = N.char ? commas(N.charFrom).filter((x) => x !== c.name2).sort((a, b) => b.length - a.length).map((x) => [x, N.char]) : [];
-  const pairs = [...also, [c.name2, N.char], [c.name1, N.user]].filter(([f, t]) => f && t);
+  // everywhere the name shows up: the full name, each word of a multi-word name (a card written "First Last" is often
+  // called just "Last" in the text), and the other names typed in. Longest first, so the full name goes before its parts.
+  const c = ctx(), parts = (full) => String(full || '').split(/\s+/).filter((w) => w.length >= 2 && w !== full);
+  const charNames = N.char ? [...new Set([c.name2, ...commas(N.charFrom), ...parts(c.name2)])].filter(Boolean) : [];
+  const userNames = N.user ? [...new Set([c.name1, ...parts(c.name1)])].filter(Boolean) : [];
+  const pairs = [...charNames.map((x) => [x, N.char]), ...userNames.map((x) => [x, N.user])].filter(([f, t]) => f && t && f !== t).sort((a, b) => b[0].length - a[0].length);
   return pairs.length ? pairs : null;
 }
 // chat completion: the finished message list, right before it is sent
