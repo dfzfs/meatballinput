@@ -4,7 +4,7 @@
 #mbd_panel { display: none; --mb-bg: #fdfbfb; --mb-line: #dccfcf; --mb-ink: #5b4c4c; --mb-soft: #fdf0f2; --mb-dim: #a6979a; --mb-acc: #e8a3b3;
   margin: 0 0 6px; background: var(--mb-bg); color: var(--mb-ink); border: 1.5px solid var(--mb-line); border-radius: 14px; font-size: 13.5px; line-height: 1.5; box-shadow: 0 4px 16px rgba(90,60,60,.08); }
 #mbd_panel.open { display: flex; flex-direction: column; max-height: 46vh; }
-#mbd_panel.side { position: fixed; z-index: 3000; top: calc(var(--topBarBlockSize, 50px) + 8px); bottom: 12px; width: 320px; max-height: none; margin: 0; }
+#mbd_panel.side { position: fixed; z-index: 3000; top: calc(var(--topBarBlockSize, 50px) + 8px); bottom: auto; width: 320px; max-height: 50vh; margin: 0; }
 #mbd_panel.side.left { left: 12px; } #mbd_panel.side.right { right: 12px; }
 #mbd_panel .mbd-bar { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-bottom: 1.5px solid var(--mb-line); background: #f6eeee; border-radius: 12px 12px 0 0; }
 #mbd_panel .mbd-dots i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid #8a7272; margin-right: 3px; }
@@ -59,3 +59,10 @@
 }
 /* side docking only works on wide screens, so hide the dock buttons on phones */
 @media (max-width: 999px) { #mbd_panel .mbd-dock { display: none; } }
+
+/* the sheet scrolls inside the window (side panel is half the screen tall) */
+#mbd_panel .mbd-sheet { flex: 1 1 auto; min-height: 0; }
+/* checkbox + its words on one line (the general label rule made them stack) */
+#mbd_panel label.checkbox_label { display: inline-flex; flex-direction: row; align-items: center; gap: 6px; margin: 0; font-size: 12.5px; color: var(--mb-ink); width: auto; }
+#mbd_panel label.checkbox_label input { width: 15px; height: 15px; margin: 0; accent-color: var(--mb-acc); }
+#mbd_panel .mbd-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
