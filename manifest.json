@@ -1,0 +1,10 @@
+{
+  "display_name": "Meatball Director (미트볼 지시창)",
+  "loading_order": 51,
+  "js": "index.js",
+  "css": "style.css",
+  "author": "meatball",
+  "version": "0.7.0",
+  "homePage": "https://github.com/dfzfs/meatballinput",
+  "auto_update": false
+}
