@@ -47,7 +47,6 @@
 #mbd_panel .mbd-del { cursor: pointer; color: var(--mb-dim); font-weight: normal; }
 #mbd_panel details.mbd-pre { margin-top: 10px; }
 #mbd_panel details.mbd-pre > summary { cursor: pointer; color: var(--mb-dim); font-size: 12px; }
-#mbd_panel .mbd-on { color: #6b9a4a; }
 #mbd_panel .mbd-in:focus, #mbd_panel textarea:focus { outline: none; border-color: var(--mb-acc) !important; }
 
 /* phones: help opens on tap; 16px fields so iPhone Safari does not zoom in on focus */
