@@ -247,7 +247,31 @@ function tabName(body) {
   body.querySelectorAll('[data-add]').forEach((b) => b.addEventListener('click', () => { const f = document.getElementById('mbd_nf'); f.value = [...commas(f.value), b.dataset.add].join(', '); N.charFrom = f.value; render(); }));
   for (const id of ['mbd_nc', 'mbd_nu', 'mbd_nf']) document.getElementById(id)?.addEventListener('change', () => { N.char = document.getElementById('mbd_nc').value.trim(); N.user = document.getElementById('mbd_nu').value.trim(); N.charFrom = document.getElementById('mbd_nf').value.trim(); render(); });
 }
-function swapSet(ch, us, mode, from = '') { N.char = String(ch || '').trim(); N.user = String(us || '').trim(); N.charFrom = String(from || '').trim(); N.mode = mode && (N.char || N.user) ? mode : ''; N.at = Date.now(); }
+function swapSet(ch, us, mode, from = '') {
+  N.char = String(ch || '').trim(); N.user = String(us || '').trim(); N.charFrom = String(from || '').trim(); N.mode = mode && (N.char || N.user) ? mode : ''; N.at = Date.now();
+  // kept with this chat (like the placechange extension), so a reload or coming back keeps the switch as it was
+  try { const md = ctx().chatMetadata; if (md) { (md[KEY] ||= {}).swap = N.mode === 'on' ? { char: N.char, user: N.user, from: N.charFrom } : null; save(); } } catch (e) { /* */ }
+  macros();
+}
+function swapLoad() { try { const x = ctx().chatMetadata?.[KEY]?.swap; if (x && (x.char || x.user)) { N.char = x.char || ''; N.user = x.user || ''; N.charFrom = x.from || ''; N.mode = 'on'; } else { N.mode = ''; } macros(); } catch (e) { /* */ } }
+// The placeholders themselves: {{char}} / {{user}} render as the new names while the switch is on, everywhere
+// SillyTavern fills them (card, lorebook, quick replies, prompts). Same way as the placechange extension: the macros
+// are registered once and never removed (removing them can delete the built-in ones); switched off they return the
+// original names.
+const MAC = { char: false, user: false };
+function macros() {
+  const c = ctx(); if (typeof c.registerMacro !== 'function') return;
+  const want = { char: !!(N.mode && N.char), user: !!(N.mode && N.user) };
+  for (const k of ['char', 'user']) {
+    if (!want[k] || MAC[k]) continue;
+    try { c.registerMacro(k, k === 'char' ? () => (N.mode && N.char ? N.char : ctx().name2) : () => (N.mode && N.user ? N.user : ctx().name1)); MAC[k] = true; }
+    catch (e) { console.error('[meatball-director] macro', k, e); }
+  }
+  try {
+    const bad = (N.mode && N.char && c.substituteParams('{{char}}') !== N.char) || (N.mode && N.user && c.substituteParams('{{user}}') !== N.user);
+    if (bad && !G.macroWarned) { G.macroWarned = true; window.toastr?.warning(ko ? '이 실리태번 버전에서는 {{char}}/{{user}} 덮어쓰기가 안 먹는 것 같아요 (F12 콘솔 확인)' : 'This SillyTavern version ignores the {{char}}/{{user}} override (see console)'); }
+  } catch (e) { /* check only */ }
+}
 const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 // whole-word for Latin names (so "Ann" does not hit "Anna"), plain for Korean; one-letter names are left alone
 const SW = { n: 0 };
@@ -458,7 +482,7 @@ function onReceived(id) {
   const up = () => { if (!document.getElementById('mbd_btn')) mount(); putAlone(); setTimeout(pushHabits, 1500); };
   eventSource.on(E.APP_READY, up);
   if (document.getElementById('send_form')) up();   // loaded late (after the app was ready): mount now
-  eventSource.on(E.CHAT_CHANGED, () => { G.apply = false; putAlone(); render(); });
+  eventSource.on(E.CHAT_CHANGED, () => { G.apply = false; swapLoad(); putAlone(); render(); });
   eventSource.on(E.GENERATION_STARTED, onStart);
   if (E.CHAT_COMPLETION_PROMPT_READY) eventSource.on(E.CHAT_COMPLETION_PROMPT_READY, onPromptReady);
   if (E.GENERATE_AFTER_COMBINE_PROMPTS) eventSource.on(E.GENERATE_AFTER_COMBINE_PROMPTS, onCombined);
