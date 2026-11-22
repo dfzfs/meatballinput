@@ -66,3 +66,7 @@
 #mbd_panel label.checkbox_label { display: inline-flex; flex-direction: row; align-items: center; gap: 6px; margin: 0; font-size: 12.5px; color: var(--mb-ink); width: auto; }
 #mbd_panel label.checkbox_label input { width: 15px; height: 15px; margin: 0; accent-color: var(--mb-acc); }
 #mbd_panel .mbd-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+/* ? tips: hover on PC, tap on phones */
+#mbd_panel .mbd-qi { display: inline-block; width: 15px; height: 15px; line-height: 13px; margin-left: 4px; text-align: center; border-radius: 50%; border: 1.5px solid var(--mb-line); color: var(--mb-dim); font-size: 10px; font-weight: bold; cursor: help; vertical-align: 1px; background: #fff; }
+#mbd_panel .mbd-qi:hover { border-color: var(--mb-acc); color: #b0566a; }
+.mbd-bubble { position: fixed; z-index: 100000; display: none; padding: 8px 11px; background: #fff; color: #5b4c4c; border: 1.5px solid #e8c6cc; border-radius: 10px; font-size: 12.5px; line-height: 1.5; box-shadow: 0 4px 14px rgba(90,60,60,.14); pointer-events: none; white-space: pre-line; word-break: keep-all; }

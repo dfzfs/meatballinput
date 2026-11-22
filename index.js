@@ -46,6 +46,24 @@ const T = ko ? {
   helpGoal: '<b>Where the story should end up.</b> Never sent: told, the AI rushes there.<br>· Rushing ahead shows ⚠.<br>· "Hint" sends only "nothing is settled yet, it moves slowly".<br>· Press "Arrived" when it gets there.',
   gV: 'Direction', gVPh: 'e.g. in the end they choose each other', gSigns: 'Words that mean it rushed (optional, comma)', gSignsPh: 'e.g. confession, kiss', gHint: 'Hint', arrived: 'Arrived',
 };
+const TIP = ko ? {"pinScene": "적은 지시를 이 장면이 끝날 때까지 매 답에 넣어요. 미트볼이 장면이 바뀐 걸 알아채면 계속할지 물어요.", "pinAlways": "적은 지시를 이 채팅 내내 매 답에 넣어요.", "clear": "적은 지시를 지워요.", "sWho": "비밀을 가진 사람 이름.", "sV": "AI가 먼저 말하면 안 되는 내용. AI에게는 절대 안 가고 미트볼만 알아요.", "sShows": "겉으로 티 나도 되는 모습. 이것만 AI에게 가요. 예: 반지만 보면 눈을 피한다.", "sSigns": "답에 이 낱말이 나오면 비밀이 샌 걸로 보고 상태줄에 ⚠를 띄워요.", "open": "풀기: 이제 비밀이 아니게 돼요(AI도 알게 됨). 다시 잠글 수도 있어요.", "gV": "이야기가 결국 갔으면 하는 곳. AI는 몰라요. 미트볼은 너무 빨리 가는지만 지켜봐요.", "gSigns": "답에 이 낱말이 나오면 너무 빨리 간 걸로 보고 ⚠.", "gHint": "켜면 AI에게 「아직 정해진 건 없고 천천히 흘러간다」 한 줄만 알려요. 목표 자체는 안 알려요.", "arrived": "그 방향에 도착했으면 눌러서 목록에서 빼요.", "nChar": "{{char}} 자리에 잠깐 들어갈 이름. 보내는 글에서만 바뀌고 캐릭터 카드는 그대로예요.", "nUser": "{{user}} 자리에 잠깐 들어갈 이름.", "nFrom": "본문에 캐릭터 이름이 다른 철자로 적혀 있으면 여기 적어서 같이 바꿔요. 쉼표로 여러 개.", "nOnce": "다음 답 한 번만 바꿔요.", "nOn": "끌 때까지 계속 바꿔요.", "nOff": "이름 바꾸기를 꺼요.", "rText": "지킬 것을 한 줄로 적고 Enter. 미트볼이 답을 정리할 때 어겼는지 같이 보고, 어겼으면 다음 답에만 주의를 붙여요.", "rPresets": "자주 쓰는 지침 8개. 켜고 끄고, 제목을 눌러 내용도 고칠 수 있어요."} : {"pinScene": "Keeps the order in every reply until the scene ends.", "pinAlways": "Keeps the order in every reply of this chat.", "clear": "Clears the order.", "sWho": "Who holds the secret.", "sV": "What the AI must not blurt out. Never sent; only Meatball knows.", "sShows": "What may show on the outside. Only this goes to the AI.", "sSigns": "If a reply uses these words, ⚠ shows.", "open": "Release: no longer a secret. You can lock it again.", "gV": "Where the story should end up. The AI is not told.", "gSigns": "If a reply uses these words, it rushed: ⚠.", "gHint": "Tells the AI only \"nothing is settled yet, it moves slowly\".", "arrived": "Remove it once the story got there.", "nChar": "Name for {{char}} in the text sent to the AI only.", "nUser": "Name for {{user}} in the text sent to the AI only.", "nFrom": "Other spellings of the character name in the story (comma).", "nOnce": "Next reply only.", "nOn": "Until switched off.", "nOff": "Stop swapping.", "rText": "Write a rule and press Enter. Meatball checks the reply while sorting it.", "rPresets": "Eight common rules. Toggle them or click a title to edit."};
+// a small ? with a tip (mouse-over, or tap on phones); one bubble for the whole panel
+const q = (k) => (TIP[k] ? ` <span class="mbd-qi" tabindex="0" data-mbdtip="${h(TIP[k])}">?</span>` : '');
+const tipAt = (k) => (TIP[k] ? ` data-mbdtip="${h(TIP[k])}"` : '');
+let bub = null;
+function tipShow(el) {
+  if (!bub) { bub = document.createElement('div'); bub.className = 'mbd-bubble'; document.body.appendChild(bub); }
+  bub.textContent = el.getAttribute('data-mbdtip') || ''; bub.style.display = 'block';
+  const r = el.getBoundingClientRect(), w = Math.min(280, window.innerWidth - 16);
+  bub.style.width = `${w}px`; bub.style.left = `${Math.max(8, Math.min(r.left + r.width / 2 - w / 2, window.innerWidth - w - 8))}px`; bub.style.top = `${r.bottom + 6}px`;
+  const b = bub.getBoundingClientRect(); if (b.bottom > window.innerHeight - 8) bub.style.top = `${Math.max(8, r.top - b.height - 6)}px`;
+}
+const tipHide = () => { if (bub) bub.style.display = 'none'; };
+function tipsOn(p) {
+  p.addEventListener('mouseover', (e) => { const el = e.target.closest('[data-mbdtip]'); if (el) tipShow(el); else tipHide(); });
+  p.addEventListener('mouseleave', tipHide);
+  p.addEventListener('click', (e) => { const el = e.target.closest('.mbd-qi'); if (el) { e.stopPropagation(); bub?.style.display === 'block' && bub.textContent === el.dataset.mbdtip ? tipHide() : tipShow(el); } else tipHide(); });
+}
 const G = { apply: false, type: '', tab: 0 };
 // name swap: in memory only, never saved. mode '' off · 'once' next generation · 'on' until switched off
 const N = { char: '', user: '', charFrom: '', userFrom: '', mode: '', at: 0 };
@@ -79,6 +97,7 @@ function mount() {
   const form = document.getElementById('send_form');
   if (!form) return;
   form.insertAdjacentHTML('beforebegin', `<div id="mbd_wrap"><div id="mbd_panel"></div></div>`);
+  tipsOn(document.getElementById('mbd_panel'));
   const left = document.getElementById('leftSendForm') || form;
   left.insertAdjacentHTML('beforeend', `<div id="mbd_btn" title="${h(T.title)}">🎬</div>`);
   document.getElementById('mbd_btn').addEventListener('click', () => { const p = document.getElementById('mbd_panel'); p.classList.toggle('open'); document.getElementById('mbd_btn').classList.toggle('on'); dock(); render(); });
@@ -127,7 +146,7 @@ function tabOrder(body, A, S) {
   body.innerHTML = `<div class="mbd-help">${T.helpOrder}</div>
     <textarea id="mbd_beat" class="text_pole" placeholder="${h(T.orderPh)}">${h(s.beat)}</textarea>
     <div class="mbd-dim">${h(status)}</div><div id="mbd_beat_info"></div>
-    <div class="mbd-row"><div id="mbd_pin_s" class="menu_button">${h(T.pinScene)}</div><div id="mbd_pin_a" class="menu_button">${h(T.pinAlways)}</div><div id="mbd_clear" class="menu_button">${h(T.clear)}</div></div>
+    <div class="mbd-row"><div id="mbd_pin_s" class="menu_button"${tipAt('pinScene')}>${h(T.pinScene)}</div><div id="mbd_pin_a" class="menu_button"${tipAt('pinAlways')}>${h(T.pinAlways)}</div><div id="mbd_clear" class="menu_button"${tipAt('clear')}>${h(T.clear)}</div></div>
     ${cut ? `<div class="mbd-warn">${h(T.sceneCut)} <span id="mbd_scene_keep" class="menu_button">${h(T.keepIt)}</span> <span id="mbd_scene_clear" class="menu_button">${h(T.clear)}</span></div>` : ''}
     ${pins.length ? `<label>${h(T.pinned)}</label>${pins.map(([k, l, v]) => `<div class="mbd-item"><span><b>${h(l)}</b> · ${h(v)}</span><div class="menu_button" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}` : ''}`;
   const beat = document.getElementById('mbd_beat');
@@ -148,12 +167,12 @@ function tabSecret(body, A, S) {
   const lore = vaults.filter((v) => !v.typed);
   body.innerHTML = `<div class="mbd-help">${T.helpSecret}</div>
     ${list.map((x, i) => { const v = state(x.who); return `<div class="mbd-item"><span><b>${h(x.who)}</b> · ${h(x.v)}${x.shows ? `<br><small>↳ ${h(x.shows)}</small>` : ''} <small>(${h(v?.open ? T.isOpen : T.isClosed)})</small></span>
-      <div class="menu_button" data-op="${i}">${h(v?.open ? T.close : T.open)}</div><div class="menu_button" data-del="${i}">${h(T.del)}</div></div>`; }).join('')}
+      <div class="menu_button" data-op="${i}"${tipAt('open')}>${h(v?.open ? T.close : T.open)}</div><div class="menu_button" data-del="${i}">${h(T.del)}</div></div>`; }).join('')}
     ${lore.map((v) => `<div class="mbd-item"><span><b>${h(v.who)}</b> · <small>${h(T.fromLore)} (${h(v.open ? T.isOpen : T.isClosed)})</small></span><div class="menu_button" data-lore="${h(v.who)}">${h(v.open ? T.close : T.open)}</div></div>`).join('')}
-    <label>${h(T.sWho)}</label><input id="mbd_sw" class="text_pole" list="mbd_names" placeholder="${h(T.sWhoPh)}" /><datalist id="mbd_names">${names.map((n) => `<option value="${h(n)}">`).join('')}</datalist>
-    <label>${h(T.sV)}</label><textarea id="mbd_sv" class="text_pole" placeholder="${h(T.sVPh)}"></textarea>
-    <label>${h(T.sShows)}</label><input id="mbd_ss" class="text_pole" placeholder="${h(T.sShowsPh)}" />
-    <label>${h(T.sSigns)}</label><input id="mbd_sg" class="text_pole" placeholder="${h(T.sSignsPh)}" />
+    <label>${h(T.sWho)}${q('sWho')}</label><input id="mbd_sw" class="text_pole" list="mbd_names" placeholder="${h(T.sWhoPh)}" /><datalist id="mbd_names">${names.map((n) => `<option value="${h(n)}">`).join('')}</datalist>
+    <label>${h(T.sV)}${q('sV')}</label><textarea id="mbd_sv" class="text_pole" placeholder="${h(T.sVPh)}"></textarea>
+    <label>${h(T.sShows)}${q('sShows')}</label><input id="mbd_ss" class="text_pole" placeholder="${h(T.sShowsPh)}" />
+    <label>${h(T.sSigns)}${q('sSigns')}</label><input id="mbd_sg" class="text_pole" placeholder="${h(T.sSignsPh)}" />
     <div class="mbd-row"><div id="mbd_sa" class="menu_button">${h(T.add)}</div></div>`;
   body.querySelectorAll('[data-del]').forEach((b) => b.addEventListener('click', () => { A.setSecrets(list.filter((_, i) => i !== +b.dataset.del)); render(); }));
   body.querySelectorAll('[data-op]').forEach((b) => b.addEventListener('click', () => { const x = list[+b.dataset.op], v = state(x.who); A.decide('vault', { who: x.who, open: !v?.open }); render(); }));
@@ -168,10 +187,10 @@ function tabSecret(body, A, S) {
 function tabGoal(body, A, S) {
   const list = S.goals || [];
   body.innerHTML = `<div class="mbd-help">${T.helpGoal}</div>
-    ${list.map((g, i) => `<div class="mbd-item"><span>${g.who ? `<b>${h(g.who)}</b> · ` : ''}${h(g.v)}${g.hint ? ` <small>(${h(T.gHint)})</small>` : ''}</span><div class="menu_button" data-g="${i}">${h(T.arrived)}</div></div>`).join('')}
-    <label>${h(T.gV)}</label><textarea id="mbd_gv" class="text_pole" placeholder="${h(T.gVPh)}"></textarea>
-    <label>${h(T.gSigns)}</label><input id="mbd_gs" class="text_pole" placeholder="${h(T.gSignsPh)}" />
-    <div class="mbd-row"><label class="checkbox_label"><input id="mbd_gh" type="checkbox" /><span>${h(T.gHint)}</span></label><div id="mbd_ga" class="menu_button">${h(T.add)}</div></div>`;
+    ${list.map((g, i) => `<div class="mbd-item"><span>${g.who ? `<b>${h(g.who)}</b> · ` : ''}${h(g.v)}${g.hint ? ` <small>(${h(T.gHint)})</small>` : ''}</span><div class="menu_button" data-g="${i}"${tipAt('arrived')}>${h(T.arrived)}</div></div>`).join('')}
+    <label>${h(T.gV)}${q('gV')}</label><textarea id="mbd_gv" class="text_pole" placeholder="${h(T.gVPh)}"></textarea>
+    <label>${h(T.gSigns)}${q('gSigns')}</label><input id="mbd_gs" class="text_pole" placeholder="${h(T.gSignsPh)}" />
+    <div class="mbd-row"><label class="checkbox_label"><input id="mbd_gh" type="checkbox" /><span>${h(T.gHint)}</span></label>${q('gHint')}<div id="mbd_ga" class="menu_button">${h(T.add)}</div></div>`;
   body.querySelectorAll('[data-g]').forEach((b) => b.addEventListener('click', () => { A.setGoals(list.filter((_, i) => i !== +b.dataset.g)); render(); }));
   document.getElementById('mbd_ga').addEventListener('click', () => {
     const v = document.getElementById('mbd_gv').value.trim(); if (!v) return;
@@ -182,10 +201,10 @@ function tabGoal(body, A, S) {
 function tabName(body) {
   const c = ctx(), now = !N.mode ? T.nOffNow : N.mode === 'once' ? T.nOnceNow : T.nNow;
   body.innerHTML = `<div class="mbd-help">${T.helpName.replace('{C}', h(c.name2 || '')).replace('{U}', h(c.name1 || ''))}</div>
-    <label>${h(T.nChar)}</label><input id="mbd_nc" class="text_pole" placeholder="${h(T.nBlank)}" value="${h(N.char)}" />
-    <label>${h(T.nUser)}</label><input id="mbd_nu" class="text_pole" placeholder="${h(T.nBlank)}" value="${h(N.user)}" />
-    <label>${h(T.nFrom)}</label><input id="mbd_nf" class="text_pole" placeholder="${h(T.nFromPh)}" value="${h(N.charFrom)}" />
-    <div class="mbd-row"><div id="mbd_n1" class="menu_button${N.mode === 'once' ? ' on' : ''}">${h(T.nOnce)}</div><div id="mbd_n2" class="menu_button${N.mode === 'on' ? ' on' : ''}">${h(T.nOn)}</div><div id="mbd_n0" class="menu_button">${h(T.nOff)}</div></div>
+    <label>${h(T.nChar)}${q('nChar')}</label><input id="mbd_nc" class="text_pole" placeholder="${h(T.nBlank)}" value="${h(N.char)}" />
+    <label>${h(T.nUser)}${q('nUser')}</label><input id="mbd_nu" class="text_pole" placeholder="${h(T.nBlank)}" value="${h(N.user)}" />
+    <label>${h(T.nFrom)}${q('nFrom')}</label><input id="mbd_nf" class="text_pole" placeholder="${h(T.nFromPh)}" value="${h(N.charFrom)}" />
+    <div class="mbd-row"><div id="mbd_n1" class="menu_button${N.mode === 'once' ? ' on' : ''}"${tipAt('nOnce')}>${h(T.nOnce)}</div><div id="mbd_n2" class="menu_button${N.mode === 'on' ? ' on' : ''}"${tipAt('nOn')}>${h(T.nOn)}</div><div id="mbd_n0" class="menu_button"${tipAt('nOff')}>${h(T.nOff)}</div></div>
     <div class="mbd-dim">${h(now)} · ${h(T.nShort)}</div>`;
   const set = (mode) => { swapSet(document.getElementById('mbd_nc').value, document.getElementById('mbd_nu').value, mode, document.getElementById('mbd_nf').value); render(); };
   document.getElementById('mbd_n1').addEventListener('click', () => set('once'));
@@ -322,10 +341,10 @@ function tabRules(body) {
   const row = (r) => `<div class="mbd-rule${r.mode === 'off' ? ' off' : ''}" title="${h(r.text)}"><span class="mbd-rt" data-re="${h(r.id)}" title="${h(r.text)} · ${h(T.rEdit)}">${h(r.preset ? r.name : r.text)}${hit.has(r.id) ? ' <i class="mbd-hit" title="' + h(T.rHit) + '">●</i>' : ''}</span>
     <b class="mbd-pill m-${r.mode}" data-rm="${h(r.id)}" title="${h(T.rCycle)}">${h(T.rMode[r.mode])}</b>${r.preset ? '' : `<b class="mbd-del" data-rd="${h(r.id)}" title="${h(T.rDel)}">✕</b>`}</div>`;
   body.innerHTML = `<div class="mbd-help">${T.helpRules}</div>
-    <div class="mbd-lab">${h(T.rMine)}</div>
+    <div class="mbd-lab">${h(T.rMine)}${q('rText')}</div>
     <div class="mbd-row"><input id="mbd_rt" class="mbd-in" placeholder="${h(T.rText)}" style="flex:1" /><b id="mbd_ra" class="mbd-btn">${h(T.rAdd)}</b></div>
     ${mine.map(row).join('') || `<div class="mbd-dim">${h(T.rNone)}</div>`}
-    <details class="mbd-pre"><summary>${h(T.rPresets.replace('{n}', pre.length))}</summary>${pre.map(row).join('')}</details>`;
+    <details class="mbd-pre"><summary>${h(T.rPresets.replace('{n}', pre.length))}${q('rPresets')}</summary>${pre.map(row).join('')}</details>`;
   const order = ['auto', 'always', 'off'];
   body.querySelectorAll('[data-rm]').forEach((el) => el.addEventListener('click', () => {
     const id = el.dataset.rm, u = R.rules.find((x) => x.id === id), cur = u ? (u.mode || 'auto') : (R.modes[id] || 'auto'), v = order[(order.indexOf(cur) + 1) % 3];
