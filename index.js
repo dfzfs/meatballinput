@@ -18,7 +18,7 @@ const T = ko ? {
   tabs: ['지시', '비밀', '방향', '이름', '규칙'],
   helpName: '<b>AI에게 보내는 글에서만 이름을 잠깐 바꿔요.</b> 캐릭터 · 페르소나 · 채팅 · 퀵리플은 하나도 안 바뀌어요.<br>· 지금 {{char}}는 <b>{C}</b>, {{user}}는 <b>{U}</b>로 들어가고 있어요. 이 낱말이 나온 자리를 아래 이름으로 바꿔서 보내요.<br>· 「다음 생성 한 번」은 한 번 쓰고 저절로 꺼져요. 「끌 때까지」는 새로고침하면 꺼져요.<br>· 퀵리플에서는 <code>/mbname char=이름 user=이름</code> 다음에 <code>/gen …</code>. 다음 생성 한 번만 바뀌어요. 본문에 다른 이름으로 적혀 있으면 <code>also=Kkangtong,깡통 사장</code>도. 적용되면 「이름 바꿈 적용 (n곳)」 알림이 떠요.',
   helpRules: '<b>지침 · 말버릇.</b> 지킬 것을 한 줄로 적기만 하면 돼요. 미트볼이 답을 정리할 때 같이 훑어보고, 어긴 게 보이면 <b>다음 답 하나에만</b> "이전 답에 이게 나왔으니 이번엔 주의"를 붙여요. 그다음엔 꺼져요. 「항상」이면 늘 붙여요.',
-  rMode: { auto: '보이면 주의', always: '항상', off: '끔' }, rHit: '이전 답에서 보임 → 다음 답에 주의 붙음', rCycle: '눌러서 바꾸기: 보이면 주의 → 항상 → 끔', rEdit: '눌러서 고치기', rMine: '내 지침', rNone: '아직 없어요. 위에 한 줄 적고 Enter', rPresets: '기본 지침 {n}개', dLeft: '채팅 왼쪽에 붙이기 (PC)', dRight: '채팅 오른쪽에 붙이기 (PC)', dBottom: '입력창 위에', close: '닫기', rNew: '새 지침', rText: '예: 깡캐를 바보처럼 그리지 않는다', rAdd: '추가', rDel: '지우기', rPreset: '기본',
+  rMode: { auto: '보이면 주의', always: '항상', off: '끔' }, rHit: '이전 답에서 보임 → 다음 답에 주의 붙음', rCycle: '눌러서 바꾸기: 보이면 주의 → 항상 → 끔', rEdit: '눌러서 고치기', rMine: '내 지침', rNone: '아직 없어요. 위에 한 줄 적고 Enter', rPresets: '기본 지침 {n}개', dLeft: '채팅 왼쪽에 붙이기 (PC)', dRight: '채팅 오른쪽에 붙이기 (PC)', dBottom: '🎬 위에 띄우기', close: '닫기', rNew: '새 지침', rText: '예: 깡캐를 바보처럼 그리지 않는다', rAdd: '추가', rDel: '지우기', rPreset: '기본',
   nChar: '{{char}} 자리에 넣을 이름', nFrom: '캐릭터의 다른 이름도 같이 바꾸기 (선택, 쉼표로)', nFromPh: '예: Kkangtong, 깡통 사장 — 본문에 이렇게 적혀 있으면', nUser: '{{user}} 자리에 넣을 이름', nBlank: '비우면 그대로', nOnce: '다음 생성 한 번', nOn: '끌 때까지', nOff: '끄기', nNow: '켜져 있음', nOnceNow: '다음 생성 한 번만', nOffNow: '꺼져 있음', nShort: '한 글자 이름은 안 바꿔요(엉뚱한 데까지 바뀌어서)',
   helpOrder: '<b>AI에게 시킬 것.</b> 채팅에는 안 남고 본편 AI만 봐요.<br>· 그냥 적어 두면 <b>다음 답 한 번</b>에만 들어가요.<br>· 오래 지켜야 하면 📌 버튼으로 고정하세요. 「이 장면 동안」은 장면이 바뀌면 계속할지 물어봐요.<br>· 시간을 넘기고 싶으면 그냥 「사흘 뒤」처럼 적으면 돼요.',
   orderPh: '예: 깡캐가 먼저 말을 건다', fresh: '다음 답에 들어가요', used: '이미 들어갔어요. 그 답을 다시 뽑을 때만 또 들어가요', empty: '',
@@ -34,7 +34,7 @@ const T = ko ? {
   tabs: ['Order', 'Secret', 'Direction', 'Names', 'Rules'],
   helpName: '<b>Swaps names only in the text sent to the AI.</b> Character, persona, chat and quick replies stay as they are.<br>· {{char}} is now <b>{C}</b> and {{user}} is <b>{U}</b>. Where those words appear, the names below go out instead.<br>· "Next generation" switches itself off after one use. "Until off" ends on reload.<br>· In a quick reply: <code>/mbname char=Name user=Name</code> then <code>/gen …</code> (next generation only). <code>/mbname</code> alone switches it off.',
   helpRules: '<b>Guidelines · habits.</b> Just write the rule in one line. Meatball checks the reply while sorting it; if the rule was broken, the next reply only gets "the last reply did this, watch it". "Always" sends it every time.',
-  rMode: { auto: 'warn when seen', always: 'always', off: 'off' }, rHit: 'seen in the last reply → warned in the next', rCycle: 'click: warn when seen → always → off', rEdit: 'click to edit', rMine: 'My rules', rNone: 'None yet. Type one above and press Enter', rPresets: '{n} preset rules', dLeft: 'dock left of the chat (PC)', dRight: 'dock right of the chat (PC)', dBottom: 'above the input', close: 'Close', rNew: 'New rule', rText: 'e.g. never treat B like a child', rAdd: 'Add', rDel: 'Delete', rPreset: 'preset',
+  rMode: { auto: 'warn when seen', always: 'always', off: 'off' }, rHit: 'seen in the last reply → warned in the next', rCycle: 'click: warn when seen → always → off', rEdit: 'click to edit', rMine: 'My rules', rNone: 'None yet. Type one above and press Enter', rPresets: '{n} preset rules', dLeft: 'dock left of the chat (PC)', dRight: 'dock right of the chat (PC)', dBottom: 'pop up above 🎬', close: 'Close', rNew: 'New rule', rText: 'e.g. never treat B like a child', rAdd: 'Add', rDel: 'Delete', rPreset: 'preset',
   nChar: 'name in place of {{char}}', nFrom: 'other names of the character to swap too (optional, comma)', nFromPh: 'e.g. how the story spells the name', nUser: 'name in place of {{user}}', nBlank: 'empty = unchanged', nOnce: 'Next generation', nOn: 'Until off', nOff: 'Off', nNow: 'on', nOnceNow: 'next generation only', nOffNow: 'off', nShort: 'one-letter names are not swapped',
   helpOrder: '<b>What the AI should do.</b> Not kept in the chat; only the story AI sees it.<br>· Typed here, it goes into <b>the next reply only</b>.<br>· Pin it with 📌 to keep it. "This scene" asks again when the scene changes.<br>· To skip time, just write "three days later".',
   orderPh: 'e.g. B speaks first', fresh: 'Goes into the next reply', used: 'Already used; goes in again only when that reply is redone', empty: '',
@@ -104,13 +104,34 @@ function mount() {
   window.addEventListener('resize', () => dock());
 }
 // 아래(입력창 위) · 왼쪽 · 오른쪽. Sides only on wide screens (PC / laptop); phones always use the bottom.
+// Where the window sits: by default a small pop-up right above the 🎬 button (like the quick-reply search box);
+// on wide screens it can also be pinned to the left or right of the chat.
+function place() {
+  const p = document.getElementById('mbd_panel'), btn = document.getElementById('mbd_btn');
+  if (!p || !btn || !p.classList.contains('pop')) return;
+  const r = btn.getBoundingClientRect(), w = Math.min(440, window.innerWidth - 16);
+  p.style.width = `${w}px`;
+  p.style.left = `${Math.max(8, Math.min(r.left - 8, window.innerWidth - w - 8))}px`;
+  p.style.bottom = `${Math.max(8, window.innerHeight - r.top + 8)}px`;
+  p.style.maxHeight = `${Math.max(220, Math.min(window.innerHeight * 0.6, r.top - 16))}px`;
+}
 function dock() {
-  const p = document.getElementById('mbd_panel'), wrap = document.getElementById('mbd_wrap'); if (!p || !wrap) return;
+  const p = document.getElementById('mbd_panel'); if (!p) return;
+  const R0 = rset(); if (R0.dockV !== 2) { R0.dock = 'bottom'; R0.dockV = 2; saveSet(); }   // 0.8.1: everyone starts with the new pop-up once
   const want = rset().dock || 'bottom', side = want !== 'bottom' && window.innerWidth >= 1000;
   p.classList.toggle('side', side); p.classList.toggle('left', side && want === 'left'); p.classList.toggle('right', side && want === 'right');
-  if (side && p.parentElement !== document.body) document.body.appendChild(p);
-  if (!side && p.parentElement !== wrap) wrap.appendChild(p);
+  p.classList.toggle('pop', !side);
+  if (p.parentElement !== document.body) document.body.appendChild(p);
+  if (side) { p.style.left = ''; p.style.bottom = ''; p.style.width = ''; p.style.maxHeight = ''; } else place();
 }
+window.addEventListener?.('resize', () => { try { place(); } catch (e) { /* */ } });
+// a pop-up closes when you click elsewhere (not when pinned to a side)
+document.addEventListener?.('mousedown', (e) => {
+  const p = document.getElementById('mbd_panel');
+  if (!p || !p.classList.contains('open') || !p.classList.contains('pop')) return;
+  if (p.contains(e.target) || e.target.closest?.('#mbd_btn, .mbd-bubble, .popup, .swal2-container, #toast-container')) return;
+  p.classList.remove('open'); document.getElementById('mbd_btn')?.classList.remove('on');
+}, true);
 function render() {
   const p = document.getElementById('mbd_panel');
   if (!p || !p.classList?.contains('open')) return;

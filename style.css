@@ -70,3 +70,8 @@
 #mbd_panel .mbd-qi { display: inline-block; width: 15px; height: 15px; line-height: 13px; margin-left: 4px; text-align: center; border-radius: 50%; border: 1.5px solid var(--mb-line); color: var(--mb-dim); font-size: 10px; font-weight: bold; cursor: help; vertical-align: 1px; background: var(--mbt-card, #fff); }
 #mbd_panel .mbd-qi:hover { border-color: var(--mb-acc); color: var(--mb-acc); }
 .mbd-bubble { position: fixed; z-index: 100000; display: none; padding: 8px 11px; background: var(--mbt-card, #fff); color: var(--mbt-ink, #3b4048); border: 1.5px solid var(--mbt-line, #e4e7eb); border-radius: 10px; font-size: 12.5px; line-height: 1.5; box-shadow: 0 4px 14px rgba(90,60,60,.14); pointer-events: none; white-space: pre-line; word-break: keep-all; }
+
+/* pop-up above the 🎬 button (default) */
+#mbd_panel.pop { position: fixed; z-index: 3000; margin: 0; box-shadow: 0 10px 30px rgba(40,40,50,.18); }
+#mbd_panel.pop.open { animation: mbd-up .14s ease-out; }
+@keyframes mbd-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
