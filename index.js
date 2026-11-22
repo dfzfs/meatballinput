@@ -279,7 +279,9 @@ function onCombined(data) {
   const pairs = swapPairs(); if (!pairs) return;
   SW.n = 0; data.prompt = swapText(data.prompt, pairs); swapReport(pairs); swapUsed();
 }
-function swapUsed() { if (N.mode === 'once') { N.mode = ''; setTimeout(render, 100); } }
+function swapUsed() { const p = swapPairs(); if (p) G.lastSwap = { pairs: p, at: Date.now() }; if (N.mode === 'once') { N.mode = ''; setTimeout(render, 100); } }
+// For Meatball status 3: the swap now (to show names) and the one the last reply was written with (to read it back).
+window.MeatballDirector = { v: 1, swaps: () => swapPairs() || [], swapsRecent: () => swapPairs() || (G.lastSwap && Date.now() - G.lastSwap.at < 30 * 60e3 ? G.lastSwap.pairs : []) };
 function slash() {
   const c = ctx(), run = (args) => { const a = args || {}; const ch = a.char ?? '', us = a.user ?? ''; swapSet(ch, us, ch || us ? (String(a.until || '') === 'off' ? 'on' : 'once') : '', a.also ?? ''); render(); return ''; };
   const help = 'Swap {{char}}/{{user}} names in the next generation\'s prompt only. /mbname char=Name user=Name (until=off keeps it on). /mbname alone switches it off.';
