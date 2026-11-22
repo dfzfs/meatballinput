@@ -265,10 +265,16 @@ function swapText(t, pairs) {
 }
 // say what happened, so a swap that found nothing is not silent
 function swapReport(pairs) {
-  const t = window.toastr; if (!t) return;
-  const what = pairs.map(([f, to]) => `${f} → ${to}`).join(', ');
-  if (SW.n) t.info(ko ? `이름 바꿈 적용: ${what} (${SW.n}곳)` : `Names swapped: ${what} (${SW.n})`, '', { timeOut: 4000 });
-  else t.warning(ko ? `이름 바꿈: 보내는 글에 「${pairs.map((p) => p[0]).join('」「')}」가 없어서 바뀐 곳이 없어요` : `Name swap: nothing matched`, '', { timeOut: 7000 });
+  const t = window.toastr; if (!t || !SW.n) return;
+  const what = [...new Set(pairs.map(([, to]) => to))].join(', ');
+  t.info(ko ? `이름 바꿈 적용 → ${what} (${SW.n}곳)` : `Names swapped → ${what} (${SW.n})`, '', { timeOut: 3000 });
+}
+// After a real reply: if a swap was on but no name was found anywhere in that prompt, say so once (with what was looked for).
+function swapMissCheck() {
+  if (!G.swapWatch) return; G.swapWatch = false;
+  if (G.swapHit || !N.mode) return;
+  const looked = (swapPairsFor() || []).map(([f]) => f);
+  window.toastr?.warning(ko ? `이번 답을 보낼 때 「${looked.join('」「')}」를 하나도 못 찾았어요. 이름 탭의 「카드에 자주 나오는 이름」에서 실제로 쓰인 이름을 추가해 주세요.` : `No swap: none of ${looked.join(', ')} was found in the prompt.`, '', { timeOut: 9000 });
 }
 function swapPairs() {
   if (!N.mode) return null;
@@ -296,14 +302,17 @@ function onPromptReady(data) {
     else if (Array.isArray(m.content)) for (const p of m.content) if (typeof p?.text === 'string') p.text = swapText(p.text, pairs);
     if (typeof m.name === 'string') m.name = swapText(m.name, pairs);
   }
-  swapReport(pairs); swapUsed();
+  swapDone(pairs);
 }
 // text completion: the combined prompt string
 function onCombined(data) {
   if (!data || data.dryRun || typeof data.prompt !== 'string') return;
   const pairs = swapPairs(); if (!pairs) return;
-  SW.n = 0; data.prompt = swapText(data.prompt, pairs); swapReport(pairs); swapUsed();
+  SW.n = 0; data.prompt = swapText(data.prompt, pairs); swapDone(pairs);
 }
+// Other extensions also send small requests (translation, summaries) that pass here without the names in them.
+// Those are left alone: only a prompt where names were really swapped counts (and uses up a one-shot swap).
+function swapDone(pairs) { if (!SW.n) return; G.swapHit = true; swapReport(pairs); swapUsed(); }
 function swapUsed() { const p = swapPairs(); if (p) G.lastSwap = { pairs: p, at: Date.now() }; if (N.mode === 'once') { N.mode = ''; setTimeout(render, 100); } }
 // For Meatball status 3: the swap now (to show names) and the one the last reply was written with (to read it back).
 window.MeatballDirector = { v: 1, swaps: () => swapPairs() || [], swapsRecent: () => swapPairs() || (G.lastSwap && Date.now() - G.lastSwap.at < 30 * 60e3 ? G.lastSwap.pairs : []) };
@@ -428,6 +437,7 @@ function putAlone(beatText = '', sceneText = '') {
 const QUIET = new Set(['quiet', 'impersonate', 'continue']);
 function onStart(type, opts, dryRun) {
   G.apply = false; G.type = '';
+  if (!dryRun && N.mode) { G.swapWatch = true; G.swapHit = false; }
   if (dryRun || QUIET.has(type) || opts?.quiet_prompt) { api()?.pieces(null); return; }
   const s = st(), text = String(s.beat || '').trim(), A = api();
   const again = type === 'swipe' || type === 'regenerate';
@@ -456,6 +466,6 @@ function onReceived(id) {
   if (E.GENERATE_AFTER_COMBINE_PROMPTS) eventSource.on(E.GENERATE_AFTER_COMBINE_PROMPTS, onCombined);
   slash();
   eventSource.on(E.MESSAGE_RECEIVED, onReceived);
-  for (const ev of [E.GENERATION_ENDED, E.GENERATION_STOPPED]) eventSource.on(ev, () => { if (!api()) putAlone(''); setTimeout(render, 300); });
+  for (const ev of [E.GENERATION_ENDED, E.GENERATION_STOPPED]) eventSource.on(ev, () => { if (!api()) putAlone(''); setTimeout(render, 300); setTimeout(swapMissCheck, 500); });
   for (const ev of [E.MESSAGE_DELETED, E.MESSAGE_SWIPED, E.MESSAGE_EDITED]) eventSource.on(ev, () => setTimeout(render, 300));
 })();
