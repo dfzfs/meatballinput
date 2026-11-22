@@ -75,3 +75,6 @@
 #mbd_panel.pop.open { animation: mbd-up .14s ease-out; }
 @keyframes mbd-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
+#mbd_panel .mbd-gmode { width: auto; white-space: nowrap; font-size: .85em; padding: 3px 9px; }
+#mbd_panel .mbd-gmode.mbd-on { border-color: var(--mb-acc, #e8a33d); font-weight: 600; }
+#mbd_panel .mbd-gsel { width: auto !important; margin: 0 4px !important; }

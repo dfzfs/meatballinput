@@ -2,7 +2,8 @@
 //   지시 (order):     the next reply only (reused for a swipe/regenerate of that reply); 📌 pins it for this scene or always
 //                     (always = Meatball's director's note when Meatball is here).
 //   비밀 (secret):    kept in Meatball, never sent; guarded like a lore vault line. Release/lock here.
-//   방향 (direction): where the story should end up; never sent; the guard watches for rushing ahead.
+//   방향 (direction): where the story should end up. Silent by default (the guard watches for rushing ahead); per direction it
+//   can hint "moving slowly" or nudge one small step every few replies (상태창 v0.20+).
 // With Meatball (window.MeatballAPI v1) the pieces go through Meatball: it places them last in its note, records the
 // beat as the reply's instruction (no guessing), and checks it for pressing. Without Meatball, this extension injects
 // the pieces itself (beat at depth 0, keep at depth 1).
@@ -23,8 +24,8 @@ const T = ko ? {
   helpSecret: '<b>AI가 먼저 말해 버리면 안 되는 것.</b> 비밀 내용은 본편 AI에 <b>아예 안 가요</b>. 미트볼만 알고 지켜요.<br>· 답에 비밀이 새면 상태창에 ⚠가 떠요. 눌러서 다시 쓰기를 고를 수 있어요.<br>· 「겉으로 보여도 되는 모습」만 AI에게 가요. 비워도 돼요.<br>· 이제 밝혀져도 되면 「풀기」를 누르세요.',
   sWho: '누구의 비밀', sWhoPh: '이름', sV: '비밀 내용', sVPh: '예: 깡통은 아직 깡캐를 좋아한다', sSigns: '나오면 들킨 걸로 볼 낱말 (선택, 쉼표로)', sSignsPh: '예: 좋아해, 못 잊었',
   sShows: '겉으로 보여도 되는 모습 (선택, 이것만 AI에게 가요)', sShowsPh: '예: 반지만 보면 눈을 피한다', add: '추가', del: '지우기', open: '풀기', close: '다시 잠그기', isOpen: '풀림', isClosed: '잠김', fromLore: '설정집에서',
-  helpGoal: '<b>이야기가 결국 갔으면 하는 곳.</b> 본편 AI에는 안 가요. 알려 주면 AI가 서둘러 가 버리거든요.<br>· 너무 빨리 가면 상태창에 ⚠가 떠요.<br>· 「살짝 알리기」를 켜면 AI에게 「아직 정해진 건 없고 천천히 가는 중」이라고만 가요.<br>· 거기까지 가면 「도착」을 누르세요.',
-  gV: '원하는 방향', gVPh: '예: 결국 둘은 서로를 고른다', gSigns: '나오면 너무 빨리 간 걸로 볼 낱말 (선택, 쉼표로)', gSignsPh: '예: 고백, 입맞춤', gHint: '살짝 알리기', arrived: '도착',
+  helpGoal: '<b>이야기가 결국 갔으면 하는 곳.</b> 방향마다 알리는 정도를 골라요.<br>· <b>안 알림</b>: 본편 AI는 몰라요. 너무 빨리 가면 상태창에 ⚠만 떠요.<br>· <b>살짝 알리기</b>: 「아직 정해진 건 없고 천천히 가는 중」이라고만 가요. 진행을 <i>늦추는</i> 쪽이에요.<br>· <b>천천히 밀어주기</b>: 몇 답에 한 번 「이쪽으로, 자연스러우면 작은 한 걸음만, 도착은 말 것」이 가요. 진행을 <i>돕는</i> 쪽이에요. ⚠ 감시는 그대로.<br>· 이미 적은 방향은 옆 모드 버튼을 눌러 바꿔요. 거기까지 가면 「도착」을 누르세요.',
+  gV: '원하는 방향', gVPh: '예: 결국 둘은 서로를 고른다', gSigns: '나오면 너무 빨리 간 걸로 볼 낱말 (선택, 쉼표로)', gSignsPh: '예: 고백, 입맞춤', gHint: '살짝 알리기', gMode: '알리는 정도', gNone: '안 알림', gPush: '천천히 밀어주기', arrived: '도착',
 } : {
   title: 'Meatball Director', alone: 'Meatball is off: only "Order" works', needMb: 'Needs Meatball status window.',
   tabs: ['Order', 'Secret', 'Direction', 'Rules'],
@@ -37,10 +38,10 @@ const T = ko ? {
   helpSecret: '<b>What the AI must not blurt out.</b> The secret itself <b>never reaches</b> the story AI. Only Meatball knows it.<br>· If a reply leaks it, ⚠ shows in the bar.<br>· Only "what may show" goes to the AI. May be empty.<br>· When it may come out, press "Release".',
   sWho: 'Whose secret', sWhoPh: 'name', sV: 'The secret', sVPh: 'e.g. A still loves B', sSigns: 'Words that give it away (optional, comma)', sSignsPh: 'e.g. still love, never forgot',
   sShows: 'What may show (optional, only this goes to the AI)', sShowsPh: 'e.g. looks away from the ring', add: 'Add', del: 'Delete', open: 'Release', close: 'Lock again', isOpen: 'released', isClosed: 'locked', fromLore: 'from lore',
-  helpGoal: '<b>Where the story should end up.</b> Never sent: told, the AI rushes there.<br>· Rushing ahead shows ⚠.<br>· "Hint" sends only "nothing is settled yet, it moves slowly".<br>· Press "Arrived" when it gets there.',
-  gV: 'Direction', gVPh: 'e.g. in the end they choose each other', gSigns: 'Words that mean it rushed (optional, comma)', gSignsPh: 'e.g. confession, kiss', gHint: 'Hint', arrived: 'Arrived',
+  helpGoal: '<b>Where the story should end up.</b> Pick how much the AI hears, per direction.<br>· <b>Silent</b>: the AI never knows. Rushing ahead only shows ⚠.<br>· <b>Hint</b>: only "nothing is settled, it moves slowly" — it <i>slows</i> things.<br>· <b>Nudge slowly</b>: every few replies, "this way; one small step if it fits; do not arrive" — it <i>helps</i> things move. ⚠ still watches.<br>· Change a direction you added with its mode button. Press "Arrived" when the story gets there.',
+  gV: 'Direction', gVPh: 'e.g. in the end they choose each other', gSigns: 'Words that mean it rushed (optional, comma)', gSignsPh: 'e.g. confession, kiss', gHint: 'Hint', gMode: 'How much the AI hears', gNone: 'Silent', gPush: 'Nudge slowly', arrived: 'Arrived',
 };
-const TIP = ko ? {"pinScene": "적은 지시를 이 장면이 끝날 때까지 매 답에 넣어요. 미트볼이 장면이 바뀐 걸 알아채면 계속할지 물어요.", "pinAlways": "적은 지시를 이 채팅 내내 매 답에 넣어요.", "clear": "적은 지시를 지워요.", "sWho": "비밀을 가진 사람 이름.", "sV": "AI가 먼저 말하면 안 되는 내용. AI에게는 절대 안 가고 미트볼만 알아요.", "sShows": "겉으로 티 나도 되는 모습. 이것만 AI에게 가요. 예: 반지만 보면 눈을 피한다.", "sSigns": "답에 이 낱말이 나오면 비밀이 샌 걸로 보고 상태줄에 ⚠를 띄워요.", "open": "풀기: 이제 비밀이 아니게 돼요(AI도 알게 됨). 다시 잠글 수도 있어요.", "gV": "이야기가 결국 갔으면 하는 곳. AI는 몰라요. 미트볼은 너무 빨리 가는지만 지켜봐요.", "gSigns": "답에 이 낱말이 나오면 너무 빨리 간 걸로 보고 ⚠.", "gHint": "켜면 AI에게 「아직 정해진 건 없고 천천히 흘러간다」 한 줄만 알려요. 목표 자체는 안 알려요.", "arrived": "그 방향에 도착했으면 눌러서 목록에서 빼요.", "rText": "지킬 것을 한 줄로 적고 Enter. 미트볼이 답을 정리할 때 어겼는지 같이 보고, 어겼으면 다음 답에만 주의를 붙여요.", "rPresets": "자주 쓰는 지침 8개. 켜고 끄고, 제목을 눌러 내용도 고칠 수 있어요."} : {"pinScene": "Keeps the order in every reply until the scene ends.", "pinAlways": "Keeps the order in every reply of this chat.", "clear": "Clears the order.", "sWho": "Who holds the secret.", "sV": "What the AI must not blurt out. Never sent; only Meatball knows.", "sShows": "What may show on the outside. Only this goes to the AI.", "sSigns": "If a reply uses these words, ⚠ shows.", "open": "Release: no longer a secret. You can lock it again.", "gV": "Where the story should end up. The AI is not told.", "gSigns": "If a reply uses these words, it rushed: ⚠.", "gHint": "Tells the AI only \"nothing is settled yet, it moves slowly\".", "arrived": "Remove it once the story got there.", "rText": "Write a rule and press Enter. Meatball checks the reply while sorting it.", "rPresets": "Eight common rules. Toggle them or click a title to edit."};
+const TIP = ko ? {"pinScene": "적은 지시를 이 장면이 끝날 때까지 매 답에 넣어요. 미트볼이 장면이 바뀐 걸 알아채면 계속할지 물어요.", "pinAlways": "적은 지시를 이 채팅 내내 매 답에 넣어요.", "clear": "적은 지시를 지워요.", "sWho": "비밀을 가진 사람 이름.", "sV": "AI가 먼저 말하면 안 되는 내용. AI에게는 절대 안 가고 미트볼만 알아요.", "sShows": "겉으로 티 나도 되는 모습. 이것만 AI에게 가요. 예: 반지만 보면 눈을 피한다.", "sSigns": "답에 이 낱말이 나오면 비밀이 샌 걸로 보고 상태줄에 ⚠를 띄워요.", "open": "풀기: 이제 비밀이 아니게 돼요(AI도 알게 됨). 다시 잠글 수도 있어요.", "gV": "이야기가 결국 갔으면 하는 곳. AI는 몰라요. 미트볼은 너무 빨리 가는지만 지켜봐요.", "gSigns": "답에 이 낱말이 나오면 너무 빨리 간 걸로 보고 ⚠.", "gHint": "안 알림: AI는 몰라요(⚠ 감시만). 살짝 알리기: 「천천히 가는 중」만 가서 진행이 느려져요. 천천히 밀어주기: 몇 답에 한 번 방향을 알려 주고 작은 한 걸음만 허락해요(도착은 막음).", "gModeItem": "눌러서 안 알림 → 살짝 알리기 → 천천히 밀어주기로 바꿔요", "arrived": "그 방향에 도착했으면 눌러서 목록에서 빼요.", "rText": "지킬 것을 한 줄로 적고 Enter. 미트볼이 답을 정리할 때 어겼는지 같이 보고, 어겼으면 다음 답에만 주의를 붙여요.", "rPresets": "자주 쓰는 지침 8개. 켜고 끄고, 제목을 눌러 내용도 고칠 수 있어요."} : {"pinScene": "Keeps the order in every reply until the scene ends.", "pinAlways": "Keeps the order in every reply of this chat.", "clear": "Clears the order.", "sWho": "Who holds the secret.", "sV": "What the AI must not blurt out. Never sent; only Meatball knows.", "sShows": "What may show on the outside. Only this goes to the AI.", "sSigns": "If a reply uses these words, ⚠ shows.", "open": "Release: no longer a secret. You can lock it again.", "gV": "Where the story should end up. The AI is not told.", "gSigns": "If a reply uses these words, it rushed: ⚠.", "gHint": "Silent: the AI never knows (⚠ only). Hint: only \"it moves slowly\" goes, which slows things. Nudge slowly: every few replies the AI hears the direction and may take one small step (never the arrival).", "gModeItem": "Press to switch Silent → Hint → Nudge slowly", "arrived": "Remove it once the story got there.", "rText": "Write a rule and press Enter. Meatball checks the reply while sorting it.", "rPresets": "Eight common rules. Toggle them or click a title to edit."};
 // a small ? with a tip (mouse-over, or tap on phones); one bubble for the whole panel
 const q = (k) => (TIP[k] ? ` <span class="mbd-qi" tabindex="0" data-mbdtip="${h(TIP[k])}">?</span>` : '');
 const tipAt = (k) => (TIP[k] ? ` data-mbdtip="${h(TIP[k])}"` : '');
@@ -194,18 +195,24 @@ function tabSecret(body, A, S) {
     A.setSecrets([...list, { who, v, shows: document.getElementById('mbd_ss').value.trim(), signs: commas(document.getElementById('mbd_sg').value) }]); render();
   });
 }
-// 방향: destinations, never sent; the guard watches for rushing ahead
+// 방향: destinations. Silent (never sent; the guard watches for rushing ahead), hint ("moving slowly") or push (a small step now and then)
+const modeOf = (v) => ({ hint: v === 'hint', push: v === 'push' });
+const modeName = (g) => (g.push ? T.gPush : g.hint ? T.gHint : T.gNone);
 function tabGoal(body, A, S) {
   const list = S.goals || [];
   body.innerHTML = `<div class="mbd-help">${T.helpGoal}</div>
-    ${list.map((g, i) => `<div class="mbd-item"><span>${g.who ? `<b>${h(g.who)}</b> · ` : ''}${h(g.v)}${g.hint ? ` <small>(${h(T.gHint)})</small>` : ''}</span><div class="menu_button" data-g="${i}"${tipAt('arrived')}>${h(T.arrived)}</div></div>`).join('')}
+    ${list.map((g, i) => `<div class="mbd-item"><span>${g.who ? `<b>${h(g.who)}</b> · ` : ''}${h(g.v)}</span><div class="menu_button mbd-gmode${g.push ? ' mbd-on' : ''}" data-gm="${i}"${tipAt('gModeItem')}>${h(modeName(g))}</div><div class="menu_button" data-g="${i}"${tipAt('arrived')}>${h(T.arrived)}</div></div>`).join('')}
     <label>${h(T.gV)}${q('gV')}</label><textarea id="mbd_gv" class="text_pole" placeholder="${h(T.gVPh)}"></textarea>
     <label>${h(T.gSigns)}${q('gSigns')}</label><input id="mbd_gs" class="text_pole" placeholder="${h(T.gSignsPh)}" />
-    <div class="mbd-row"><label class="checkbox_label"><input id="mbd_gh" type="checkbox" /><span>${h(T.gHint)}</span></label>${q('gHint')}<div id="mbd_ga" class="menu_button">${h(T.add)}</div></div>`;
+    <div class="mbd-row"><label>${h(T.gMode)}</label><select id="mbd_gh" class="text_pole mbd-gsel"><option value="">${h(T.gNone)}</option><option value="hint">${h(T.gHint)}</option><option value="push">${h(T.gPush)}</option></select>${q('gHint')}<div id="mbd_ga" class="menu_button">${h(T.add)}</div></div>`;
   body.querySelectorAll('[data-g]').forEach((b) => b.addEventListener('click', () => { A.setGoals(list.filter((_, i) => i !== +b.dataset.g)); render(); }));
+  // 안 알림 → 살짝 알리기 → 천천히 밀어주기 → 안 알림
+  body.querySelectorAll('[data-gm]').forEach((b) => b.addEventListener('click', () => {
+    A.setGoals(list.map((g, i) => (i !== +b.dataset.gm ? g : g.push ? { ...g, hint: false, push: false } : g.hint ? { ...g, hint: false, push: true } : { ...g, hint: true, push: false }))); render();
+  }));
   document.getElementById('mbd_ga').addEventListener('click', () => {
     const v = document.getElementById('mbd_gv').value.trim(); if (!v) return;
-    A.setGoals([...list, { who: '', v, signs: commas(document.getElementById('mbd_gs').value), hint: document.getElementById('mbd_gh').checked }]); render();
+    A.setGoals([...list, { who: '', v, signs: commas(document.getElementById('mbd_gs').value), ...modeOf(document.getElementById('mbd_gh').value) }]); render();
   });
 }
 // Warnings right where the person types (nothing is blocked: the person's own words always go as written).
