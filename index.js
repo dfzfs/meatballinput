@@ -252,6 +252,7 @@ function swapSet(ch, us, mode, from = '') {
   // kept with this chat (like the placechange extension), so a reload or coming back keeps the switch as it was
   try { const md = ctx().chatMetadata; if (md) { (md[KEY] ||= {}).swap = N.mode === 'on' ? { char: N.char, user: N.user, from: N.charFrom } : null; save(); } } catch (e) { /* */ }
   macros();
+  try { window.MeatballAPI?.swapChanged?.(); } catch (e) { /* */ }
 }
 function swapLoad() { try { const x = ctx().chatMetadata?.[KEY]?.swap; if (x && (x.char || x.user)) { N.char = x.char || ''; N.user = x.user || ''; N.charFrom = x.from || ''; N.mode = 'on'; } else { N.mode = ''; } macros(); } catch (e) { /* */ } }
 // The placeholders themselves: {{char}} / {{user}} render as the new names while the switch is on, everywhere
@@ -335,7 +336,7 @@ function onCombined(data) {
 // Other extensions also send small requests (translation, summaries) that pass here without the names in them.
 // Those are left alone: only a prompt where names were really swapped counts (and uses up a one-shot swap).
 function swapDone(pairs) { if (!SW.n) return; G.swapHit = true; swapReport(pairs); swapUsed(); }
-function swapUsed() { if (N.mode === 'once') { N.mode = ''; setTimeout(render, 100); } }
+function swapUsed() { if (N.mode === 'once') { N.mode = ''; setTimeout(() => { render(); try { window.MeatballAPI?.swapChanged?.(); } catch (e) { /* */ } }, 100); } }
 // For Meatball status 3: while a swap is on, Meatball pauses.
 window.MeatballDirector = { v: 1, swaps: () => swapPairs() || [] };
 function slash() {
