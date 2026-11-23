@@ -10,7 +10,7 @@
 const KEY = 'meatball_director', API_V = 1;
 const ctx = () => SillyTavern.getContext();
 // The newest 상태창 this 지시창 was made with: an older one still works, but some parts do nothing (e.g. 천천히 밀어주기)
-const NEED_MB = '0.26.0';
+const NEED_MB = '0.26.1';
 const old = (v) => { if (!v) return false; const a = String(v).split('.').map(Number), b = NEED_MB.split('.').map(Number); for (let i = 0; i < 3; i++) { if ((a[i] || 0) !== b[i]) return (a[i] || 0) < b[i]; } return false; };
 const api = () => (window.MeatballAPI?.v === API_V ? window.MeatballAPI : null);
 const h = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -22,6 +22,7 @@ const T = ko ? {
   rMode: { auto: '보이면 주의', always: '항상', off: '끔' }, rHit: '이전 답에서 보임 → 다음 답에 주의 붙음', rCycle: '눌러서 바꾸기: 보이면 주의 → 항상 → 끔', rEdit: '눌러서 고치기', rMine: '내 지침', rNone: '아직 없어요. 위에 한 줄 적고 Enter', rPresets: '기본 지침 {n}개', dLeft: '채팅 왼쪽에 붙이기 (PC)', dRight: '채팅 오른쪽에 붙이기 (PC)', dBottom: '🎬 위에 띄우기', close: '닫기', rNew: '새 지침', rText: '예: 깡캐를 바보처럼 그리지 않는다', rAdd: '추가', rDel: '지우기', rPreset: '기본',
   helpOrder: '<b>AI에게 시킬 것.</b> 채팅에는 안 남고 본편 AI만 봐요.<br>· 그냥 적어 두면 <b>다음 답 한 번</b>에만 들어가요.<br>· 오래 지켜야 하면 📌 버튼으로 고정하세요. 「이 장면 동안」은 장면이 바뀌면 계속할지 물어봐요.<br>· 시간을 넘기고 싶으면 그냥 「사흘 뒤」처럼 적으면 돼요.',
   orderPh: '예: 깡캐가 먼저 말을 건다', fresh: '다음 답에 들어가요', used: '이미 들어갔어요. 그 답을 다시 뽑을 때만 또 들어가요', empty: '',
+  rdTitle: '↻ 다시 뽑을 때 강하게', rdHelp: '마음에 안 든 답을 다시 뽑을 때, 뭐가 틀렸는지 적어 두면 「직전 버전은 이것 때문에 버려졌음, 반드시 고칠 것」으로 맨 끝에 붙어요. 이 답을 다시 뽑는 동안만 가고, 다음 답으로 넘어가면 지워져요.', rdPh: '예: 로우가 너무 쉽게 웃었음. 비밀을 직접 말해 버렸음', rdGo: '↻ 이걸로 다시 뽑기', rdOn: '↻ #{i}를 다시 뽑을 때마다 들어가요', rdFound: '지난 버전에서 보인 것 (누르면 들어가요)', rdLeak: '{w}의 비밀을 말해 버림', rdLeakNo: '비밀이 새어 나옴', rdRefuse: '거절을 쉽게 뒤집음', rdNoAi: '다시 뽑을 답이 아직 없어요',
   pinScene: '📌 이 장면 동안', pinAlways: '📌 계속', clear: '지우기', pinned: '고정된 지시', pinnedScene: '이 장면 동안', pinnedAlways: '계속',
   sceneCut: '장면이 바뀌었어요. 이 지시를 계속할까요?', keepIt: '계속', en: 'AI에게 가는 말', sign: '비밀 낱말이 들어 있어요', signWhy: 'AI 눈앞에 비밀을 적는 셈이에요', thread: '캐릭터가 이미 거절한 일이에요',
   helpSecret: '<b>AI가 먼저 말해 버리면 안 되는 것.</b> 비밀 내용은 본편 AI에 <b>아예 안 가요</b>. 미트볼만 알고 지켜요.<br>· 답에 비밀이 새면 상태창에 ⚠가 떠요. 눌러서 다시 쓰기를 고를 수 있어요.<br>· 「겉으로 보여도 되는 모습」만 AI에게 가요. 비워도 돼요.<br>· 이제 밝혀져도 되면 「풀기」를 누르세요.',
@@ -29,8 +30,8 @@ const T = ko ? {
   sShows: '겉으로 보여도 되는 모습 (선택, 이것만 AI에게 가요)', sShowsPh: '예: 반지만 보면 눈을 피한다', add: '추가',
   sWhoOpt: '누구의 비밀 (비우면 미트볼이 정해요)', sMore: '직접 더 적기', sCover: '주변에 보이는 모습 (겉)', sCoverPh: '예: 늘 밝은 반장', sOpens: '밝혀져도 되는 때', sOpensPh: '예: 서연이 스스로 털어놓을 때',
   sAuto: '추가하면 미트볼이 나머지를 채워요', sFill: '✨ 채우기', sFillPick: '✨ 고른 {n}개 채우기', sFillAll: '전부 고르기', sFilling: '미트볼이 채우는 중…', sFilled: '✨ 비밀 {n}개를 채웠어요. 마음에 안 들면 ✏️로 고쳐요.', sFillFail: '못 채운 게 {n}개 있어요. 다시 눌러 주세요.',
-  sNeedWho: '누구의 비밀인지 적거나 「미트볼이 채우기」를 켜 주세요.', sEmpty: '비어 있는 칸은 ✨로 채울 수 있어요', sEdit: '✏️', sEditTip: '폼으로 불러와 고쳐요 (다시 「추가」를 눌러야 저장돼요)', sFillTip: '미트볼이 누가 지키는지 · 들킨 낱말 · 보여도 되는 모습 · 겉 · 밝혀질 때를 채워요. 이미 적은 칸은 그대로 둬요.',
-  fSigns: '들킨 낱말', fShows: '보여도 됨', fCover: '겉', fOpens: '밝혀질 때', needFill: '이 기능은 상태창 0.26 이상에서 돼요.', del: '지우기', open: '풀기', close: '다시 잠그기', isOpen: '풀림', isClosed: '잠김', fromLore: '설정집에서',
+  sNeedWho: '누구의 비밀인지 적거나 「미트볼이 채우기」를 켜 주세요.', sEmpty: '비어 있는 칸은 ✨로 채울 수 있어요', sEdit: '✏️', sEditTip: '폼으로 불러와 고쳐요 (다시 「추가」를 눌러야 저장돼요)', sFillTip: '미트볼이 비밀을 영어 한 문장으로 다듬어 저장하고, 누가 지키는지 · 들킨 낱말 · 보여도 되는 모습 · 겉 · 밝혀질 때를 영어로 채워요. 이미 적은 칸은 그대로 둬요. 내가 쓴 글은 작게 남아요.',
+  sOrig: '내가 쓴 글', fSigns: '들킨 낱말', fShows: '보여도 됨', fCover: '겉', fOpens: '밝혀질 때', needFill: '이 기능은 상태창 0.26 이상에서 돼요.', del: '지우기', open: '풀기', close: '다시 잠그기', isOpen: '풀림', isClosed: '잠김', fromLore: '설정집에서',
   helpGoal: '<b>이야기가 결국 갔으면 하는 곳.</b> 방향마다 알리는 정도를 골라요.<br>· <b>안 알림</b>: 본편 AI는 몰라요. 너무 빨리 가면 상태창에 ⚠만 떠요.<br>· <b>살짝 알리기</b>: 「아직 정해진 건 없고 천천히 가는 중」이라고만 가요. 진행을 <i>늦추는</i> 쪽이에요.<br>· <b>천천히 밀어주기</b>: 몇 답에 한 번 「이쪽으로, 자연스러우면 작은 한 걸음만, 도착은 말 것」이 가요. 진행을 <i>돕는</i> 쪽이에요. ⚠ 감시는 그대로.<br>· 이미 적은 방향은 옆 모드 버튼을 눌러 바꿔요. 거기까지 가면 「도착」을 누르세요.',
   gV: '원하는 방향', gVPh: '예: 결국 둘은 서로를 고른다', gSigns: '나오면 너무 빨리 간 걸로 볼 낱말 (선택, 쉼표로)', gSignsPh: '예: 고백, 입맞춤', gHint: '살짝 알리기', cards: '비밀 카드 보기 (단서 · 들킬 뻔 · 누가 아는지)', gMode: '알리는 정도', gNone: '안 알림', gPush: '천천히 밀어주기', gNear: '최근 답에 이 방향의 낱말이 나왔어요. 다다랐으면 「도착」을 눌러요', arrived: '도착',
   gSteps: ['아직 멀어요', '다가오는 중', '거의 다 왔어요'], gSince: '정한 뒤 {n}답', gPushes: '밀어줌 {n}번', gHits: '낱말 나온 답 {n}', gLast: '마지막 #{i}',
@@ -42,6 +43,7 @@ const T = ko ? {
   rMode: { auto: 'warn when seen', always: 'always', off: 'off' }, rHit: 'seen in the last reply → warned in the next', rCycle: 'click: warn when seen → always → off', rEdit: 'click to edit', rMine: 'My rules', rNone: 'None yet. Type one above and press Enter', rPresets: '{n} preset rules', dLeft: 'dock left of the chat (PC)', dRight: 'dock right of the chat (PC)', dBottom: 'pop up above 🎬', close: 'Close', rNew: 'New rule', rText: 'e.g. never treat B like a child', rAdd: 'Add', rDel: 'Delete', rPreset: 'preset',
   helpOrder: '<b>What the AI should do.</b> Not kept in the chat; only the story AI sees it.<br>· Typed here, it goes into <b>the next reply only</b>.<br>· Pin it with 📌 to keep it. "This scene" asks again when the scene changes.<br>· To skip time, just write "three days later".',
   orderPh: 'e.g. B speaks first', fresh: 'Goes into the next reply', used: 'Already used; goes in again only when that reply is redone', empty: '',
+  rdTitle: '↻ Stronger on a reroll', rdHelp: 'When you reroll a reply you did not like, write what was wrong: it goes last as "the version before was thrown away for this; fix it". Only while rerolling this reply; cleared when the story moves on.', rdPh: 'e.g. Law smiled too easily. The secret was said outright', rdGo: '↻ Reroll with this', rdOn: '↻ Goes in every reroll of #{i}', rdFound: 'Seen in the last version (click to add)', rdLeak: "said {w}'s secret", rdLeakNo: 'a secret leaked', rdRefuse: 'gave in on a no too easily', rdNoAi: 'No reply to reroll yet',
   pinScene: '📌 This scene', pinAlways: '📌 Always', clear: 'Clear', pinned: 'Pinned', pinnedScene: 'this scene', pinnedAlways: 'always',
   sceneCut: 'The scene changed. Keep this order?', keepIt: 'Keep', en: 'Sent to the AI', sign: 'Holds a secret word', signWhy: 'that writes the secret right in front of the AI', thread: 'The character already turned this down',
   helpSecret: '<b>What the AI must not blurt out.</b> The secret itself <b>never reaches</b> the story AI. Only Meatball knows it.<br>· If a reply leaks it, ⚠ shows in the bar.<br>· Only "what may show" goes to the AI. May be empty.<br>· When it may come out, press "Release".',
@@ -50,7 +52,7 @@ const T = ko ? {
   sWhoOpt: 'Whose secret (empty: Meatball picks)', sMore: 'Write more yourself', sCover: 'How they look to others (cover)', sCoverPh: 'e.g. the cheerful class rep', sOpens: 'When it may come out', sOpensPh: 'e.g. when she tells it herself',
   sAuto: 'Meatball fills in the rest when added', sFill: '✨ Fill in', sFillPick: '✨ Fill in {n} picked', sFillAll: 'Pick all', sFilling: 'Meatball is filling in…', sFilled: '✨ Filled in {n} secrets. Edit with ✏️ if needed.', sFillFail: '{n} could not be filled. Try again.',
   sNeedWho: 'Write whose secret it is, or turn on "Meatball fills in".', sEmpty: 'Empty fields can be filled with ✨', sEdit: '✏️', sEditTip: 'Load into the form to edit (press Add again to save)', sFillTip: 'Meatball fills in who keeps it, give-away words, what may show, the cover and when it may come out. Fields you wrote stay.',
-  fSigns: 'give-away', fShows: 'may show', fCover: 'cover', fOpens: 'comes out', needFill: 'Needs Meatball status 0.26 or newer.', del: 'Delete', open: 'Release', close: 'Lock again', isOpen: 'released', isClosed: 'locked', fromLore: 'from lore',
+  sOrig: 'as you wrote it', fSigns: 'give-away', fShows: 'may show', fCover: 'cover', fOpens: 'comes out', needFill: 'Needs Meatball status 0.26 or newer.', del: 'Delete', open: 'Release', close: 'Lock again', isOpen: 'released', isClosed: 'locked', fromLore: 'from lore',
   helpGoal: '<b>Where the story should end up.</b> Pick how much the AI hears, per direction.<br>· <b>Silent</b>: the AI never knows. Rushing ahead only shows ⚠.<br>· <b>Hint</b>: only "nothing is settled, it moves slowly" — it <i>slows</i> things.<br>· <b>Nudge slowly</b>: every few replies, "this way; one small step if it fits; do not arrive" — it <i>helps</i> things move. ⚠ still watches.<br>· Change a direction you added with its mode button. Press "Arrived" when the story gets there.',
   gV: 'Direction', gVPh: 'e.g. in the end they choose each other', gSigns: 'Words that mean it rushed (optional, comma)', gSignsPh: 'e.g. confession, kiss', gHint: 'Hint', cards: 'Secret cards (clues · near misses · who knows)', gMode: 'How much the AI hears', gNone: 'Silent', gPush: 'Nudge slowly', gNear: 'Its words showed in recent replies. Press "Arrived" if the story got there', arrived: 'Arrived',
   gSteps: ['still far', 'getting closer', 'almost there'], gSince: '{n} replies since set', gPushes: 'nudged {n}×', gHits: 'words showed in {n}', gLast: 'last #{i}',
@@ -179,7 +181,8 @@ function tabOrder(body, A, S) {
     <div class="mbd-st">${status}</div><div id="mbd_beat_info"></div>
     <div class="mbd-row"><div id="mbd_pin_s" class="menu_button"${tipAt('pinScene')}>${h(T.pinScene)}</div><div id="mbd_pin_a" class="menu_button"${tipAt('pinAlways')}>${h(T.pinAlways)}</div><div id="mbd_clear" class="menu_button"${tipAt('clear')}>${h(T.clear)}</div></div>
     ${cut ? `<div class="mbd-warn">${h(T.sceneCut)} <span id="mbd_scene_keep" class="menu_button">${h(T.keepIt)}</span> <span id="mbd_scene_clear" class="menu_button">${h(T.clear)}</span></div>` : ''}
-    ${pins.length ? `<label>${h(T.pinned)}</label>${pins.map(([k, l, v]) => `<div class="mbd-item mbd-pin"><span><b>📌 ${h(l)}</b><br>${h(v)}</span><div class="menu_button" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}` : ''}`;
+    ${pins.length ? `<label>${h(T.pinned)}</label>${pins.map(([k, l, v]) => `<div class="mbd-item mbd-pin"><span><b>📌 ${h(l)}</b><br>${h(v)}</span><div class="menu_button" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}` : ''}
+    ${redoHtml(s, S)}`;
   const beat = document.getElementById('mbd_beat');
   beat.addEventListener('input', () => { const was = !!s.beat.trim() && !s.used; s.beat = beat.value; s.used = false; s.usedIdx = -1; save(); info();
     const el = body.querySelector('.mbd-st'); if (el && was !== !!s.beat.trim()) el.innerHTML = s.beat.trim() ? `<span class="mbd-state fresh pop">${h(T.sFresh)}</span>` : ''; });
@@ -190,7 +193,36 @@ function tabOrder(body, A, S) {
   body.querySelectorAll('[data-unpin]').forEach((b) => b.addEventListener('click', () => { if (b.dataset.unpin === 'scene') s.scene = ''; else if (A) A.setNote(''); else { s.keep = ''; putAlone(); } save(); render(); }));
   document.getElementById('mbd_scene_keep')?.addEventListener('click', () => { s.sceneGn = S.gn || 0; save(); render(); });
   document.getElementById('mbd_scene_clear')?.addEventListener('click', () => { s.scene = ''; save(); render(); });
+  redoWire(body, s);
   info();
+}
+// v0.14.1 ↻ a reroll with a reason: what was wrong with the version being thrown away goes as the strongest, last line.
+// It holds for every reroll of that reply and is cleared when the story moves on (a new reply is asked for).
+function redoProblems(S) {
+  const out = [];
+  for (const g of S.guard || []) out.push(g.kind === 'reversal' ? T.rdRefuse : g.who ? fill(T.rdLeak, { w: g.who }) : T.rdLeakNo);
+  const hit = hitRules(); for (const r of allRules()) if (hit.has(r.id)) out.push(r.name);
+  return [...new Set(out)].slice(0, 6);
+}
+function redoHtml(s, S) {
+  const li = lastAiIdx(), on = !!(s.redo || '').trim() && s.redoIdx === li, probs = li >= 0 ? redoProblems(S) : [];
+  return `<details class="mbd-redo"${on || probs.length ? ' open' : ''}><summary>${h(T.rdTitle)}${on ? ' <i class="mbd-rdon">●</i>' : ''}</summary>
+    <div class="mbd-dim mbd-rdhelp">${h(T.rdHelp)}</div>
+    ${probs.length ? `<div class="mbd-dim">${h(T.rdFound)}</div><div class="mbd-rdchips">${probs.map((p) => `<span class="mbd-chip mbd-rdchip" data-rd="${h(p)}">+ ${h(p)}</span>`).join('')}</div>` : ''}
+    <textarea id="mbd_redo" class="text_pole" placeholder="${h(T.rdPh)}">${h(s.redoIdx === li ? s.redo || '' : '')}</textarea>
+    <div class="mbd-row">${on ? `<span class="mbd-state fresh">${h(fill(T.rdOn, { i: li }))}</span>` : '<span></span>'}<div id="mbd_redo_go" class="menu_button"${li < 0 ? ' disabled' : ''}>${h(li < 0 ? T.rdNoAi : T.rdGo)}</div></div></details>`;
+}
+function redoWire(body, s) {
+  const ta = body.querySelector('#mbd_redo'); if (!ta) return;
+  const keep = () => { s.redo = ta.value; s.redoIdx = lastAiIdx(); save(); };
+  ta.addEventListener('input', keep);
+  body.querySelectorAll('[data-rd]').forEach((c) => c.addEventListener('click', () => { ta.value = [ta.value.trim(), c.dataset.rd].filter(Boolean).join('\n'); keep(); render(); }));
+  body.querySelector('#mbd_redo_go')?.addEventListener('click', () => {
+    if (lastAiIdx() < 0) return;
+    keep();
+    // a new swipe of the last reply (the old one stays one swipe back)
+    const b = document.querySelector('#chat .last_mes .swipe_right'); if (b) b.click(); else ctx().executeSlashCommandsWithOptions?.('/regenerate');
+  });
 }
 // 비밀: typed secrets live in Meatball (guarded like a lore vault line); lore vault lines can be released here too
 // v0.13.2 비밀: write only the secret — Meatball fills in the rest (one secret, the picked ones, up to 6 per call).
@@ -206,7 +238,7 @@ function tabSecret(body, A, S) {
   const item = (x, i) => { const v = state(x.who);
     return `<div class="mbd-item mbd-sec${busy.has(i) ? ' busy' : ''}${fresh.has(i) ? ' fresh' : ''}">
       ${can ? `<input type="checkbox" class="mbd-spick" data-pick="${i}"${pick.has(i) ? ' checked' : ''}${busy.size ? ' disabled' : ''} />` : ''}
-      <span><b>${h(x.who)}</b> · ${h(x.v)} <small>(${h(v?.open ? T.isOpen : T.isClosed)})</small>
+      <span><b>${h(x.who)}</b> · ${h(x.v)} <small>(${h(v?.open ? T.isOpen : T.isClosed)})</small>${x.vOrig && x.vOrig !== x.v ? `<div class="mbd-sorig">${h(T.sOrig)}: ${h(x.vOrig)}</div>` : ''}
         ${busy.has(i) ? `<div class="mbd-sfill">${h(T.sFilling)}</div>` : `<div class="mbd-sfs">${(x.signs || []).length ? `<div class="mbd-sf"><em>${h(T.fSigns)}</em>${x.signs.map((g) => `<i class="mbd-chip">${h(g)}</i>`).join('')}</div>` : ''}${field(T.fShows, x.shows)}${field(T.fCover, x.cover)}${field(T.fOpens, x.opens)}
         ${can && empty(x) ? `<small class="mbd-dim">${h(T.sEmpty)}</small>` : ''}</div>`}</span>
       <div class="mbd-sbtns">${can ? `<div class="menu_button" data-fill="${i}" title="${h(T.sFillTip)}"${busy.size ? ' disabled' : ''}>${h(T.sFill)}</div>` : ''}<div class="menu_button" data-op="${i}"${tipAt('open')}>${h(v?.open ? T.close : T.open)}</div><div class="menu_button" data-edit="${i}" title="${h(T.sEditTip)}">${h(T.sEdit)}</div><div class="menu_button" data-del="${i}" title="${h(T.del)}">🗑</div></div></div>`; };
@@ -364,10 +396,11 @@ function hitRules() {
   return out;
 }
 // what goes to the AI: "always" as is; an auto rule only for the reply right after it showed
-function activeRules() {
+function activeRules(again = false) {
   const A = api(), hit = hitRules();
+  // on a reroll the reply that slipped is the one being thrown away: say so plainly
   return allRules().filter((r) => r.mode === 'always' || (r.mode === 'auto' && (hit.has(r.id) || (!A && !r.preset))))
-    .map((r) => (r.mode === 'auto' && hit.has(r.id) ? `The previous reply slipped into this (${r.en}). Watch it in this reply: ${r.text}` : r.text));
+    .map((r) => (r.mode === 'auto' && hit.has(r.id) ? (again ? `The version being rewritten slipped into this (${r.en}) and was thrown away for it. This version must not: ${r.text}` : `The previous reply slipped into this (${r.en}). Watch it in this reply: ${r.text}`) : r.text));
 }
 function tabRules(body) {
   const R = rset(), hit = hitRules(), rules = allRules(), mine = rules.filter((r) => !r.preset), pre = rules.filter((r) => r.preset);
@@ -424,8 +457,10 @@ function onStart(type, opts, dryRun) {
   G.apply = !!text && (!s.used || (again && s.usedIdx === lastAiIdx()));
   G.type = type || 'normal';
   const S = A ? safeState(A) : {}, sceneOn = !!s.scene.trim() && !(A && (S.lastCut || 0) > (s.sceneGn || 0));
-  if (A) { pushHabits(); A.pieces({ beat: G.apply ? text : '', scene: sceneOn ? s.scene : '', rules: activeRules() }); }
-  else putAlone(G.apply ? text : '', sceneOn ? s.scene : '');
+  if (!again && type !== 'continue' && (s.redo || '').trim()) { s.redo = ''; s.redoIdx = -1; save(); }   // a new reply: the reason is done
+  const redo = again && (s.redo || '').trim() && s.redoIdx === lastAiIdx() ? s.redo.trim() : '';
+  if (A) { pushHabits(); A.pieces({ beat: G.apply ? text : '', scene: sceneOn ? s.scene : '', rules: activeRules(again), redo }); }
+  else putAlone([G.apply ? text : '', redo ? `REWRITE — the version before this one was rejected for this; this version must fix it:\n${redo}` : ''].filter(Boolean).join('\n\n'), sceneOn ? s.scene : '');
 }
 function onReceived(id) {
   if (!G.apply) return;
