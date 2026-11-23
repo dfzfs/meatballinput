@@ -283,3 +283,17 @@
 #mbd_panel .mbd-oocend { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; }
 #mbd_panel .mbd-oocend .mbd-oochide { margin: 0; font-size: 11.5px; color: var(--mb-dim); }
 #mbd_panel .mbd-oocc .mbd-acts .menu_button { padding: 4px 10px; }
+/* v0.16.3 · sub-tabs inside 지시: one job at a time */
+#mbd_panel .mbd-subs { display: flex; gap: 2px; padding: 3px; margin: 0 0 10px; border-radius: 12px; background: var(--mb-soft); border: 1px solid var(--mb-line); }
+#mbd_panel .mbd-subt { position: relative; flex: 1; text-align: center; padding: 5px 2px; border-radius: 9px; font-size: 12px; color: var(--mb-dim); cursor: pointer; white-space: nowrap; transition: background .18s, color .18s; }
+#mbd_panel .mbd-subt:hover { color: var(--mb-ink); }
+#mbd_panel .mbd-subt.on { background: var(--mbt-card, #fff); color: var(--mb-ink); font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+#mbd_panel .mbd-dot { position: absolute; top: 4px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--mb-acc); }
+#mbd_panel .mbd-pane { animation: mbdIn .2s ease-out; }
+#mbd_panel .mbd-pane > .mbd-card .mbd-orow:first-of-type { border-top: 0; padding-top: 0; }
+#mbd_panel .mbd-redo2 textarea { min-height: 3.6em; }
+#mbd_panel .mbd-savedl { margin: -2px 0 8px; }
+#mbd_panel .mbd-savedl .mbd-qsel { font-size: 12px; }
+#mbd_panel .mbd-bsnone { flex: 1; font-size: 11.5px; }
+#mbd_panel .mbd-bsrow { margin: -4px 0 8px; }
+#mbd_panel .mbd-star.on { color: #e8a33d; }
