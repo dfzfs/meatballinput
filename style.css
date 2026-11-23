@@ -369,3 +369,127 @@
 #mbd_panel .mbd-oopts { margin-top: 8px; padding-top: 4px; border-top: 1px dashed var(--mb-line); }
 #mbd_panel .mbd-cin .mbd-picks { padding-top: 4px; }
 @media (max-width: 400px) { #mbd_panel .mbd-pkopts { margin-left: 0; } }
+
+/* ===================== v0.20 · 지시 tab polish: settings-list rows, quiet controls, one accent per screen ===================== */
+#mbd_panel { --mbd-r: 14px; --mbd-ooc: #6c7bd8; --mbd-hair: color-mix(in srgb, var(--mb-line) 75%, transparent); --mbd-tint: color-mix(in srgb, var(--mb-acc) 10%, var(--mbt-card, #fff)); }
+
+/* cards: lighter frame, a touch of depth instead of a thick border */
+#mbd_panel .mbd-sheet .mbd-card, #mbd_panel .mbd-sheet .mbd-common { border: 1px solid var(--mbd-hair); border-radius: var(--mbd-r); box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 14px -8px rgba(0,0,0,.12); }
+#mbd_panel .mbd-cin .mbd-card { box-shadow: none; }
+
+/* 🎨 문체 header: title, a quiet note, the summary on the right */
+#mbd_panel .mbd-cl { padding: 11px 14px; gap: 6px; }
+#mbd_panel .mbd-cl b { font-size: 13px; }
+#mbd_panel .mbd-cnote { background: none; padding: 0; font-size: 11px; opacity: .85; }
+#mbd_panel .mbd-cl .mbd-sum { text-align: right; font-size: 11.5px; color: var(--mb-acc); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#mbd_panel .mbd-cl > i { font-size: 15px; line-height: 1; }
+#mbd_panel .mbd-cin { padding: 0 14px 6px; border-top: 1px solid var(--mbd-hair); max-height: none; overflow: visible; }
+
+/* picker rows: label left, value right, like a phone settings list */
+#mbd_panel .mbd-prow { gap: 12px; padding: 0; min-height: 42px; }
+#mbd_panel .mbd-prow + .mbd-prow, #mbd_panel .mbd-pkopts + .mbd-prow { border-top: 1px solid var(--mbd-hair); }
+#mbd_panel .mbd-plab { flex: 1 1 auto; font-size: 12.5px; font-weight: 500; opacity: 1; color: var(--mb-ink); white-space: nowrap; }
+#mbd_panel .mbd-pk { flex: 0 1 auto; max-width: 62%; padding: 5px 4px 5px 10px; background: none; border: 0; border-radius: 8px; color: var(--mb-dim); font-size: 12.5px; font-weight: 500; }
+#mbd_panel .mbd-pk i { font-size: 13px; opacity: .55; margin-left: 2px; transform: rotate(0); }
+#mbd_panel .mbd-pk:hover { background: var(--mb-soft); color: var(--mb-ink); }
+#mbd_panel .mbd-pk.set { background: none; color: var(--mb-acc); font-weight: 700; }
+#mbd_panel .mbd-pk.set:hover { background: var(--mbd-tint); }
+#mbd_panel .mbd-pk.open { background: var(--mbd-tint); color: var(--mb-ink); }
+#mbd_panel .mbd-pk.open i { transform: rotate(180deg); }
+
+/* the opened choices: a soft tray under the row, full width */
+#mbd_panel .mbd-pkopts { margin: 0 0 10px; padding: 10px; border: 0; border-radius: 12px; background: var(--mb-soft); }
+#mbd_panel .mbd-pkopts .mbd-chips { gap: 6px; }
+
+/* chips everywhere: flat pills; picked = tinted, not shouting */
+#mbd_panel .mbd-tg { padding: 5px 11px; font-size: 12px; border: 1px solid var(--mbd-hair); background: var(--mbt-card, #fff); color: var(--mb-ink); box-shadow: none; }
+#mbd_panel .mbd-tg:hover { border-color: color-mix(in srgb, var(--mb-acc) 50%, var(--mb-line)); }
+#mbd_panel .mbd-tg.on { background: var(--mbd-tint); border-color: color-mix(in srgb, var(--mb-acc) 55%, transparent); color: var(--mb-acc); font-weight: 700; box-shadow: none; }
+#mbd_panel .mbd-tg.on::before { content: "✓ "; }
+#mbd_panel .mbd-tg.mini { padding: 3px 9px; font-size: 11.5px; }
+#mbd_panel .mbd-tg.mini::before { content: ""; }
+
+/* 더하기 row: chips wrap on the right, the + sits last */
+#mbd_panel .mbd-crow { align-items: center; padding: 8px 0; }
+#mbd_panel .mbd-crow .mbd-plab { padding-top: 0; flex: 0 0 auto; }
+#mbd_panel .mbd-onl { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; }
+#mbd_panel .mbd-addtg { width: 26px; height: 26px; padding: 0 !important; display: inline-grid; place-items: center; border-radius: 50%; border-style: dashed; color: var(--mb-dim); font-size: 13px; }
+#mbd_panel .mbd-addtg::before { content: "" !important; }
+#mbd_panel .mbd-addtg.open { border-style: solid; }
+
+/* text inputs */
+#mbd_panel .mbd-sheet textarea.text_pole, #mbd_panel .mbd-sheet input.text_pole { background: var(--mb-soft) !important; border: 1px solid transparent !important; border-radius: 12px !important; padding: 10px 12px !important; font-size: 13px; color: var(--mb-ink) !important; box-shadow: none !important; transition: border-color .15s, background .15s; }
+#mbd_panel .mbd-sheet textarea.text_pole:focus, #mbd_panel .mbd-sheet input.text_pole:focus { background: var(--mbt-card, #fff) !important; border-color: var(--mb-acc) !important; outline: none; }
+#mbd_panel .mbd-sheet input.text_pole { padding: 7px 11px !important; font-size: 12px; }
+#mbd_panel #mbd_beat, #mbd_panel #mbd_oocq { min-height: 84px; resize: vertical; }
+
+/* "꺼내기" select: a quiet text link, not a box */
+#mbd_panel .mbd-qline { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+#mbd_panel select.mbd-qsel { -webkit-appearance: none; appearance: none; flex: 0 1 auto !important; width: auto !important; max-width: calc(100% - 34px); background: none !important; border: 0 !important; box-shadow: none !important; padding: 3px 18px 3px 2px !important; font-size: 12px !important; color: var(--mb-dim) !important; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%) !important; background-position: right 6px center, right 2px center !important; background-size: 4px 4px !important; background-repeat: no-repeat !important; }
+#mbd_panel select.mbd-qsel:hover { color: var(--mb-ink) !important; }
+#mbd_panel .mbd-star { margin-left: auto; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: var(--mb-dim); font-size: 15px; cursor: pointer; }
+#mbd_panel .mbd-star:hover { background: var(--mb-soft); }
+#mbd_panel .mbd-star.on { color: #e3a008; }
+
+/* buttons: one height, one shape; primary filled, the rest outlined, quiet ones text-only */
+#mbd_panel .mbd-sheet .mbd-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; }
+#mbd_panel .mbd-sheet .menu_button { height: 30px; display: inline-flex; align-items: center; justify-content: center; padding: 0 13px !important; border-radius: 99px !important; font-size: 12px; border: 1px solid var(--mbd-hair) !important; background: var(--mbt-card, #fff) !important; box-shadow: none; transition: background .15s, border-color .15s, transform .1s; }
+#mbd_panel .mbd-sheet .menu_button:hover { border-color: color-mix(in srgb, var(--mb-acc) 50%, var(--mb-line)) !important; background: var(--mbt-card, #fff) !important; }
+#mbd_panel .mbd-sheet .menu_button:active { transform: scale(.97); }
+#mbd_panel .mbd-sheet .menu_button.mbd-ghost { border-color: transparent !important; background: none !important; color: var(--mb-dim) !important; }
+#mbd_panel .mbd-sheet .menu_button.mbd-ghost:hover { color: var(--mb-ink) !important; background: var(--mb-soft) !important; }
+#mbd_panel .mbd-sheet .menu_button.mbd-primary { background: var(--mb-acc) !important; border-color: var(--mb-acc) !important; color: #fff !important; font-weight: 600; }
+#mbd_panel .mbd-sheet .menu_button.mbd-primary2 { background: var(--mbd-ooc) !important; border-color: var(--mbd-ooc) !important; color: #fff !important; font-weight: 600; }
+#mbd_panel .mbd-sheet .menu_button[disabled] { opacity: .45; background: var(--mbt-card, #fff) !important; }
+
+/* pinned line */
+#mbd_panel .mbd-pinrow { align-items: center; }
+#mbd_panel .mbd-pinl { font-size: 11px; color: var(--mb-acc); font-weight: 700; margin-bottom: 3px; }
+#mbd_panel .mbd-pinv { font-size: 12.5px; line-height: 1.5; color: var(--mb-ink); }
+#mbd_panel .mbd-pinrow .menu_button.mbd-ghost { height: 26px; padding: 0 10px !important; font-size: 11.5px; }
+
+/* option rows at the bottom (장면 고정 방식 · 다시 뽑기) */
+#mbd_panel .mbd-ops { padding: 0 14px; }
+#mbd_panel .mbd-op + .mbd-op { border-top: 1px solid var(--mbd-hair); }
+#mbd_panel .mbd-opl { min-height: 44px; display: flex; align-items: center; gap: 10px; padding: 0; font-size: 12.5px; font-weight: 500; cursor: pointer; }
+#mbd_panel .mbd-opl > span:first-child { white-space: nowrap; }
+#mbd_panel .mbd-opl .mbd-sum { flex: 1; min-width: 0; text-align: right; font-size: 11.5px; color: var(--mb-dim); font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#mbd_panel .mbd-opl > i { font-style: normal; color: var(--mb-dim); font-size: 15px; }
+
+/* 이야기 · OOC switch */
+#mbd_panel .mbd-mtabs { padding: 3px; border-radius: 12px; background: var(--mb-soft); border: 0; }
+#mbd_panel .mbd-mtabs .mbd-subt { padding: 7px 2px; border-radius: 9px; font-size: 12.5px; }
+#mbd_panel .mbd-subt.on { box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 0 0 1px var(--mbd-hair); }
+#mbd_panel .mbd-subt.on.ooc { background: var(--mbd-ooc); box-shadow: 0 2px 8px -2px color-mix(in srgb, var(--mbd-ooc) 60%, transparent); }
+
+/* OOC card */
+#mbd_panel .mbd-oocc { border-color: color-mix(in srgb, var(--mbd-ooc) 35%, transparent) !important; background: linear-gradient(var(--mbt-card, #fff), var(--mbt-card, #fff)) padding-box; }
+#mbd_panel .mbd-oocc .mbd-ch { align-items: center; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid var(--mbd-hair); }
+#mbd_panel .mbd-oocc .mbd-ch > b { color: var(--mbd-ooc); font-size: 13px; }
+#mbd_panel .mbd-oocc .mbd-ch > b::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--mbd-ooc); vertical-align: 1px; animation: mbdBlink 1.6s ease-in-out infinite; }
+@keyframes mbdBlink { 50% { opacity: .3; } }
+#mbd_panel .mbd-oocc .mbd-ch .mbd-q2 { margin-left: auto; }
+#mbd_panel .mbd-oocc .mbd-tg.on { background: color-mix(in srgb, var(--mbd-ooc) 12%, var(--mbt-card, #fff)); border-color: color-mix(in srgb, var(--mbd-ooc) 55%, transparent); color: var(--mbd-ooc); }
+#mbd_panel .mbd-oocc .mbd-sheet textarea.text_pole:focus, #mbd_panel .mbd-oocc textarea.text_pole:focus { border-color: var(--mbd-ooc) !important; }
+#mbd_panel .mbd-oopts { margin-top: 12px; padding-top: 0; border-top: 1px solid var(--mbd-hair); }
+#mbd_panel .mbd-sw2.on > i { background: var(--mbd-ooc); }
+#mbd_panel .mbd-oocend { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--mbd-hair); }
+#mbd_panel .mbd-oochide { display: inline-flex !important; align-items: center; gap: 6px; margin: 0; font-size: 11.5px; color: var(--mb-dim); cursor: pointer; }
+#mbd_panel .mbd-oochide input[type=checkbox] { -webkit-appearance: none; appearance: none; width: 15px !important; height: 15px !important; margin: 0 !important; border-radius: 5px; border: 1.5px solid var(--mb-line) !important; background: var(--mbt-card, #fff) !important; display: grid; place-items: center; cursor: pointer; }
+#mbd_panel .mbd-oochide input[type=checkbox]:checked { background: var(--mbd-ooc) !important; border-color: var(--mbd-ooc) !important; }
+#mbd_panel .mbd-oochide input[type=checkbox]:checked::after { content: ""; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: translateY(-1px) rotate(45deg); }
+#mbd_panel .mbd-oochide input[type=checkbox]::before { display: none !important; }
+#mbd_panel .mbd-oocend .menu_button.mbd-primary { background: var(--mbt-card, #fff) !important; color: var(--mb-ink) !important; border-color: var(--mbd-hair) !important; font-weight: 600; }
+#mbd_panel .mbd-oocend .menu_button.mbd-primary::before { content: "↩ "; opacity: .6; }
+
+@media (max-width: 420px) {
+  #mbd_panel .mbd-cnote { display: none; }
+  #mbd_panel .mbd-pk { max-width: 58%; }
+  #mbd_panel .mbd-sheet .menu_button { padding: 0 11px !important; }
+}
+@media (prefers-reduced-motion: reduce) { #mbd_panel .mbd-oocc .mbd-ch > b::before { animation: none; } }
+/* v0.20 · picked chips never blank: own colours, no pop-in (some ST themes paint chips white) */
+#mbd_panel .mbd-pkopts .mbd-tg.on { animation: none; opacity: 1; background: var(--mbd-tint) !important; color: var(--mb-acc) !important; -webkit-text-fill-color: currentColor; }
+#mbd_panel .mbd-oocc .mbd-pkopts .mbd-tg.on { color: var(--mbd-ooc) !important; background: color-mix(in srgb, var(--mbd-ooc) 12%, var(--mbt-card, #fff)) !important; }
+#mbd_panel .mbd-oocend .menu_button.mbd-primary::before { content: "↩"; margin-right: 5px; }
+#mbd_panel .mbd-sheet .menu_button[disabled], #mbd_panel .mbd-sheet .menu_button:disabled { filter: none !important; background: var(--mbt-card, #fff) !important; color: var(--mb-dim) !important; opacity: .55; }
