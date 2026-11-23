@@ -10,7 +10,7 @@
 const KEY = 'meatball_director', API_V = 1;
 const ctx = () => SillyTavern.getContext();
 // The newest 상태창 this 지시창 was made with: an older one still works, but some parts do nothing (e.g. 천천히 밀어주기)
-const NEED_MB = '0.26.1';
+const NEED_MB = '0.26.2';
 const old = (v) => { if (!v) return false; const a = String(v).split('.').map(Number), b = NEED_MB.split('.').map(Number); for (let i = 0; i < 3; i++) { if ((a[i] || 0) !== b[i]) return (a[i] || 0) < b[i]; } return false; };
 const api = () => (window.MeatballAPI?.v === API_V ? window.MeatballAPI : null);
 const h = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -188,7 +188,7 @@ function tabOrder(body, A, S) {
     const el = body.querySelector('.mbd-st'); if (el && was !== !!s.beat.trim()) el.innerHTML = s.beat.trim() ? `<span class="mbd-state fresh pop">${h(T.sFresh)}</span>` : ''; });
   document.getElementById('mbd_clear').addEventListener('click', () => { s.beat = ''; s.used = false; s.usedIdx = -1; save(); render(); });
   const take = () => { const t = s.beat.trim(); s.beat = ''; s.used = false; s.usedIdx = -1; return t; };
-  document.getElementById('mbd_pin_s').addEventListener('click', () => { const t = take(); if (!t) return; s.scene = [s.scene.trim(), t].filter(Boolean).join('\n'); s.sceneGn = A ? (S.gn || 0) : 0; save(); render(); });
+  document.getElementById('mbd_pin_s').addEventListener('click', () => { const t = take(); if (!t) return; s.scene = [s.scene.trim(), t].filter(Boolean).join('\n'); s.sceneGn = A ? (S.gn || 0) : 0; s.sceneSent = 0; save(); render(); });
   document.getElementById('mbd_pin_a').addEventListener('click', () => { const t = take(); if (!t) return; const v = [keep.trim(), t].filter(Boolean).join('\n'); if (A) A.setNote(v); else { s.keep = v; putAlone(); } save(); render(); });
   body.querySelectorAll('[data-unpin]').forEach((b) => b.addEventListener('click', () => { if (b.dataset.unpin === 'scene') s.scene = ''; else if (A) A.setNote(''); else { s.keep = ''; putAlone(); } save(); render(); }));
   document.getElementById('mbd_scene_keep')?.addEventListener('click', () => { s.sceneGn = S.gn || 0; save(); render(); });
@@ -442,7 +442,8 @@ function tabRules(body) {
 function putAlone(beatText = '', sceneText = '') {
   const c = ctx(); if (api() || !c.setExtensionPrompt) return;
   const IN_CHAT = c.extension_prompt_types?.IN_CHAT ?? 1;
-  const keep = [String(st().keep || '').trim(), sceneText.trim() ? `This scene: ${sceneText.trim()}` : '', ...activeRules().map((t) => `Style: ${t}`)].filter(Boolean).join('\n');
+  const sc = st(), how = (sc.sceneSent || 0) > 0 ? 'This scene is already under way: pick up exactly where the last reply stopped and carry it forward. Do not set it up again or wrap it up' : 'Get into it in this reply: a line or two of lead-up at most, then it happens on the page';
+  const keep = [String(sc.keep || '').trim(), sceneText.trim() ? `This scene: ${sceneText.trim()} — ${how}` : '', ...activeRules().map((t) => `Style: ${t}`)].filter(Boolean).join('\n');
   c.setExtensionPrompt('mbd_keep', keep ? `[Standing instructions]\n${keep}` : '', IN_CHAT, 1);
   c.setExtensionPrompt('mbd_beat', beatText ? `[This reply]\n${beatText}` : '', IN_CHAT, 0);
 }
@@ -459,10 +460,14 @@ function onStart(type, opts, dryRun) {
   const S = A ? safeState(A) : {}, sceneOn = !!s.scene.trim() && !(A && (S.lastCut || 0) > (s.sceneGn || 0));
   if (!again && type !== 'continue' && (s.redo || '').trim()) { s.redo = ''; s.redoIdx = -1; save(); }   // a new reply: the reason is done
   const redo = again && (s.redo || '').trim() && s.redoIdx === lastAiIdx() ? s.redo.trim() : '';
-  if (A) { pushHabits(); A.pieces({ beat: G.apply ? text : '', scene: sceneOn ? s.scene : '', rules: activeRules(again), redo }); }
+  G.sceneOn = sceneOn && type !== 'continue'; G.again = again;
+  const sceneN = Math.max(0, (s.sceneSent || 0) - (again && s.sceneSent ? 1 : 0));
+  if (A) { pushHabits(); A.pieces({ beat: G.apply ? text : '', scene: sceneOn ? s.scene : '', sceneN, rules: activeRules(again), redo }); }
   else putAlone([G.apply ? text : '', redo ? `REWRITE — the version before this one was rejected for this; this version must fix it:\n${redo}` : ''].filter(Boolean).join('\n\n'), sceneOn ? s.scene : '');
 }
 function onReceived(id) {
+  if (G.sceneOn && !G.again) { const s0 = st(); s0.sceneSent = (s0.sceneSent || 0) + 1; save(); }
+  G.sceneOn = false;
   if (!G.apply) return;
   const s = st(); s.used = true; s.usedIdx = Number.isInteger(id) ? id : lastAiIdx(); save();
   G.apply = false; render();
