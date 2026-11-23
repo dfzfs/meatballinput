@@ -337,3 +337,7 @@
 #mbd_panel .mbd-cin .mbd-card { box-shadow: none; margin-top: 8px; }
 #mbd_panel .mbd-mtabs .mbd-tab.on.ooc { color: #fff; background: #6c7bd8; border-color: #6c7bd8; }
 #mbd_panel .mbd-mode { display: none; }
+/* v0.18.3 · 지시: 문체 on top, then 이야기 · OOC */
+#mbd_panel .mbd-sheet .mbd-common { margin: 0 0 10px; }
+#mbd_panel .mbd-subt.on.ooc { background: #6c7bd8; color: #fff; }
+#mbd_panel .mbd-mtabs { margin-bottom: 10px; }
