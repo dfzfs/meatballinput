@@ -10,7 +10,7 @@
 const KEY = 'meatball_director', API_V = 1;
 const ctx = () => SillyTavern.getContext();
 // The newest 상태창 this 지시창 was made with: an older one still works, but some parts do nothing (e.g. 천천히 밀어주기)
-const NEED_MB = '0.25.0';
+const NEED_MB = '0.26.0';
 const old = (v) => { if (!v) return false; const a = String(v).split('.').map(Number), b = NEED_MB.split('.').map(Number); for (let i = 0; i < 3; i++) { if ((a[i] || 0) !== b[i]) return (a[i] || 0) < b[i]; } return false; };
 const api = () => (window.MeatballAPI?.v === API_V ? window.MeatballAPI : null);
 const h = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -26,7 +26,11 @@ const T = ko ? {
   sceneCut: '장면이 바뀌었어요. 이 지시를 계속할까요?', keepIt: '계속', en: 'AI에게 가는 말', sign: '비밀 낱말이 들어 있어요', signWhy: 'AI 눈앞에 비밀을 적는 셈이에요', thread: '캐릭터가 이미 거절한 일이에요',
   helpSecret: '<b>AI가 먼저 말해 버리면 안 되는 것.</b> 비밀 내용은 본편 AI에 <b>아예 안 가요</b>. 미트볼만 알고 지켜요.<br>· 답에 비밀이 새면 상태창에 ⚠가 떠요. 눌러서 다시 쓰기를 고를 수 있어요.<br>· 「겉으로 보여도 되는 모습」만 AI에게 가요. 비워도 돼요.<br>· 이제 밝혀져도 되면 「풀기」를 누르세요.',
   sWho: '누구의 비밀', sWhoPh: '이름', sV: '비밀 내용', sVPh: '예: 깡통은 아직 깡캐를 좋아한다', sSigns: '나오면 들킨 걸로 볼 낱말 (선택, 쉼표로)', sSignsPh: '예: 좋아해, 못 잊었',
-  sShows: '겉으로 보여도 되는 모습 (선택, 이것만 AI에게 가요)', sShowsPh: '예: 반지만 보면 눈을 피한다', add: '추가', del: '지우기', open: '풀기', close: '다시 잠그기', isOpen: '풀림', isClosed: '잠김', fromLore: '설정집에서',
+  sShows: '겉으로 보여도 되는 모습 (선택, 이것만 AI에게 가요)', sShowsPh: '예: 반지만 보면 눈을 피한다', add: '추가',
+  sWhoOpt: '누구의 비밀 (비우면 미트볼이 정해요)', sMore: '직접 더 적기', sCover: '주변에 보이는 모습 (겉)', sCoverPh: '예: 늘 밝은 반장', sOpens: '밝혀져도 되는 때', sOpensPh: '예: 서연이 스스로 털어놓을 때',
+  sAuto: '추가하면 미트볼이 나머지를 채워요', sFill: '✨ 채우기', sFillPick: '✨ 고른 {n}개 채우기', sFillAll: '전부 고르기', sFilling: '미트볼이 채우는 중…', sFilled: '✨ 비밀 {n}개를 채웠어요. 마음에 안 들면 ✏️로 고쳐요.', sFillFail: '못 채운 게 {n}개 있어요. 다시 눌러 주세요.',
+  sNeedWho: '누구의 비밀인지 적거나 「미트볼이 채우기」를 켜 주세요.', sEmpty: '비어 있는 칸은 ✨로 채울 수 있어요', sEdit: '✏️', sEditTip: '폼으로 불러와 고쳐요 (다시 「추가」를 눌러야 저장돼요)', sFillTip: '미트볼이 누가 지키는지 · 들킨 낱말 · 보여도 되는 모습 · 겉 · 밝혀질 때를 채워요. 이미 적은 칸은 그대로 둬요.',
+  fSigns: '들킨 낱말', fShows: '보여도 됨', fCover: '겉', fOpens: '밝혀질 때', needFill: '이 기능은 상태창 0.26 이상에서 돼요.', del: '지우기', open: '풀기', close: '다시 잠그기', isOpen: '풀림', isClosed: '잠김', fromLore: '설정집에서',
   helpGoal: '<b>이야기가 결국 갔으면 하는 곳.</b> 방향마다 알리는 정도를 골라요.<br>· <b>안 알림</b>: 본편 AI는 몰라요. 너무 빨리 가면 상태창에 ⚠만 떠요.<br>· <b>살짝 알리기</b>: 「아직 정해진 건 없고 천천히 가는 중」이라고만 가요. 진행을 <i>늦추는</i> 쪽이에요.<br>· <b>천천히 밀어주기</b>: 몇 답에 한 번 「이쪽으로, 자연스러우면 작은 한 걸음만, 도착은 말 것」이 가요. 진행을 <i>돕는</i> 쪽이에요. ⚠ 감시는 그대로.<br>· 이미 적은 방향은 옆 모드 버튼을 눌러 바꿔요. 거기까지 가면 「도착」을 누르세요.',
   gV: '원하는 방향', gVPh: '예: 결국 둘은 서로를 고른다', gSigns: '나오면 너무 빨리 간 걸로 볼 낱말 (선택, 쉼표로)', gSignsPh: '예: 고백, 입맞춤', gHint: '살짝 알리기', cards: '비밀 카드 보기 (단서 · 들킬 뻔 · 누가 아는지)', gMode: '알리는 정도', gNone: '안 알림', gPush: '천천히 밀어주기', gNear: '최근 답에 이 방향의 낱말이 나왔어요. 다다랐으면 「도착」을 눌러요', arrived: '도착',
   gSteps: ['아직 멀어요', '다가오는 중', '거의 다 왔어요'], gSince: '정한 뒤 {n}답', gPushes: '밀어줌 {n}번', gHits: '낱말 나온 답 {n}', gLast: '마지막 #{i}',
@@ -42,7 +46,11 @@ const T = ko ? {
   sceneCut: 'The scene changed. Keep this order?', keepIt: 'Keep', en: 'Sent to the AI', sign: 'Holds a secret word', signWhy: 'that writes the secret right in front of the AI', thread: 'The character already turned this down',
   helpSecret: '<b>What the AI must not blurt out.</b> The secret itself <b>never reaches</b> the story AI. Only Meatball knows it.<br>· If a reply leaks it, ⚠ shows in the bar.<br>· Only "what may show" goes to the AI. May be empty.<br>· When it may come out, press "Release".',
   sWho: 'Whose secret', sWhoPh: 'name', sV: 'The secret', sVPh: 'e.g. A still loves B', sSigns: 'Words that give it away (optional, comma)', sSignsPh: 'e.g. still love, never forgot',
-  sShows: 'What may show (optional, only this goes to the AI)', sShowsPh: 'e.g. looks away from the ring', add: 'Add', del: 'Delete', open: 'Release', close: 'Lock again', isOpen: 'released', isClosed: 'locked', fromLore: 'from lore',
+  sShows: 'What may show (optional, only this goes to the AI)', sShowsPh: 'e.g. looks away from the ring', add: 'Add',
+  sWhoOpt: 'Whose secret (empty: Meatball picks)', sMore: 'Write more yourself', sCover: 'How they look to others (cover)', sCoverPh: 'e.g. the cheerful class rep', sOpens: 'When it may come out', sOpensPh: 'e.g. when she tells it herself',
+  sAuto: 'Meatball fills in the rest when added', sFill: '✨ Fill in', sFillPick: '✨ Fill in {n} picked', sFillAll: 'Pick all', sFilling: 'Meatball is filling in…', sFilled: '✨ Filled in {n} secrets. Edit with ✏️ if needed.', sFillFail: '{n} could not be filled. Try again.',
+  sNeedWho: 'Write whose secret it is, or turn on "Meatball fills in".', sEmpty: 'Empty fields can be filled with ✨', sEdit: '✏️', sEditTip: 'Load into the form to edit (press Add again to save)', sFillTip: 'Meatball fills in who keeps it, give-away words, what may show, the cover and when it may come out. Fields you wrote stay.',
+  fSigns: 'give-away', fShows: 'may show', fCover: 'cover', fOpens: 'comes out', needFill: 'Needs Meatball status 0.26 or newer.', del: 'Delete', open: 'Release', close: 'Lock again', isOpen: 'released', isClosed: 'locked', fromLore: 'from lore',
   helpGoal: '<b>Where the story should end up.</b> Pick how much the AI hears, per direction.<br>· <b>Silent</b>: the AI never knows. Rushing ahead only shows ⚠.<br>· <b>Hint</b>: only "nothing is settled, it moves slowly" — it <i>slows</i> things.<br>· <b>Nudge slowly</b>: every few replies, "this way; one small step if it fits; do not arrive" — it <i>helps</i> things move. ⚠ still watches.<br>· Change a direction you added with its mode button. Press "Arrived" when the story gets there.',
   gV: 'Direction', gVPh: 'e.g. in the end they choose each other', gSigns: 'Words that mean it rushed (optional, comma)', gSignsPh: 'e.g. confession, kiss', gHint: 'Hint', cards: 'Secret cards (clues · near misses · who knows)', gMode: 'How much the AI hears', gNone: 'Silent', gPush: 'Nudge slowly', gNear: 'Its words showed in recent replies. Press "Arrived" if the story got there', arrived: 'Arrived',
   gSteps: ['still far', 'getting closer', 'almost there'], gSince: '{n} replies since set', gPushes: 'nudged {n}×', gHits: 'words showed in {n}', gLast: 'last #{i}',
@@ -185,28 +193,84 @@ function tabOrder(body, A, S) {
   info();
 }
 // 비밀: typed secrets live in Meatball (guarded like a lore vault line); lore vault lines can be released here too
+// v0.13.2 비밀: write only the secret — Meatball fills in the rest (one secret, the picked ones, up to 6 per call).
+// Filled items glow once; items being filled shimmer. The person can still write any field; written fields are kept.
 function tabSecret(body, A, S) {
-  const list = S.secrets || [], names = S.names || [], vaults = S.vaults || [];
+  const list = S.secrets || [], names = S.names || [], vaults = S.vaults || [], R0 = rset(), auto = R0.secAuto !== false;
   const state = (who) => vaults.find((v) => v.who === who);
   const lore = vaults.filter((v) => !v.typed);
+  const busy = G.sBusy || new Set(), pick = (G.sPick ||= new Set()), fresh = G.sFresh || new Set();
+  const can = typeof A.fillSecrets === 'function';
+  const empty = (x) => !(x.signs || []).length || !x.shows || !x.cover || !x.opens;
+  const field = (label, v) => (v ? `<div class="mbd-sf"><em>${h(label)}</em>${h(v)}</div>` : '');
+  const item = (x, i) => { const v = state(x.who);
+    return `<div class="mbd-item mbd-sec${busy.has(i) ? ' busy' : ''}${fresh.has(i) ? ' fresh' : ''}">
+      ${can ? `<input type="checkbox" class="mbd-spick" data-pick="${i}"${pick.has(i) ? ' checked' : ''}${busy.size ? ' disabled' : ''} />` : ''}
+      <span><b>${h(x.who)}</b> · ${h(x.v)} <small>(${h(v?.open ? T.isOpen : T.isClosed)})</small>
+        ${busy.has(i) ? `<div class="mbd-sfill">${h(T.sFilling)}</div>` : `<div class="mbd-sfs">${(x.signs || []).length ? `<div class="mbd-sf"><em>${h(T.fSigns)}</em>${x.signs.map((g) => `<i class="mbd-chip">${h(g)}</i>`).join('')}</div>` : ''}${field(T.fShows, x.shows)}${field(T.fCover, x.cover)}${field(T.fOpens, x.opens)}
+        ${can && empty(x) ? `<small class="mbd-dim">${h(T.sEmpty)}</small>` : ''}</div>`}</span>
+      <div class="mbd-sbtns">${can ? `<div class="menu_button" data-fill="${i}" title="${h(T.sFillTip)}"${busy.size ? ' disabled' : ''}>${h(T.sFill)}</div>` : ''}<div class="menu_button" data-op="${i}"${tipAt('open')}>${h(v?.open ? T.close : T.open)}</div><div class="menu_button" data-edit="${i}" title="${h(T.sEditTip)}">${h(T.sEdit)}</div><div class="menu_button" data-del="${i}" title="${h(T.del)}">🗑</div></div></div>`; };
   body.innerHTML = `<div class="mbd-help">${T.helpSecret}</div>${A.open && vaults.length ? `<div class="mbd-row"><div class="menu_button mbd-cards" id="mbd_cards">🔒 ${h(T.cards)}</div></div>` : ''}
-    ${list.map((x, i) => { const v = state(x.who); return `<div class="mbd-item"><span><b>${h(x.who)}</b> · ${h(x.v)}${x.shows ? `<br><small>↳ ${h(x.shows)}</small>` : ''} <small>(${h(v?.open ? T.isOpen : T.isClosed)})</small></span>
-      <div class="menu_button" data-op="${i}"${tipAt('open')}>${h(v?.open ? T.close : T.open)}</div><div class="menu_button" data-del="${i}">${h(T.del)}</div></div>`; }).join('')}
+    ${can && list.length > 1 ? `<div class="mbd-row mbd-sbar"><label class="checkbox_label"><input type="checkbox" id="mbd_sall"${pick.size === list.length ? ' checked' : ''}${busy.size ? ' disabled' : ''} /> ${h(T.sFillAll)}</label><div class="menu_button${pick.size ? '' : ' disabled'}" id="mbd_sfp">${h(fill(T.sFillPick, { n: pick.size }))}</div></div>` : ''}
+    ${list.map(item).join('')}
     ${lore.map((v) => `<div class="mbd-item"><span><b>${h(v.who)}</b> · <small>${h(T.fromLore)} (${h(v.open ? T.isOpen : T.isClosed)})</small></span><div class="menu_button" data-lore="${h(v.who)}">${h(v.open ? T.close : T.open)}</div></div>`).join('')}
-    <label>${h(T.sWho)}${q('sWho')}</label><input id="mbd_sw" class="text_pole" list="mbd_names" placeholder="${h(T.sWhoPh)}" /><datalist id="mbd_names">${names.map((n) => `<option value="${h(n)}">`).join('')}</datalist>
-    <label>${h(T.sV)}${q('sV')}</label><textarea id="mbd_sv" class="text_pole" placeholder="${h(T.sVPh)}"></textarea>
-    <label>${h(T.sShows)}${q('sShows')}</label><input id="mbd_ss" class="text_pole" placeholder="${h(T.sShowsPh)}" />
-    <label>${h(T.sSigns)}${q('sSigns')}</label><input id="mbd_sg" class="text_pole" placeholder="${h(T.sSignsPh)}" />
-    <div class="mbd-row"><div id="mbd_sa" class="menu_button">${h(T.add)}</div></div>`;
+    <label>${h(T.sV)}${q('sV')}</label><textarea id="mbd_sv" class="text_pole" placeholder="${h(T.sVPh)}">${h(G.sDraft?.v || '')}</textarea>
+    <label>${h(can && auto ? T.sWhoOpt : T.sWho)}${q('sWho')}</label><input id="mbd_sw" class="text_pole" list="mbd_names" placeholder="${h(T.sWhoPh)}" value="${h(G.sDraft?.who || '')}" /><datalist id="mbd_names">${names.map((n) => `<option value="${h(n)}">`).join('')}</datalist>
+    <details class="mbd-more"${G.sDraft && (G.sDraft.shows || G.sDraft.cover || G.sDraft.opens || (G.sDraft.signs || []).length) ? ' open' : ''}><summary>${h(T.sMore)}</summary>
+      <label>${h(T.sShows)}${q('sShows')}</label><input id="mbd_ss" class="text_pole" placeholder="${h(T.sShowsPh)}" value="${h(G.sDraft?.shows || '')}" />
+      <label>${h(T.sSigns)}${q('sSigns')}</label><input id="mbd_sg" class="text_pole" placeholder="${h(T.sSignsPh)}" value="${h((G.sDraft?.signs || []).join(', '))}" />
+      <label>${h(T.sCover)}</label><input id="mbd_sc" class="text_pole" placeholder="${h(T.sCoverPh)}" value="${h(G.sDraft?.cover || '')}" />
+      <label>${h(T.sOpens)}</label><input id="mbd_so" class="text_pole" placeholder="${h(T.sOpensPh)}" value="${h(G.sDraft?.opens || '')}" /></details>
+    <div class="mbd-row">${can ? `<label class="checkbox_label"><input type="checkbox" id="mbd_sauto"${auto ? ' checked' : ''} /> ${h(T.sAuto)}</label>` : ''}<div id="mbd_sa" class="menu_button">${h(T.add)}</div></div>`;
+  G.sFresh = null;
   body.querySelector('#mbd_cards')?.addEventListener('click', () => A.open('secret'));
-  body.querySelectorAll('[data-del]').forEach((b) => b.addEventListener('click', () => { A.setSecrets(list.filter((_, i) => i !== +b.dataset.del)); render(); }));
+  body.querySelectorAll('[data-del]').forEach((b) => b.addEventListener('click', () => { pick.clear(); A.setSecrets(list.filter((_, i) => i !== +b.dataset.del)); render(); }));
   body.querySelectorAll('[data-op]').forEach((b) => b.addEventListener('click', () => { const x = list[+b.dataset.op], v = state(x.who); A.decide('vault', { who: x.who, open: !v?.open }); render(); }));
   body.querySelectorAll('[data-lore]').forEach((b) => b.addEventListener('click', () => { const v = state(b.dataset.lore); A.decide('vault', { who: v.who, open: !v.open }); render(); }));
-  document.getElementById('mbd_sa').addEventListener('click', () => {
-    const who = document.getElementById('mbd_sw').value.trim(), v = document.getElementById('mbd_sv').value.trim();
-    if (!who || !v) return;
-    A.setSecrets([...list, { who, v, shows: document.getElementById('mbd_ss').value.trim(), signs: commas(document.getElementById('mbd_sg').value) }]); render();
+  body.querySelectorAll('[data-edit]').forEach((b) => b.addEventListener('click', () => { const i = +b.dataset.edit; G.sDraft = { ...list[i] }; pick.clear(); A.setSecrets(list.filter((_, k) => k !== i)); render(); body.querySelector('#mbd_sv')?.focus(); }));
+  body.querySelectorAll('[data-pick]').forEach((b) => b.addEventListener('change', () => { const i = +b.dataset.pick; if (b.checked) pick.add(i); else pick.delete(i); render(); }));
+  body.querySelector('#mbd_sall')?.addEventListener('change', (e) => { pick.clear(); if (e.target.checked) list.forEach((_, i) => pick.add(i)); render(); });
+  body.querySelector('#mbd_sauto')?.addEventListener('change', (e) => { R0.secAuto = !!e.target.checked; saveSet(); render(); });
+  body.querySelectorAll('[data-fill]').forEach((b) => b.addEventListener('click', () => fillAt(A, [+b.dataset.fill])));
+  body.querySelector('#mbd_sfp')?.addEventListener('click', () => { if (pick.size) fillAt(A, [...pick]); });
+  document.getElementById('mbd_sa').addEventListener('click', async () => {
+    const v = document.getElementById('mbd_sv').value.trim(), who = document.getElementById('mbd_sw').value.trim();
+    if (!v) return;
+    const x = { who, v, shows: document.getElementById('mbd_ss').value.trim(), signs: commas(document.getElementById('mbd_sg').value), cover: document.getElementById('mbd_sc').value.trim(), opens: document.getElementById('mbd_so').value.trim() };
+    G.sDraft = null;
+    if (can && auto) {
+      // add it right away (a placeholder name until Meatball answers), then fill it like the others
+      const i = list.length; A.setSecrets([...list, { ...x, who: who || '…' }]);
+      await fillAt(A, [i], !who);
+    } else {
+      if (!who) { G.sDraft = x; window.toastr?.warning(T.sNeedWho); render(); return; }
+      A.setSecrets([...list, x]); render();
+    }
   });
+}
+// fill the secrets at these places in the list, in as few calls as the API makes (6 per call)
+async function fillAt(A, idx, whoWasEmpty = false) {
+  if (typeof A.fillSecrets !== 'function') { window.toastr?.warning(T.needFill); return; }
+  const S0 = safeState(A), list = [...(S0.secrets || [])];
+  const ids = idx.filter((i) => list[i]);
+  if (!ids.length || G.sBusy?.size) return;
+  G.sBusy = new Set(ids); render();
+  let res = null;
+  try { res = await A.fillSecrets(ids.map((i) => ({ ...list[i], who: list[i].who === '…' ? '' : list[i].who }))); } catch (e) { console.warn('[meatball-director] fill', e); }
+  const now = [...(safeState(A).secrets || [])];
+  let failed = 0;
+  ids.forEach((i, k) => {
+    const y = res?.list?.[k];
+    if (y && y.who) now[i] = { ...now[i], ...y }; else failed++;
+    if (whoWasEmpty && now[i]?.who === '…' && !(y && y.who)) now[i] = null;   // no name came back: keep it in the form instead
+  });
+  if (whoWasEmpty && ids.some((i) => now[i] === null)) G.sDraft = { ...list[ids[0]], who: '' };
+  A.setSecrets(now.filter(Boolean));
+  G.sBusy = null; G.sPick = new Set(); G.sFresh = new Set(ids.filter((i) => now[i]));
+  render();
+  const ok = ids.length - failed;
+  if (ok) window.toastr?.success(fill(T.sFilled, { n: ok }));
+  if (failed) window.toastr?.warning(fill(T.sFillFail, { n: failed }));
 }
 // 방향: destinations. Silent (never sent; the guard watches for rushing ahead), hint ("moving slowly") or push (a small step now and then)
 const modeOf = (v) => ({ hint: v === 'hint', push: v === 'push' });

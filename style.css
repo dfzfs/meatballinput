@@ -121,3 +121,27 @@
 #mbd_panel .mbd-gfacts span { white-space: nowrap; }
 #mbd_panel .mbd-item > span { min-width: 0; overflow-wrap: anywhere; word-break: keep-all; }
 #mbd_panel small { opacity: 1 !important; } #mbd_panel .mbd-nearnote { display: block; color: #b9802a; opacity: 1; }
+/* v0.13.2 · 비밀: filled in by Meatball */
+#mbd_panel .mbd-sec { align-items: flex-start; gap: 8px; }
+#mbd_panel .mbd-spick { flex: 0 0 auto; margin-top: 3px; }
+#mbd_panel .mbd-sec > span { flex: 1 1 auto; min-width: 0; }
+#mbd_panel .mbd-sbtns { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; max-width: 46%; }
+#mbd_panel .mbd-sbtns .menu_button { margin: 0; padding: 3px 9px; font-size: 12px; white-space: nowrap; }
+#mbd_panel .mbd-sfs { margin-top: 5px; display: flex; flex-direction: column; gap: 3px; }
+#mbd_panel .mbd-sf { font-size: 12px; line-height: 1.5; color: var(--mb-ink); }
+#mbd_panel .mbd-sf em { font-style: normal; font-size: 10.5px; font-weight: 700; color: var(--mb-dim); margin-right: 6px; }
+#mbd_panel .mbd-chip { font-style: normal; display: inline-block; font-size: 11px; padding: 0 7px; margin: 1px 3px 1px 0; border-radius: 99px; background: var(--mb-soft); border: 1px solid var(--mb-line); }
+#mbd_panel .mbd-dim { color: var(--mb-dim); font-size: 11px; }
+#mbd_panel .mbd-sbar { align-items: center; justify-content: space-between; }
+#mbd_panel .mbd-sbar .menu_button.disabled { opacity: .45; pointer-events: none; }
+#mbd_panel .mbd-more { margin: 6px 0 2px; }
+#mbd_panel .mbd-more > summary { cursor: pointer; font-size: 12px; color: var(--mb-dim); padding: 2px 0; }
+@keyframes mbdShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+#mbd_panel .mbd-sfill { margin-top: 6px; height: 34px; border-radius: 8px; font-size: 11.5px; color: var(--mb-dim); display: flex; align-items: center; padding: 0 10px;
+  background: linear-gradient(90deg, var(--mb-soft) 25%, color-mix(in srgb, var(--mb-acc) 16%, var(--mb-soft)) 50%, var(--mb-soft) 75%); background-size: 200% 100%; animation: mbdShimmer 1.4s linear infinite; }
+#mbd_panel .mbd-sec.busy { border-color: color-mix(in srgb, var(--mb-acc) 50%, var(--mb-line)); }
+@keyframes mbdGlow { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--mb-acc) 45%, transparent); } 100% { box-shadow: 0 0 0 10px transparent; } }
+#mbd_panel .mbd-sec.fresh { animation: mbdGlow 1s ease-out .1s 2; }
+#mbd_panel .mbd-sec.fresh .mbd-sf { animation: mbdIn .35s ease-out both; }
+#mbd_panel .mbd-sec.fresh .mbd-sf:nth-child(2) { animation-delay: .08s; } #mbd_panel .mbd-sec.fresh .mbd-sf:nth-child(3) { animation-delay: .16s; } #mbd_panel .mbd-sec.fresh .mbd-sf:nth-child(4) { animation-delay: .24s; }
+@media (prefers-reduced-motion: reduce) { #mbd_panel .mbd-sfill, #mbd_panel .mbd-sec { animation: none !important; } }
