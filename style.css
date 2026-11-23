@@ -83,3 +83,34 @@
 @keyframes mbdArrive { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, #e8a33d 60%, transparent); } 50% { box-shadow: 0 0 0 6px transparent; } }
 #mbd_panel .mbd-arrive { border-color: #e8a33d !important; font-weight: 600; animation: mbdArrive 1.4s ease-out 2; }
 @media (prefers-reduced-motion: reduce) { #mbd_panel .mbd-arrive { animation: none; } }
+
+/* ===================== v0.13 · motion and detail (colours stay the theme's) ===================== */
+@keyframes mbdIn { from { opacity: 0; transform: translateY(5px); } }
+@keyframes mbdPop { 0% { transform: scale(.7); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: none; } }
+@keyframes mbdPing { from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--mb-acc) 55%, transparent); } to { box-shadow: 0 0 0 7px transparent; } }
+@keyframes mbdGrow { from { transform: scaleX(0); } }
+#mbd_panel #mbd_body.mbd-enter { animation: mbdIn .22s ease-out; }
+/* 지시: where the order is */
+#mbd_panel .mbd-st { min-height: 4px; margin-top: 4px; }
+#mbd_panel .mbd-state { display: inline-block; font-size: 11.5px; padding: 1px 9px; border-radius: 99px; }
+#mbd_panel .mbd-state.fresh { background: color-mix(in srgb, var(--mb-acc) 14%, transparent); color: var(--mb-ink); }
+#mbd_panel .mbd-state.used { background: var(--mb-soft); color: var(--mb-dim); }
+#mbd_panel .mbd-state.pop { animation: mbdPop .4s cubic-bezier(.3, 1.4, .5, 1) both; }
+#mbd_panel .mbd-pin > span { white-space: pre-wrap; font-size: 12.5px; } #mbd_panel .mbd-pin b { font-size: 11.5px; color: var(--mb-dim); font-weight: 600; }
+/* 방향: three steps */
+#mbd_panel .mbd-goal { align-items: flex-start; }
+#mbd_panel .mbd-gbtns { display: flex; flex-direction: column; gap: 4px; align-items: stretch; }
+#mbd_panel .mbd-gtrack { display: flex; align-items: center; gap: 3px; margin: 6px 0 2px; }
+#mbd_panel .mbd-gtrack i { width: 26px; height: 5px; border-radius: 9px; background: var(--mb-line); transform-origin: left center; }
+#mbd_panel .mbd-gtrack i.on { background: var(--mb-acc); }
+#mbd_panel .mbd-goal.s2 .mbd-gtrack i.on { background: #e8a33d; }
+#mbd_panel .mbd-gtrack i.new { animation: mbdGrow .7s cubic-bezier(.2, .8, .2, 1) .15s both; }
+#mbd_panel .mbd-gtrack em { font-style: normal; font-size: 11.5px; color: var(--mb-dim); margin-left: 5px; }
+#mbd_panel .mbd-goal.grow .mbd-gtrack em { animation: mbdIn .35s ease-out .6s both; }
+#mbd_panel .mbd-gfacts { display: block; color: var(--mb-dim); font-size: 11px; }
+/* 규칙: how often a habit showed */
+#mbd_panel .mbd-rseen { flex: 0 0 auto; font-size: 10.5px; color: var(--mb-dim); }
+#mbd_panel .mbd-hit { display: inline-block; border-radius: 50%; line-height: 1; }
+#mbd_panel .mbd-hit.new { animation: mbdPing 1s ease-out .2s 2; }
+#mbd_panel .mbd-rule { transition: opacity .2s ease; }
+@media (prefers-reduced-motion: reduce) { #mbd_panel * { animation: none !important; transition: none !important; } }

@@ -10,7 +10,7 @@
 const KEY = 'meatball_director', API_V = 1;
 const ctx = () => SillyTavern.getContext();
 // The newest 상태창 this 지시창 was made with: an older one still works, but some parts do nothing (e.g. 천천히 밀어주기)
-const NEED_MB = '0.24.0';
+const NEED_MB = '0.25.0';
 const old = (v) => { if (!v) return false; const a = String(v).split('.').map(Number), b = NEED_MB.split('.').map(Number); for (let i = 0; i < 3; i++) { if ((a[i] || 0) !== b[i]) return (a[i] || 0) < b[i]; } return false; };
 const api = () => (window.MeatballAPI?.v === API_V ? window.MeatballAPI : null);
 const h = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -29,6 +29,8 @@ const T = ko ? {
   sShows: '겉으로 보여도 되는 모습 (선택, 이것만 AI에게 가요)', sShowsPh: '예: 반지만 보면 눈을 피한다', add: '추가', del: '지우기', open: '풀기', close: '다시 잠그기', isOpen: '풀림', isClosed: '잠김', fromLore: '설정집에서',
   helpGoal: '<b>이야기가 결국 갔으면 하는 곳.</b> 방향마다 알리는 정도를 골라요.<br>· <b>안 알림</b>: 본편 AI는 몰라요. 너무 빨리 가면 상태창에 ⚠만 떠요.<br>· <b>살짝 알리기</b>: 「아직 정해진 건 없고 천천히 가는 중」이라고만 가요. 진행을 <i>늦추는</i> 쪽이에요.<br>· <b>천천히 밀어주기</b>: 몇 답에 한 번 「이쪽으로, 자연스러우면 작은 한 걸음만, 도착은 말 것」이 가요. 진행을 <i>돕는</i> 쪽이에요. ⚠ 감시는 그대로.<br>· 이미 적은 방향은 옆 모드 버튼을 눌러 바꿔요. 거기까지 가면 「도착」을 누르세요.',
   gV: '원하는 방향', gVPh: '예: 결국 둘은 서로를 고른다', gSigns: '나오면 너무 빨리 간 걸로 볼 낱말 (선택, 쉼표로)', gSignsPh: '예: 고백, 입맞춤', gHint: '살짝 알리기', cards: '비밀 카드 보기 (단서 · 들킬 뻔 · 누가 아는지)', gMode: '알리는 정도', gNone: '안 알림', gPush: '천천히 밀어주기', gNear: '최근 답에 이 방향의 낱말이 나왔어요. 다다랐으면 「도착」을 눌러요', arrived: '도착',
+  gSteps: ['아직 멀어요', '다가오는 중', '거의 다 왔어요'], gSince: '정한 뒤 {n}답', gPushes: '밀어줌 {n}번', gHits: '낱말 나온 답 {n}', gLast: '마지막 #{i}',
+  sFresh: '✍ 다음 답에 들어가요', sUsed: '✓ #{i} 답에 들어갔어요', sUsedTip: '그 답을 다시 뽑으면 또 들어가요', sceneFor: '{n}답째', rSeen: '최근 {n}번 보임', rSeenTip: '이 채팅에서 이 버릇이 보인 답',
 } : {
   title: 'Meatball Director', alone: 'Meatball is off: only "Order" works', needMb: 'Needs Meatball status window.', oldMb: 'Meatball status window is old ({v}). Update to {need} or later for everything to work (e.g. Nudge slowly).',
   tabs: ['Order', 'Secret', 'Direction', 'Rules'],
@@ -43,6 +45,8 @@ const T = ko ? {
   sShows: 'What may show (optional, only this goes to the AI)', sShowsPh: 'e.g. looks away from the ring', add: 'Add', del: 'Delete', open: 'Release', close: 'Lock again', isOpen: 'released', isClosed: 'locked', fromLore: 'from lore',
   helpGoal: '<b>Where the story should end up.</b> Pick how much the AI hears, per direction.<br>· <b>Silent</b>: the AI never knows. Rushing ahead only shows ⚠.<br>· <b>Hint</b>: only "nothing is settled, it moves slowly" — it <i>slows</i> things.<br>· <b>Nudge slowly</b>: every few replies, "this way; one small step if it fits; do not arrive" — it <i>helps</i> things move. ⚠ still watches.<br>· Change a direction you added with its mode button. Press "Arrived" when the story gets there.',
   gV: 'Direction', gVPh: 'e.g. in the end they choose each other', gSigns: 'Words that mean it rushed (optional, comma)', gSignsPh: 'e.g. confession, kiss', gHint: 'Hint', cards: 'Secret cards (clues · near misses · who knows)', gMode: 'How much the AI hears', gNone: 'Silent', gPush: 'Nudge slowly', gNear: 'Its words showed in recent replies. Press "Arrived" if the story got there', arrived: 'Arrived',
+  gSteps: ['still far', 'getting closer', 'almost there'], gSince: '{n} replies since set', gPushes: 'nudged {n}×', gHits: 'words showed in {n}', gLast: 'last #{i}',
+  sFresh: '✍ Goes into the next reply', sUsed: '✓ Went into reply #{i}', sUsedTip: 'Goes in again if that reply is redone', sceneFor: '{n} replies in', rSeen: 'seen {n}× lately', rSeenTip: 'Replies in this chat where this habit showed',
 };
 const TIP = ko ? {"pinScene": "적은 지시를 이 장면이 끝날 때까지 매 답에 넣어요. 미트볼이 장면이 바뀐 걸 알아채면 계속할지 물어요.", "pinAlways": "적은 지시를 이 채팅 내내 매 답에 넣어요.", "clear": "적은 지시를 지워요.", "sWho": "비밀을 가진 사람 이름.", "sV": "AI가 먼저 말하면 안 되는 내용. AI에게는 절대 안 가고 미트볼만 알아요.", "sShows": "겉으로 티 나도 되는 모습. 이것만 AI에게 가요. 예: 반지만 보면 눈을 피한다.", "sSigns": "답에 이 낱말이 나오면 비밀이 샌 걸로 보고 상태줄에 ⚠를 띄워요.", "open": "풀기: 이제 비밀이 아니게 돼요(AI도 알게 됨). 다시 잠글 수도 있어요.", "gV": "이야기가 결국 갔으면 하는 곳. AI는 몰라요. 미트볼은 너무 빨리 가는지만 지켜봐요.", "gSigns": "답에 이 낱말이 나오면 너무 빨리 간 걸로 보고 ⚠.", "gHint": "안 알림: AI는 몰라요(⚠ 감시만). 살짝 알리기: 「천천히 가는 중」만 가서 진행이 느려져요. 천천히 밀어주기: 몇 답에 한 번 방향을 알려 주고 작은 한 걸음만 허락해요(도착은 막음).", "gModeItem": "눌러서 안 알림 → 살짝 알리기 → 천천히 밀어주기로 바꿔요", "arrived": "그 방향에 도착했으면 눌러서 목록에서 빼요.", "rText": "지킬 것을 한 줄로 적고 Enter. 미트볼이 답을 정리할 때 어겼는지 같이 보고, 어겼으면 다음 답에만 주의를 붙여요.", "rPresets": "자주 쓰는 지침 8개. 켜고 끄고, 제목을 눌러 내용도 고칠 수 있어요."} : {"pinScene": "Keeps the order in every reply until the scene ends.", "pinAlways": "Keeps the order in every reply of this chat.", "clear": "Clears the order.", "sWho": "Who holds the secret.", "sV": "What the AI must not blurt out. Never sent; only Meatball knows.", "sShows": "What may show on the outside. Only this goes to the AI.", "sSigns": "If a reply uses these words, ⚠ shows.", "open": "Release: no longer a secret. You can lock it again.", "gV": "Where the story should end up. The AI is not told.", "gSigns": "If a reply uses these words, it rushed: ⚠.", "gHint": "Silent: the AI never knows (⚠ only). Hint: only \"it moves slowly\" goes, which slows things. Nudge slowly: every few replies the AI hears the direction and may take one small step (never the arrival).", "gModeItem": "Press to switch Silent → Hint → Nudge slowly", "arrived": "Remove it once the story got there.", "rText": "Write a rule and press Enter. Meatball checks the reply while sorting it.", "rPresets": "Eight common rules. Toggle them or click a title to edit."};
 // a small ? with a tip (mouse-over, or tap on phones); one bubble for the whole panel
@@ -62,7 +66,8 @@ function tipsOn(p) {
   p.addEventListener('mouseleave', tipHide);
   p.addEventListener('click', (e) => { const el = e.target.closest('.mbd-qi'); if (el) { e.stopPropagation(); bub?.style.display === 'block' && bub.textContent === el.dataset.mbdtip ? tipHide() : tipShow(el); } else tipHide(); });
 }
-const G = { apply: false, type: '', tab: 0 };
+const G = { apply: false, type: '', tab: 0, shown: -1 };
+const fill = (t, o) => String(t).replace(/\{(\w+)\}/g, (_, k) => o[k] ?? '');
 
 function st() {
   const md = ctx().chatMetadata; if (!md) return { beat: '', used: false, usedIdx: -1, keep: '', scene: '', sceneGn: 0 };
@@ -142,6 +147,7 @@ function render() {
   p.querySelectorAll('[data-dock]').forEach((b) => b.addEventListener('click', () => { rset().dock = b.dataset.dock; saveSet(); dock(); render(); }));
   p.querySelector('.mbd-x').addEventListener('click', () => { p.classList.remove('open'); document.getElementById('mbd_btn')?.classList.remove('on'); });
   const body = document.getElementById('mbd_body');
+  if (G.shown !== G.tab) { body.classList.add('mbd-enter'); G.shown = G.tab; }
   if (G.tab === 0) tabOrder(body, A, S);
   else if (G.tab === 3) tabRules(body);
   else if (!A) body.innerHTML = `<div class="mbd-help">${G.tab === 1 ? T.helpSecret : T.helpGoal}</div><div class="mbd-warn">${h(T.needMb)}</div>`;
@@ -156,16 +162,19 @@ function render() {
 // 지시: one box for the next reply; 📌 pins it for this scene or for good (the standing one is Meatball's note)
 function tabOrder(body, A, S) {
   const s = st(), keep = A ? (S.note || '') : s.keep, cut = A && s.scene.trim() && (S.lastCut || 0) > (s.sceneGn || 0);
-  const status = !s.beat.trim() ? '' : s.used ? T.used : T.fresh;
-  const pins = [s.scene.trim() ? ['scene', T.pinnedScene, s.scene] : null, keep.trim() ? ['always', T.pinnedAlways, keep] : null].filter(Boolean);
+  const popUsed = s.used && s.usedSeen !== s.usedIdx; if (popUsed) { s.usedSeen = s.usedIdx; save(); }
+  const status = !s.beat.trim() ? '' : s.used ? `<span class="mbd-state used${popUsed ? ' pop' : ''}" title="${h(T.sUsedTip)}">${h(fill(T.sUsed, { i: s.usedIdx }))}</span>` : `<span class="mbd-state fresh">${h(T.sFresh)}</span>`;
+  const sceneN = A && s.scene.trim() ? Math.max(0, (S.gn || 0) - (s.sceneGn || 0)) : 0;
+  const pins = [s.scene.trim() ? ['scene', T.pinnedScene + (sceneN ? ` · ${fill(T.sceneFor, { n: sceneN })}` : ''), s.scene] : null, keep.trim() ? ['always', T.pinnedAlways, keep] : null].filter(Boolean);
   body.innerHTML = `<div class="mbd-help">${T.helpOrder}</div>
     <textarea id="mbd_beat" class="text_pole" placeholder="${h(T.orderPh)}">${h(s.beat)}</textarea>
-    <div class="mbd-dim">${h(status)}</div><div id="mbd_beat_info"></div>
+    <div class="mbd-st">${status}</div><div id="mbd_beat_info"></div>
     <div class="mbd-row"><div id="mbd_pin_s" class="menu_button"${tipAt('pinScene')}>${h(T.pinScene)}</div><div id="mbd_pin_a" class="menu_button"${tipAt('pinAlways')}>${h(T.pinAlways)}</div><div id="mbd_clear" class="menu_button"${tipAt('clear')}>${h(T.clear)}</div></div>
     ${cut ? `<div class="mbd-warn">${h(T.sceneCut)} <span id="mbd_scene_keep" class="menu_button">${h(T.keepIt)}</span> <span id="mbd_scene_clear" class="menu_button">${h(T.clear)}</span></div>` : ''}
-    ${pins.length ? `<label>${h(T.pinned)}</label>${pins.map(([k, l, v]) => `<div class="mbd-item"><span><b>${h(l)}</b> · ${h(v)}</span><div class="menu_button" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}` : ''}`;
+    ${pins.length ? `<label>${h(T.pinned)}</label>${pins.map(([k, l, v]) => `<div class="mbd-item mbd-pin"><span><b>📌 ${h(l)}</b><br>${h(v)}</span><div class="menu_button" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}` : ''}`;
   const beat = document.getElementById('mbd_beat');
-  beat.addEventListener('input', () => { s.beat = beat.value; s.used = false; s.usedIdx = -1; save(); info(); });
+  beat.addEventListener('input', () => { const was = !!s.beat.trim() && !s.used; s.beat = beat.value; s.used = false; s.usedIdx = -1; save(); info();
+    const el = body.querySelector('.mbd-st'); if (el && was !== !!s.beat.trim()) el.innerHTML = s.beat.trim() ? `<span class="mbd-state fresh pop">${h(T.sFresh)}</span>` : ''; });
   document.getElementById('mbd_clear').addEventListener('click', () => { s.beat = ''; s.used = false; s.usedIdx = -1; save(); render(); });
   const take = () => { const t = s.beat.trim(); s.beat = ''; s.used = false; s.usedIdx = -1; return t; };
   document.getElementById('mbd_pin_s').addEventListener('click', () => { const t = take(); if (!t) return; s.scene = [s.scene.trim(), t].filter(Boolean).join('\n'); s.sceneGn = A ? (S.gn || 0) : 0; save(); render(); });
@@ -202,10 +211,21 @@ function tabSecret(body, A, S) {
 // 방향: destinations. Silent (never sent; the guard watches for rushing ahead), hint ("moving slowly") or push (a small step now and then)
 const modeOf = (v) => ({ hint: v === 'hint', push: v === 'push' });
 const modeName = (g) => (g.push ? T.gPush : g.hint ? T.gHint : T.gNone);
+// v0.25: a direction card — three steps (far · getting closer · almost there) that fill as replies show its words or as
+// nudges go; the step that is new since the card was last seen grows in once. Below, the numbers it stands on.
+function goalCard(g, i) {
+  const s = st(), seen = (s.gseen ||= {}), was = seen[g.v], step = g.step ?? (g.near ? 2 : 0), grow = was != null && step > was;
+  if (was !== step) { seen[g.v] = step; save(); }
+  const facts = [g.since != null ? fill(T.gSince, { n: g.since }) : '', g.pushes ? fill(T.gPushes, { n: g.pushes }) + (g.lastPush != null ? ` (${fill(T.gLast, { i: g.lastPush })})` : '') : '', g.hits ? fill(T.gHits, { n: g.hits }) + (g.lastHit != null ? ` (${fill(T.gLast, { i: g.lastHit })})` : '') : ''].filter(Boolean).join(' · ');
+  return `<div class="mbd-item mbd-goal s${step}${g.near ? ' mbd-near' : ''}${grow ? ' grow' : ''}"><span>${g.who ? `<b>${h(g.who)}</b> · ` : ''}${h(g.v)}
+    <div class="mbd-gtrack" title="${h(T.gSteps[step])}">${[0, 1, 2].map((k) => `<i class="${k <= step ? 'on' : ''}${k === step && grow ? ' new' : ''}"></i>`).join('')}<em>${h(T.gSteps[step])}</em></div>
+    ${facts ? `<small class="mbd-gfacts">${h(facts)}</small>` : ''}${g.near ? `<small class="mbd-nearnote">✨ ${h(T.gNear)}</small>` : ''}</span>
+    <div class="mbd-gbtns"><div class="menu_button mbd-gmode${g.push ? ' mbd-on' : ''}" data-gm="${i}"${tipAt('gModeItem')}>${h(modeName(g))}</div><div class="menu_button${g.near ? ' mbd-arrive' : ''}" data-g="${i}"${tipAt('arrived')}>${h(T.arrived)}</div></div></div>`;
+}
 function tabGoal(body, A, S) {
   const list = S.goals || [];
   body.innerHTML = `<div class="mbd-help">${T.helpGoal}</div>
-    ${list.map((g, i) => `<div class="mbd-item${g.near ? ' mbd-near' : ''}"><span>${g.who ? `<b>${h(g.who)}</b> · ` : ''}${h(g.v)}${g.near ? `<br><small class="mbd-nearnote">✨ ${h(T.gNear)}</small>` : ''}</span><div class="menu_button mbd-gmode${g.push ? ' mbd-on' : ''}" data-gm="${i}"${tipAt('gModeItem')}>${h(modeName(g))}</div><div class="menu_button${g.near ? ' mbd-arrive' : ''}" data-g="${i}"${tipAt('arrived')}>${h(T.arrived)}</div></div>`).join('')}
+    ${list.map((g, i) => goalCard(g, i)).join('')}
     <label>${h(T.gV)}${q('gV')}</label><textarea id="mbd_gv" class="text_pole" placeholder="${h(T.gVPh)}"></textarea>
     <label>${h(T.gSigns)}${q('gSigns')}</label><input id="mbd_gs" class="text_pole" placeholder="${h(T.gSignsPh)}" />
     <div class="mbd-row"><label>${h(T.gMode)}</label><select id="mbd_gh" class="text_pole mbd-gsel"><option value="">${h(T.gNone)}</option><option value="hint">${h(T.gHint)}</option><option value="push">${h(T.gPush)}</option></select>${q('gHint')}<div id="mbd_ga" class="menu_button">${h(T.add)}</div></div>`;
@@ -287,7 +307,12 @@ function activeRules() {
 }
 function tabRules(body) {
   const R = rset(), hit = hitRules(), rules = allRules(), mine = rules.filter((r) => !r.preset), pre = rules.filter((r) => r.preset);
-  const row = (r) => `<div class="mbd-rule${r.mode === 'off' ? ' off' : ''}" title="${h(r.text)}"><span class="mbd-rt" data-re="${h(r.id)}" title="${h(r.text)} · ${h(T.rEdit)}">${h(r.preset ? r.name : r.text)}${hit.has(r.id) ? ' <i class="mbd-hit" title="' + h(T.rHit) + '">●</i>' : ''}</span>
+  // v0.25: the replies where each habit showed, kept per chat (the last 20); a hit on a reply not seen before pings once
+  const s = st(), log = (s.rhits ||= {}), li = lastAiIdx(), fresh = new Set();
+  for (const id of hit) { const a = (log[id] ||= []); if (li >= 0 && !a.includes(li)) { a.push(li); fresh.add(id); if (a.length > 20) a.shift(); } }
+  if (fresh.size) save();
+  const n = (id) => (log[id] || []).filter((i) => i <= li).length;
+  const row = (r) => `<div class="mbd-rule${r.mode === 'off' ? ' off' : ''}" title="${h(r.text)}"><span class="mbd-rt" data-re="${h(r.id)}" title="${h(r.text)} · ${h(T.rEdit)}">${h(r.preset ? r.name : r.text)}${hit.has(r.id) ? ` <i class="mbd-hit${fresh.has(r.id) ? ' new' : ''}" title="${h(T.rHit)}">●</i>` : ''}</span>${n(r.id) ? `<small class="mbd-rseen" title="${h(T.rSeenTip)}">${h(fill(T.rSeen, { n: n(r.id) }))}</small>` : ''}
     <b class="mbd-pill m-${r.mode}" data-rm="${h(r.id)}" title="${h(T.rCycle)}">${h(T.rMode[r.mode])}</b>${r.preset ? '' : `<b class="mbd-del" data-rd="${h(r.id)}" title="${h(T.rDel)}">✕</b>`}</div>`;
   body.innerHTML = `<div class="mbd-help">${T.helpRules}</div>
     <div class="mbd-lab">${h(T.rMine)}${q('rText')}</div>
