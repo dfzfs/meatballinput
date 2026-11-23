@@ -187,6 +187,9 @@ window.addEventListener?.('resize', () => { try { place(); } catch (e) { /* */ }
 document.addEventListener?.('mousedown', (e) => {
   const p = document.getElementById('mbd_panel');
   if (!p || !p.classList.contains('open') || !p.classList.contains('pop')) return;
+  const t = e.target, act = document.activeElement;
+  // a dropdown list (빠른 질문 · 저장한 지시) opens outside the panel in some browsers: picking from it is not "elsewhere"
+  if (!t?.isConnected || t.closest?.('select, option, datalist') || (act?.tagName === 'SELECT' && p.contains(act)) || e.composedPath?.().includes(p)) return;
   if (p.contains(e.target) || e.target.closest?.('#mbd_btn, .mbd-bubble, .popup, .swal2-container, #toast-container')) return;
   p.classList.remove('open'); document.getElementById('mbd_btn')?.classList.remove('on');
 }, true);
