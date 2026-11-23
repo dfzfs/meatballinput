@@ -78,3 +78,8 @@
 #mbd_panel .mbd-gmode { width: auto; white-space: nowrap; font-size: .85em; padding: 3px 9px; }
 #mbd_panel .mbd-gmode.mbd-on { border-color: var(--mb-acc, #e8a33d); font-weight: 600; }
 #mbd_panel .mbd-gsel { width: auto !important; margin: 0 4px !important; }
+#mbd_panel .mbd-near { border-radius: 10px; background: color-mix(in srgb, #e8a33d 10%, transparent); }
+#mbd_panel .mbd-nearnote { opacity: .8; }
+@keyframes mbdArrive { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, #e8a33d 60%, transparent); } 50% { box-shadow: 0 0 0 6px transparent; } }
+#mbd_panel .mbd-arrive { border-color: #e8a33d !important; font-weight: 600; animation: mbdArrive 1.4s ease-out 2; }
+@media (prefers-reduced-motion: reduce) { #mbd_panel .mbd-arrive { animation: none; } }
