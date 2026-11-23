@@ -547,3 +547,6 @@
 #mbd_panel .mbd-tg.mbd-edc .mbd-x2 { position: static; transform: none; opacity: 1; font-weight: 600; }
 #mbd_panel .mbd-pkopts .mbd-tg.mbd-mine:not(.mbd-edc) { padding-right: 12px; }
 #mbd_panel .mbd-tg.mbd-mine.on::before { content: none !important; }
+#mbd_panel .mbd-star[hidden] { display: none !important; }
+#mbd_panel .mbd-star + .mbd-star { margin-left: 0; }
+#mbd_panel select.mbd-qsel { field-sizing: content; }
