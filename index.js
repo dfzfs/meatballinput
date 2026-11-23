@@ -24,13 +24,13 @@ const T = ko ? {
   orderPh: '예: 깡캐가 먼저 말을 건다', fresh: '다음 답에 들어가요', used: '이미 들어갔어요. 그 답을 다시 뽑을 때만 또 들어가요', empty: '',
   rdTitle: '↻ 다시 뽑을 때 강하게', rdHelp: '마음에 안 든 답을 다시 뽑을 때, 뭐가 틀렸는지 적어 두면 「직전 버전은 이것 때문에 버려졌음, 반드시 고칠 것」으로 맨 끝에 붙어요. 이 답을 다시 뽑는 동안만 가고, 다음 답으로 넘어가면 지워져요.', rdPh: '예: 너무 쉽게 웃었음. 비밀을 직접 말해 버렸음', rdGo: '↻ 이걸로 다시 뽑기', rdOn: '↻ #{i}를 다시 뽑을 때마다 들어가요', rdFound: '지난 버전에서 보인 것 (누르면 들어가요)', rdLeak: '{w}의 비밀을 말해 버림', rdLeakNo: '비밀이 새어 나옴', rdRefuse: '거절을 쉽게 뒤집음', rdNoAi: '다시 뽑을 답이 아직 없어요',
   kBoost: '더하기', boostSub: '여러 개 골라도 돼요. 매 답에 같이 가고, 고른 건 계속 기억해요 (OOC 중엔 꺼져요). 위에 올리면 설명이 떠요.',
-  bName: { talk: '대사 · 주고받기', logic: '기승전결 · 핍진성', npc: 'NPC 활용', world: '세상이 반응', voice: '말투 개성', subtext: '감정은 행동으로', sense: '감각 묘사', twist: '반전 · 변수', pace: '빠른 템포', humor: '유머', table: '표 · 그래프', html: 'HTML 시각화' },
-  bTip: { talk: '서술보다 대사로, 인물들이 서로 말로 반응하며 주고받아요.', logic: '원인 → 결과가 이어지고 동기가 말이 돼요. 기승전결이 분명하고 억지 우연이 없어요.', npc: '주변 인물 · NPC가 배경이 아니라 자기 목적으로 말하고 움직여요.', world: '장소 · 사람들 · 소문 · 결과가 일어난 일에 반응해요.', voice: '인물마다 단어 · 리듬 · 말버릇이 달라요.', subtext: '감정을 말로 설명하지 않고 작은 몸짓 · 속뜻으로 보여 줘요.', sense: '소리 · 냄새 · 촉감 · 온도 · 빛을 살려요.', twist: '장면이 허락하면 뜻밖이지만 어울리는 전개를 넣어요.', pace: '묘사는 줄이고 일이 더 많이 일어나요.', humor: '인물에 맞는 가벼운 유머를 허용해요.', table: '이야기에 맞으면 목록 · 일정 · 상태판을 작은 표나 그래프로 보여 줘요.', html: '이야기에 맞으면 편지 · 폰 화면 · 간판 · 상태 카드를 채팅에 보이는 HTML · CSS로 그려요(스크립트 없음).' },
+  bName: { talk: '대사 · 주고받기', logic: '기승전결 · 핍진성', npc: 'NPC 활용', world: '세상이 반응', voice: '말투 개성', subtext: '감정은 행동으로', sense: '감각 묘사', twist: '반전 · 변수', pace: '빠른 템포', humor: '유머', table: '표 · 그래프', html: 'HTML 시각화', spark: '설렘 · 긴장감', conflict: '갈등 키우기', breath: '숨 고르기', foreshadow: '복선', hook: '끝은 훅', memory: '지난 일 기억' },
+  bTip: { talk: '서술보다 대사로, 인물들이 서로 말로 반응하며 주고받아요.', logic: '원인 → 결과가 이어지고 동기가 말이 돼요. 기승전결이 분명하고 억지 우연이 없어요.', npc: '주변 인물 · NPC가 배경이 아니라 자기 목적으로 말하고 움직여요.', world: '장소 · 사람들 · 소문 · 결과가 일어난 일에 반응해요.', voice: '인물마다 단어 · 리듬 · 말버릇이 달라요.', subtext: '감정을 말로 설명하지 않고 작은 몸짓 · 속뜻으로 보여 줘요.', sense: '소리 · 냄새 · 촉감 · 온도 · 빛을 살려요.', twist: '장면이 허락하면 뜻밖이지만 어울리는 전개를 넣어요.', pace: '묘사는 줄이고 일이 더 많이 일어나요.', humor: '인물에 맞는 가벼운 유머를 허용해요.', table: '이야기에 맞으면 목록 · 일정 · 상태판을 작은 표나 그래프로 보여 줘요.', html: '이야기에 맞으면 편지 · 폰 화면 · 간판 · 상태 카드를 채팅에 보이는 HTML · CSS로 그려요(스크립트 없음).', spark: '눈빛 · 거리 · 말할 뻔한 것 — 로맨스 긴장을 살려요.', conflict: '서로 원하는 게 달라 밀어붙여요.', breath: '큰 사건 사이에 조용한 일상 순간을 둬요.', foreshadow: '나중에 터질 작은 단서를 깔아 둬요.', hook: '다음 답이 궁금해지는 지점에서 끝내요.', memory: '앞에 있었던 일을 인물들이 기억하고 꺼내요.' },
   kLen: '분량', lenN: { auto: '알아서', short: '짧게', mid: '보통', long: '길게', custom: '직접' }, lenD: { auto: '따로 정하지 않아요 (프리셋 그대로).', short: '한두 문단.', mid: '서너 문단 정도.', long: '여섯 문단 이상, 장면에 필요한 만큼.' }, lenPh: '예: 800자 · 500 words · 4문단',
   boostPh: '내 것 추가: 예) 날씨를 꼭 한 줄 넣기', qSave: '＋ 빠른 질문으로 저장', qSaveTip: '지금 칸에 적힌 걸 빠른 질문 목록에 저장해요.',
-  oocQuick: '빠른 질문 (누르면 칸에 들어가요)', oqSend: '➤ 바로 보내기', oqEn: '🌐 영어로 입력창에', oqPut: '입력창에 넣기', oqNote: '보낼 때 앞에 (OOC: …)가 자동으로 붙어요.', oqEnFail: '번역이 늦어서 적은 그대로 넣었어요.',
-  qa: { sum: '지금까지 요약', why: '왜 이렇게 됐어?', next: '다음 전개 아이디어', inner: '인물 속마음 해설', check: '설정 어긋난 데', fix: '내 글 다듬기',
-    sumQ: '지금까지의 이야기를 짧게 요약해 줘. 인물 관계와 아직 안 풀린 것도.', whyQ: '방금 장면이 왜 이렇게 흘러갔는지, 어떤 지시나 설정 때문인지 분석해 줘.', nextQ: '여기서 이어질 수 있는 다음 전개 아이디어를 서로 다른 방향으로 세 개 줘.', innerQ: '지금 장면에서 각 인물이 속으로 무슨 생각을 하고 있었을지 해설해 줘.', checkQ: '지금까지 설정이나 앞의 내용과 어긋난 곳이 있으면 짚어 줘.', fixQ: '내가 다음에 보낼 글을 자연스럽게 다듬어 줘: ' },
+  oocQuick: '📋 빠른 질문 고르기…', oqSend: '➤ 바로 보내기', oqEn: '🌐 영어로 입력창에', oqPut: '입력창에 넣기', oqNote: '보낼 때 앞에 (OOC: …)가 자동으로 붙어요.', oqEnFail: '번역이 늦어서 적은 그대로 넣었어요.',
+  qa: { sum: '지금까지 요약', why: '왜 이렇게 됐어?', next: '다음 전개 아이디어', inner: '인물 속마음 해설', check: '설정 어긋난 데', fix: '내 글 다듬기', cast: '등장인물 정리', rel: '관계도', motive: '인물 동기 분석', time: '타임라인 정리', prompt: '지시가 왜 안 먹지?',
+    sumQ: '지금까지의 이야기를 짧게 요약해 줘. 인물 관계와 아직 안 풀린 것도.', whyQ: '방금 장면이 왜 이렇게 흘러갔는지, 어떤 지시나 설정 때문인지 분석해 줘.', nextQ: '여기서 이어질 수 있는 다음 전개 아이디어를 서로 다른 방향으로 세 개 줘.', innerQ: '지금 장면에서 각 인물이 속으로 무슨 생각을 하고 있었을지 해설해 줘.', checkQ: '지금까지 설정이나 앞의 내용과 어긋난 곳이 있으면 짚어 줘.', fixQ: '내가 다음에 보낼 글을 자연스럽게 다듬어 줘: ', castQ: '지금까지 나온 인물들을 한 명씩 짧게 정리해 줘(성격 · 처지 · 지금 상태).', relQ: '인물들 사이 관계를 표로 정리해 줘.', motiveQ: '각 인물이 지금 무엇을 원하고 왜 그렇게 행동하는지 분석해 줘.', timeQ: '지금까지 있었던 일을 날짜 · 순서대로 타임라인으로 정리해 줘.', promptQ: '내가 준 지시나 설정 중 잘 안 지켜지는 게 있다면 왜 그런지, 어떻게 쓰면 더 잘 먹힐지 알려 줘.' },
   oocOpts: '이 OOC에 더하기', oocIf: '설정 무시 (가상 · IF)', oocTable: '표 · 그래프로', oocHtml: 'HTML로 보기 좋게',
   oocIfTip: '「얘네가 이랬다면?」 같은 가상 상황용. 로어북 · 월드인포 · 캐릭터 설정 · 지금까지의 사실에 안 묶이고 내 전제대로 써요. 실제 이야기는 안 바뀌어요.', oocTableTip: '분석 · 비교를 표나 그래프로 답해요.', oocHtmlTip: '답을 채팅에 보이는 HTML · CSS 카드로 보기 좋게 꾸며요.',
   oBeat: '✍ 이번 답 지시', oPin: '📌 고정해 둔 지시', oScene: '🎬 장면을 고정할 때', oSceneSub: '「📌 이 장면 동안」을 누르면 이대로 가요', oEvery: '📏 매 답', oEverySub: '지시가 없어도 늘 들어가요',
@@ -41,7 +41,7 @@ const T = ko ? {
   dMulti: '인풋을 한 답에 다 쓰지 않고 적당히 나눠서, 다음 답들에 이어 가요.', dOne: '한 답 안에 기승전결로 끝까지. 그 답이 나오면 고정이 풀려요(다시 뽑으면 또 들어가요).',
   dAuto: '따로 정하지 않아요.', dUpto: '내 인풋이 다루는 데까지만 쓰고 멈춰요. 내 캐릭터의 다음 행동을 대신 정하지 않아요.', dBeyond: '인풋이 다루는 것 다음까지 AI가 이야기를 더 이어 가요.',
   oocBtn: 'OOC', oocTip: 'OOC: 이야기를 멈추고 AI에게 그냥 물어봐요(분석 · 왜 이렇게 됐는지 등). 미트볼 쪽지 · 기록 · 지시 · 장면 고정이 전부 꺼지고, 맨 밑에 「위의 형식 · 트래커 · 스탯 · 분량 지시 전부 무시하고 질문에 답할 것」이 들어가요.',
-  oocTitle: '💬 OOC 중 · 이야기 멈춤', oocBody: '미트볼 쪽지 · 기록 정리 · 지시 · 장면 고정 · 방향이 다 꺼져 있어요. 아래 칸에 묻거나 채팅창에 바로 보내도 돼요.', oocHide: '끌 때 OOC 대화 숨기기 (다음 이야기에 안 섞이게)', oocAsk: '질문', oocAskPh: '예: 이 장면이 왜 이렇게 흘러갔는지 분석해 줘', oocSend: '💬 채팅으로 보내기', oocOff: '이야기로 돌아가기', oocHidden: 'OOC 대화 {n}개를 숨겼어요.', oocNote: '프리셋 · 카드에 적힌 지시는 지울 수 없어서, 맨 밑에서 「무시할 것」으로 덮어요.',
+  oocTitle: '💬 OOC 중 · 이야기 멈춤', oocBody: '미트볼 쪽지 · 기록 정리 · 지시 · 장면 고정 · 방향이 다 꺼져 있어요. 아래 칸에 묻거나 채팅창에 바로 보내도 돼요.', oocHide: '끌 때 OOC 대화 숨기기 (다음 이야기에 안 섞이게)', oocHideS: '끌 때 숨기기', qMine: '내 질문', kPov: '시점', vPov1: '1인칭', vPov3: '3인칭', vPovO: '전지적', dPovAuto: '따로 정하지 않아요.', dPov1: '상대 캐릭터의 1인칭으로 써요.', dPov3: '한 번에 한 인물 곁에 붙어 3인칭으로 써요.', dPovO: '인물들 사이를 오가며 각자 속마음까지 보여 줘요.', oocNoSpoil: '스포 금지', oocNoSpoilTip: '앞으로의 전개 계획이나 인물들이 아직 모르는 건 묻지 않으면 말하지 않아요.', oocShort: '짧게', oocShortTip: '답을 짧고 핵심만.', oocKo: '한국어로', oocKoTip: '답을 한국어로 해요.', oocAsk: '질문', oocAskPh: '예: 이 장면이 왜 이렇게 흘러갔는지 분석해 줘', oocSend: '💬 채팅으로 보내기', oocOff: '이야기로 돌아가기', oocHidden: 'OOC 대화 {n}개를 숨겼어요.', oocNote: '프리셋 · 카드에 적힌 지시는 지울 수 없어서, 맨 밑에서 「무시할 것」으로 덮어요.',
   scEnterL: '들어가기', scLenL: '길이', scFocusL: '초점', scHow: '장면 고정 방식 (계속 기억해요)', scSkip: '⏩ 건너뛰어 바로', scFill: '➡ 이어서 채우며', scOne: '한 답으로 끝', scMulti: '여러 답에 걸쳐',
   scSkipTip: '지금부터 그 장면까지의 시간은 짧게 넘기고 장면 자체로 바로 들어가요.', scFillTip: '직전 답이 멈춘 데서 이어 가며 그 사이를 짧게 채우고, 이번 답 안에 장면에 도착해요.',
   scOneTip: '한 답 안에서 장면을 끝까지 하고 마무리해요. 그 답이 나오면 고정이 저절로 풀려요(다시 뽑으면 또 들어가요).', scMultiTip: '여러 답에 걸쳐 이어져요. 첫 답은 들어가기, 그다음부턴 멈춘 데서 이어 가기.', scDone: '한 답짜리 · 답이 나오면 풀려요',
@@ -67,13 +67,13 @@ const T = ko ? {
   orderPh: 'e.g. B speaks first', fresh: 'Goes into the next reply', used: 'Already used; goes in again only when that reply is redone', empty: '',
   rdTitle: '↻ Stronger on a reroll', rdHelp: 'When you reroll a reply you did not like, write what was wrong: it goes last as "the version before was thrown away for this; fix it". Only while rerolling this reply; cleared when the story moves on.', rdPh: 'e.g. smiled too easily. The secret was said outright', rdGo: '↻ Reroll with this', rdOn: '↻ Goes in every reroll of #{i}', rdFound: 'Seen in the last version (click to add)', rdLeak: "said {w}'s secret", rdLeakNo: 'a secret leaked', rdRefuse: 'gave in on a no too easily', rdNoAi: 'No reply to reroll yet',
   kBoost: 'Extras', boostSub: 'Pick any; they go with every reply (off during OOC). Hover for what each does.',
-  bName: { talk: 'Dialogue', logic: 'Structure · plausibility', npc: 'Use NPCs', world: 'World reacts', voice: 'Distinct voices', subtext: 'Show, not tell', sense: 'Senses', twist: 'Twists', pace: 'Brisk pace', humor: 'Humour', table: 'Tables · charts', html: 'HTML visuals' },
-  bTip: { talk: 'More talk between characters, reacting to each other.', logic: 'Causes lead to effects, motives make sense, clear build and payoff, no convenient coincidences.', npc: 'Side characters and NPCs act on their own aims.', world: 'Places, crowds and consequences respond.', voice: 'Each character speaks in their own way.', subtext: 'Feelings through small gestures and subtext.', sense: 'Sound, smell, touch, temperature, light.', twist: 'A fitting surprise when the scene allows.', pace: 'Less description, more happening.', humor: 'Light humour that fits the characters.', table: 'Lists, schedules or status boards as small tables or charts where they fit.', html: 'Letters, phone screens, signs or status cards drawn with inline HTML/CSS where they fit (no scripts).' },
+  bName: { talk: 'Dialogue', logic: 'Structure · plausibility', npc: 'Use NPCs', world: 'World reacts', voice: 'Distinct voices', subtext: 'Show, not tell', sense: 'Senses', twist: 'Twists', pace: 'Brisk pace', humor: 'Humour', table: 'Tables · charts', html: 'HTML visuals', spark: 'Romantic tension', conflict: 'Sharper conflict', breath: 'Quiet moments', foreshadow: 'Foreshadowing', hook: 'End on a hook', memory: 'Remember the past' },
+  bTip: { talk: 'More talk between characters, reacting to each other.', logic: 'Causes lead to effects, motives make sense, clear build and payoff, no convenient coincidences.', npc: 'Side characters and NPCs act on their own aims.', world: 'Places, crowds and consequences respond.', voice: 'Each character speaks in their own way.', subtext: 'Feelings through small gestures and subtext.', sense: 'Sound, smell, touch, temperature, light.', twist: 'A fitting surprise when the scene allows.', pace: 'Less description, more happening.', humor: 'Light humour that fits the characters.', table: 'Lists, schedules or status boards as small tables or charts where they fit.', html: 'Letters, phone screens, signs or status cards drawn with inline HTML/CSS where they fit (no scripts).', spark: 'Glances, closeness, what is almost said.', conflict: 'People want different things and push.', breath: 'Quiet everyday moments between big ones.', foreshadow: 'Small hints that pay off later.', hook: 'End where the next reply is wanted.', memory: 'Characters bring up what happened before.' },
   kLen: 'Length', lenN: { auto: 'Any', short: 'Short', mid: 'Medium', long: 'Long', custom: 'Own' }, lenD: { auto: 'Nothing extra (your preset decides).', short: 'One or two paragraphs.', mid: 'Three to five paragraphs.', long: 'Six paragraphs or more, as the scene needs.' }, lenPh: 'e.g. 500 words · 4 paragraphs',
   boostPh: 'Add your own: e.g. always mention the weather', qSave: '＋ Save as quick ask', qSaveTip: 'Save what is in the box to the quick asks.',
-  oocQuick: 'Quick asks (fill the box)', oqSend: '➤ Send now', oqEn: '🌐 To input in English', oqPut: 'Put in input', oqNote: '(OOC: …) is added in front automatically.', oqEnFail: 'Translation was slow; put in as written.',
-  qa: { sum: 'Sum up so far', why: 'Why did it go this way?', next: 'Next ideas', inner: 'What they really think', check: 'Inconsistencies', fix: 'Polish my message',
-    sumQ: 'Briefly sum up the story so far, with the relationships and what is still open.', whyQ: 'Why did the last scene go this way? Which instructions or settings led there?', nextQ: 'Give three different directions the story could take from here.', innerQ: 'What was each character really thinking in the current scene?', checkQ: 'Point out anything so far that contradicts the settings or earlier events.', fixQ: 'Polish the message I am about to send: ' },
+  oocQuick: '📋 Pick a quick question…', oqSend: '➤ Send now', oqEn: '🌐 To input in English', oqPut: 'Put in input', oqNote: '(OOC: …) is added in front automatically.', oqEnFail: 'Translation was slow; put in as written.',
+  qa: { sum: 'Sum up so far', why: 'Why did it go this way?', next: 'Next ideas', inner: 'What they really think', check: 'Inconsistencies', fix: 'Polish my message', cast: 'Cast list', rel: 'Relationship map', motive: 'Motives', time: 'Timeline', prompt: 'Why is my order ignored?',
+    sumQ: 'Briefly sum up the story so far, with the relationships and what is still open.', whyQ: 'Why did the last scene go this way? Which instructions or settings led there?', nextQ: 'Give three different directions the story could take from here.', innerQ: 'What was each character really thinking in the current scene?', checkQ: 'Point out anything so far that contradicts the settings or earlier events.', fixQ: 'Polish the message I am about to send: ', castQ: 'List the characters so far, one line each (personality, situation, where they are now).', relQ: 'Lay out the relationships between the characters as a table.', motiveQ: 'What does each character want right now, and why do they act as they do?', timeQ: 'Put what has happened so far on a timeline, by date and order.', promptQ: 'If any of my instructions or settings are not being followed, why, and how could I write them so they work?' },
   oocOpts: 'Add to this OOC', oocIf: 'Ignore settings (what-if)', oocTable: 'Tables · charts', oocHtml: 'Pretty HTML',
   oocIfTip: 'For "what if they had…" runs: lorebook, world info, character settings and story facts are not binding; your premise wins. The real story does not change.', oocTableTip: 'Analysis and comparisons as tables or charts.', oocHtmlTip: 'The answer laid out as HTML/CSS cards in the chat.',
   oBeat: '✍ This reply', oPin: '📌 Pinned', oScene: '🎬 When a scene is pinned', oSceneSub: 'Used when you press 📌 This scene', oEvery: '📏 Every reply', oEverySub: 'Goes in even with no order',
@@ -84,7 +84,7 @@ const T = ko ? {
   dMulti: 'Your input is not used up in one reply; it is paced over the next ones.', dOne: 'Beginning to end in one reply. The pin comes off after it (a reroll still gets it).',
   dAuto: 'Nothing extra.', dUpto: 'Only as far as your message goes, then stop. Your character\'s next move is yours.', dBeyond: 'After your message, the AI carries the story on further.',
   oocBtn: 'OOC', oocTip: 'OOC: pause the story and just ask the AI (analysis, why something happened). Meatball notes, records, orders and scene pins are all off; at the very bottom goes "ignore all format, tracker, stat and length instructions above and answer".',
-  oocTitle: '💬 OOC · story paused', oocBody: 'Just send your question in the chat. Meatball notes, sorting, orders, scene pins and directions are off.', oocHide: 'Hide the OOC talk when turning it off (keeps it out of the story)', oocAsk: 'Question', oocAskPh: 'e.g. Why did this scene go this way?', oocSend: '💬 Send to chat', oocOff: 'Back to the story', oocHidden: 'Hid {n} OOC messages.', oocNote: 'Instructions in your preset or card cannot be removed; they are overridden from the bottom.',
+  oocTitle: '💬 OOC · story paused', oocBody: 'Just send your question in the chat. Meatball notes, sorting, orders, scene pins and directions are off.', oocHide: 'Hide the OOC talk when turning it off (keeps it out of the story)', oocHideS: 'Hide on exit', qMine: 'My questions', kPov: 'POV', vPov1: '1st person', vPov3: '3rd close', vPovO: 'Omniscient', dPovAuto: 'Nothing extra.', dPov1: "First person, from the other main character's view.", dPov3: 'Close third person, one character at a time.', dPovO: 'Moves between characters and shows what each thinks.', oocNoSpoil: 'No spoilers', oocNoSpoilTip: 'Plans for the story and what characters do not know yet stay unsaid unless asked.', oocShort: 'Short', oocShortTip: 'A short, to-the-point answer.', oocKo: 'In Korean', oocKoTip: 'Answer in Korean.', oocAsk: 'Question', oocAskPh: 'e.g. Why did this scene go this way?', oocSend: '💬 Send to chat', oocOff: 'Back to the story', oocHidden: 'Hid {n} OOC messages.', oocNote: 'Instructions in your preset or card cannot be removed; they are overridden from the bottom.',
   scEnterL: 'Entry', scLenL: 'Length', scFocusL: 'Focus', scHow: 'How a pinned scene goes (remembered)', scSkip: '⏩ Jump to it', scFill: '➡ Get there from here', scOne: 'One reply', scMulti: 'Several replies',
   scSkipTip: 'The time until the scene is passed over in a line; the reply opens on the scene itself.', scFillTip: 'Goes on from where the last reply stopped, covers the way briefly, and reaches the scene in this reply.',
   scOneTip: 'The whole scene is played out and closed in one reply. The pin comes off once that reply arrives (a reroll still gets it).', scMultiTip: 'Runs over several replies: the first gets into it, the next carry on from where it stopped.', scDone: 'one reply · comes off after it',
@@ -106,6 +106,7 @@ const TIP = ko ? {"pinScene": "적은 지시를 이 장면이 끝날 때까지 �
 // a small ? with a tip (mouse-over, or tap on phones); one bubble for the whole panel
 const q = (k) => (TIP[k] ? ` <span class="mbd-qi" tabindex="0" data-mbdtip="${h(TIP[k])}">?</span>` : '');
 const tipAt = (k) => (TIP[k] ? ` data-mbdtip="${h(TIP[k])}"` : '');
+const tipT = (t) => (t ? ` data-mbdtip="${h(t)}"` : '');   // any text as a hover bubble
 let bub = null;
 function tipShow(el) {
   if (!bub) { bub = document.createElement('div'); bub.className = 'mbd-bubble'; document.body.appendChild(bub); }
@@ -208,10 +209,9 @@ function render() {
     // the question goes into the chat input with "(OOC: …)" around it: sent now, put in as it is, or put in in English
     const qta = body.querySelector('#mbd_oocq'), keepQ = () => { st().oocDraft = qta.value; save(); };
     qta.addEventListener('input', keepQ);
-    body.querySelectorAll('[data-qa]').forEach((b) => b.addEventListener('click', (e) => {
-      if (e.target.dataset.qdel != null) { rset().askMine.splice(+e.target.dataset.qdel, 1); saveSet(); render(); return; }
-      qta.value = b.dataset.qm != null ? rset().askMine[+b.dataset.qm] : T.qa[b.dataset.qa + 'Q']; keepQ(); qta.focus(); }));
-    body.querySelector('#mbd_qsave')?.addEventListener('click', () => { const t = qta.value.trim(); if (!t) return; const R0 = rset(); (R0.askMine ||= []); if (!R0.askMine.includes(t)) R0.askMine.push(t.slice(0, 400)); saveSet(); render(); });
+    body.querySelector('#mbd_qa').addEventListener('change', (e) => { const v = e.target.value; if (!v) return; const [t, k] = v.split(':'); qta.value = t === 'm' ? rset().askMine[+k] : T.qa[k + 'Q']; keepQ(); qta.focus(); e.target.value = ''; });
+    // ☆ saves what is in the box as a quick question; ★ (already saved) takes it out again
+    body.querySelector('#mbd_qsave').addEventListener('click', () => { const t = qta.value.trim(); if (!t) return; const R0 = rset(), a = (R0.askMine ||= []), i = a.indexOf(t); if (i >= 0) a.splice(i, 1); else a.push(t.slice(0, 400)); saveSet(); render(); });
     body.querySelectorAll('[data-oq]').forEach((b) => b.addEventListener('click', async () => {
       const q = body.querySelector('#mbd_oocq').value.trim(); if (!q) return;
       let t = q;
@@ -245,8 +245,8 @@ function tabOrder(body, A, S) {
       <div class="mbd-acts"><div id="mbd_pin_s" class="menu_button"${tipAt('pinScene')}>${h(T.pinScene)}</div><div id="mbd_pin_a" class="menu_button"${tipAt('pinAlways')}>${h(T.pinAlways)}</div><div id="mbd_clear" class="menu_button mbd-ghost"${tipAt('clear')}>${h(T.clear)}</div></div>
       ${cut ? `<div class="mbd-warn">${h(T.sceneCut)} <span id="mbd_scene_keep" class="menu_button">${h(T.keepIt)}</span> <span id="mbd_scene_clear" class="menu_button">${h(T.clear)}</span></div>` : ''}</section>
     ${pins.length ? `<section class="mbd-card"><div class="mbd-ch"><b>${h(T.oPin)}</b></div>${pins.map(([k, l, v]) => `<div class="mbd-pinrow"><div><div class="mbd-pinl">${h(l)}</div><div class="mbd-pinv">${h(v)}</div></div><div class="menu_button mbd-ghost" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}</section>` : ''}
-    <section class="mbd-card"><div class="mbd-ch"><b>${h(T.oScene)}</b><span class="mbd-dim">${h(T.oSceneSub)}</span></div>${optRow('scEnter', 'kEnter')}${optRow('scIntro', 'kIntro')}${optRow('scLen', 'kSplit')}</section>
-    <section class="mbd-card"><div class="mbd-ch"><b>${h(T.oEvery)}</b><span class="mbd-dim">${h(T.oEverySub)}</span></div>${optRow('reach', 'kReach')}${boostHtml()}</section>
+    ${foldHtml('scene', T.oScene, sceneSum(), `${optRow('scEnter', 'kEnter')}${optRow('scIntro', 'kIntro')}${optRow('scLen', 'kSplit')}`, T.oSceneSub)}
+    ${foldHtml('every', T.oEvery, everySum(), `${optRow('reach', 'kReach')}${optRow('pov', 'kPov')}${boostHtml()}`, T.oEverySub)}
     ${redoHtml(s, S)}`;
   const beat = document.getElementById('mbd_beat');
   beat.addEventListener('input', () => { const was = !!s.beat.trim() && !s.used; s.beat = beat.value; s.used = false; s.usedIdx = -1; save(); info();
@@ -260,6 +260,7 @@ function tabOrder(body, A, S) {
   document.getElementById('mbd_scene_clear')?.addEventListener('click', () => { s.scene = ''; save(); render(); });
   redoWire(body, s);
   boostWire(body);
+  body.querySelectorAll('details[data-fold]').forEach((d) => d.addEventListener('toggle', () => { (G.folds ||= new Set())[d.open ? 'add' : 'delete'](d.dataset.fold); }));
   body.querySelectorAll('[data-opt]').forEach((b) => b.addEventListener('click', () => { const [k, v] = b.dataset.opt.split(':'); rset()[k] = v; saveSet(); render(); }));
   info();
 }
@@ -274,6 +275,10 @@ const OPT = {
     ['yes', 'vIntroYes', 'dIntroYes', 'Open the scene with a short setting of the place and the mood']],
   scLen: [['multi', 'vMulti', 'dMulti', 'Pace it over several replies: do not use up everything the user asked for in this one reply; take the first part and leave the rest for the next replies'],
     ['one', 'vOne', 'dOne', 'Tell the whole scene in this reply, beginning to end: setup, development, turn and close']],
+  pov: [['auto', 'vAuto', 'dPovAuto', ''],
+    ['first', 'vPov1', 'dPov1', "Write in first person, from the point of view of the user's character's partner in the scene (the main other character)"],
+    ['third', 'vPov3', 'dPov3', 'Write in close third person, staying with one character at a time'],
+    ['omni', 'vPovO', 'dPovO', 'Write in third person that can move between characters and show what each one thinks']],
   reach: [['auto', 'vAuto', 'dAuto', ''],
     ['upto', 'vUpto', 'dUpto', "Write only as far as the user's message goes, then stop. Do not go past it or decide what the user's character does next"],
     ['beyond', 'vBeyond', 'dBeyond', "After what the user's message covers, carry the story on a little further on your own"]],
@@ -301,6 +306,12 @@ const BOOST = [
   ['twist', '🔀', 'Bring in an unexpected but fitting turn or complication when the scene allows'],
   ['pace', '⏱', 'Keep the pace brisk: less description, more happening'],
   ['humor', '😄', 'Light humour that fits the characters is welcome'],
+  ['spark', '💞', 'Keep the romantic tension alive: glances, closeness, what is almost said'],
+  ['conflict', '🔥', 'Sharpen the conflict: people want different things and push for them'],
+  ['breath', '🕊', 'Leave room for quiet, everyday moments between the big ones'],
+  ['foreshadow', '📜', 'Plant small hints that can pay off later'],
+  ['hook', '🎣', 'End the reply on a hook that makes the next one wanted'],
+  ['memory', '🧠', 'Characters remember and bring up what happened before'],
   ['table', '📊', 'Where it fits the story, show things as a small table or chart (a list, a schedule, a status board)'],
   ['html', '🎨', 'Where it fits the story, show things visually with self-contained inline HTML and CSS (a letter, a phone screen, a sign, a status card) that renders in the chat; no scripts'],
 ];
@@ -308,21 +319,22 @@ const BOOST = [
 const LEN = [['auto', ''], ['short', 'Reply length: short, one or two paragraphs'], ['mid', 'Reply length: medium, three to five paragraphs'], ['long', 'Reply length: long, six paragraphs or more; take the room the scene needs']];
 const lenLine = () => { const R0 = rset(); if (R0.len === 'custom') return (R0.lenCustom || '').trim() ? `Reply length: ${R0.lenCustom.trim()}` : ''; return (LEN.find((x) => x[0] === R0.len) || LEN[0])[1]; };
 // the person's own extras: any line, on/off like the others
-const boostLines = () => { const R0 = rset(), on = R0.boost || {}; return [lenLine(), ...BOOST.filter(([k]) => on[k]).map(([, , t]) => t), ...(R0.boostMine || []).filter((x) => x.on && x.text).map((x) => x.text)].filter(Boolean); };
+const boostLines = () => { const R0 = rset(), on = R0.boost || {}; return [lenLine(), optOf('pov')[3], ...BOOST.filter(([k]) => on[k]).map(([, , t]) => t), ...(R0.boostMine || []).filter((x) => x.on && x.text).map((x) => x.text)].filter(Boolean); };
 function boostHtml() {
   const R0 = rset(), on = R0.boost || {}, mine = R0.boostMine || [], len = R0.len || 'auto';
-  const lenRow = `<div class="mbd-orow"><div class="mbd-olab">${h(T.kLen)}</div><div class="mbd-seg3">${['auto', 'short', 'mid', 'long', 'custom'].map((k) => `<span class="mbd-sb${len === k ? ' on' : ''}" data-len="${k}">${h(T.lenN[k])}</span>`).join('')}</div>
-    <div class="mbd-odesc">${len === 'custom' ? `<input id="mbd_lenc" class="text_pole mbd-lenc" placeholder="${h(T.lenPh)}" value="${h(R0.lenCustom || '')}" />` : h(T.lenD[len])}</div></div>`;
-  return `${lenRow}<div class="mbd-orow mbd-boostrow"><div class="mbd-olab">${h(T.kBoost)}</div><div class="mbd-chips">${BOOST.map(([k, ic]) => `<span class="mbd-tg${on[k] ? ' on' : ''}" data-boost="${k}" title="${h(T.bTip[k])}">${ic} ${h(T.bName[k])}</span>`).join('')}
-    ${mine.map((x, i) => `<span class="mbd-tg mbd-mine${x.on ? ' on' : ''}" data-bmine="${i}" title="${h(x.text)}">✎ ${h(x.text.slice(0, 18))}${x.text.length > 18 ? '…' : ''}<i class="mbd-x2" data-bdel="${i}" title="${h(T.del)}">×</i></span>`).join('')}</div>
-    <div class="mbd-odesc">${h(T.boostSub)}</div>
-    <div class="mbd-addrow"><input id="mbd_bnew" class="text_pole" placeholder="${h(T.boostPh)}" /><div id="mbd_badd" class="menu_button">${h(T.add)}</div></div></div>`;
+  const lenRow = `<div class="mbd-orow"><div class="mbd-olab">${h(T.kLen)}</div><div class="mbd-seg3">${['auto', 'short', 'mid', 'long', 'custom'].map((k) => `<span class="mbd-sb${len === k ? ' on' : ''}" data-len="${k}"${tipT(T.lenD[k] || T.lenPh)}>${h(T.lenN[k])}</span>`).join('')}</div>
+    ${len === 'custom' ? `<input id="mbd_lenc" class="text_pole mbd-lenc" placeholder="${h(T.lenPh)}" value="${h(R0.lenCustom || '')}" />` : ''}</div>`;
+  return `${lenRow}<div class="mbd-orow mbd-boostrow"><div class="mbd-olab"${tipT(T.boostSub)}>${h(T.kBoost)}</div><div class="mbd-chips">${BOOST.map(([k, ic]) => `<span class="mbd-tg${on[k] ? ' on' : ''}" data-boost="${k}"${tipT(T.bTip[k])}>${ic} ${h(T.bName[k])}</span>`).join('')}
+    ${mine.map((x, i) => `<span class="mbd-tg mbd-mine${x.on ? ' on' : ''}" data-bmine="${i}"${tipT(x.text)}>✎ ${h(x.text.slice(0, 14))}${x.text.length > 14 ? '…' : ''}<i class="mbd-x2" data-bdel="${i}">×</i></span>`).join('')}
+    <span class="mbd-tg mbd-addtg" id="mbd_baddtg"${tipT(T.boostPh)}>＋</span></div>
+    <div class="mbd-addrow" id="mbd_baddrow" hidden><input id="mbd_bnew" class="text_pole" placeholder="${h(T.boostPh)}" /><div id="mbd_badd" class="menu_button">${h(T.add)}</div></div></div>`;
 }
 function boostWire(body) {
   body.querySelectorAll('[data-boost]').forEach((b) => b.addEventListener('click', () => { const R0 = rset(), o = (R0.boost ||= {}); o[b.dataset.boost] = !o[b.dataset.boost]; saveSet(); b.classList.toggle('on', !!o[b.dataset.boost]); }));
   body.querySelectorAll('[data-bmine]').forEach((b) => b.addEventListener('click', (e) => { const R0 = rset(), i = +b.dataset.bmine; if (e.target.dataset.bdel != null) { R0.boostMine.splice(i, 1); saveSet(); render(); return; } R0.boostMine[i].on = !R0.boostMine[i].on; saveSet(); b.classList.toggle('on', R0.boostMine[i].on); }));
   const add = () => { const el = body.querySelector('#mbd_bnew'), t = el.value.trim(); if (!t) return; const R0 = rset(); (R0.boostMine ||= []).push({ text: t.slice(0, 300), on: true }); saveSet(); render(); };
   body.querySelector('#mbd_badd')?.addEventListener('click', add);
+  body.querySelector('#mbd_baddtg')?.addEventListener('click', () => { const r = body.querySelector('#mbd_baddrow'); r.hidden = !r.hidden; if (!r.hidden) body.querySelector('#mbd_bnew').focus(); });
   body.querySelector('#mbd_bnew')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); add(); } });
   body.querySelectorAll('[data-len]').forEach((b) => b.addEventListener('click', () => { rset().len = b.dataset.len; saveSet(); render(); if (b.dataset.len === 'custom') setTimeout(() => body.querySelector('#mbd_lenc')?.focus(), 30); }));
   body.querySelector('#mbd_lenc')?.addEventListener('input', (e) => { rset().lenCustom = e.target.value.slice(0, 120); saveSet(); });
@@ -330,7 +342,18 @@ function boostWire(body) {
 // one row: a label, a segmented choice, and the words for what is picked right now
 function optRow(k, label) {
   const cur = optOf(k);
-  return `<div class="mbd-orow"><div class="mbd-olab">${h(T[label])}</div><div class="mbd-seg3">${OPT[k].map(([id, v]) => `<span class="mbd-sb${cur[0] === id ? ' on' : ''}" data-opt="${k}:${id}">${h(T[v])}</span>`).join('')}</div><div class="mbd-odesc">${h(T[cur[2]])}</div></div>`;
+  return `<div class="mbd-orow"><div class="mbd-olab">${h(T[label])}</div><div class="mbd-seg3">${OPT[k].map(([id, v, d]) => `<span class="mbd-sb${cur[0] === id ? ' on' : ''}" data-opt="${k}:${id}"${tipT(T[d])}>${h(T[v])}</span>`).join('')}</div></div>`;
+}
+// a folded card: the title and what is picked now in one line; open to change. Which are open is kept for the session.
+function foldHtml(id, title, sum, inner, tip) {
+  const open = (G.folds ||= new Set()).has(id);
+  return `<details class="mbd-fold" data-fold="${id}"${open ? ' open' : ''}><summary${tipT(tip)}><b>${h(title)}</b><span class="mbd-sum">${h(sum)}</span></summary><div class="mbd-foldin">${inner}</div></details>`;
+}
+const sceneSum = () => [optOf('scEnter'), optOf('scIntro'), optOf('scLen')].map((o) => T[o[1]]).join(' · ');
+function everySum() {
+  const R0 = rset(), n = BOOST.filter(([k]) => (R0.boost || {})[k]).length + (R0.boostMine || []).filter((x) => x.on).length;
+  const len = R0.len === 'custom' ? (R0.lenCustom || '').trim() : R0.len && R0.len !== 'auto' ? T.lenN[R0.len] : '';
+  return [optOf('reach')[0] !== 'auto' ? T[optOf('reach')[1]] : '', optOf('pov')[0] !== 'auto' ? T[optOf('pov')[1]] : '', len, n ? `✨ ${n}` : ''].filter(Boolean).join(' · ') || T.vAuto;
 }
 
 
@@ -594,10 +617,13 @@ function putAlone(beatText = '', sceneText = '', sceneN = null) {
 const OOC_OPT = [
   ['oocIf', '🌀', "This is a what-if: the lorebook, world info, character settings and the story's established facts are not binding here. Follow the user's premise freely, even where it contradicts them; writing a scene for that premise is fine. It does not change the real story"],
   ['oocTable', '📊', 'Where it helps, answer with tables or simple charts (markdown tables, text bar charts)'],
+  ['oocNoSpoil', '🙅', 'Do not reveal plans for where the story will go, or anything the characters do not know yet, unless asked'],
+  ['oocShort', '✂', 'Keep the answer short and to the point'],
+  ['oocKo', '🇰🇷', 'Answer in Korean'],
   ['oocHtml', '🎨', 'Where it helps, lay the answer out visually with self-contained inline HTML and CSS (cards, boxes, colour, layout) that renders in the chat; no scripts'],
 ];
 // quick questions (fill the box; edit before sending)
-const OOC_ASK = [['sum', '📝'], ['why', '🔍'], ['next', '💡'], ['inner', '💭'], ['check', '✅'], ['fix', '✍']];
+const OOC_ASK = [['sum', '📝'], ['why', '🔍'], ['next', '💡'], ['inner', '💭'], ['check', '✅'], ['fix', '✍'], ['cast', '👥'], ['rel', '🕸'], ['motive', '🎯'], ['time', '⏳'], ['prompt', '🧪']];
 const oocWrap = (t) => (/^\s*\(?\s*OOC\s*:/i.test(t) ? t : `(OOC: ${t})`);
 // put text in SillyTavern's own input; send=true presses send. Returns false when there is no input.
 function putInput(text, send) {
@@ -633,15 +659,16 @@ async function setOocOn(on) {
   render();
 }
 function oocHtml() {
-  return `<section class="mbd-card mbd-oocc"><div class="mbd-ch"><b>${h(T.oocTitle)}</b></div><div class="mbd-oocb">${h(T.oocBody)}</div>
-    <div class="mbd-lab2">${h(T.oocQuick)}</div><div class="mbd-chips">${OOC_ASK.map(([k, ic]) => `<span class="mbd-tg mbd-qa" data-qa="${k}">${ic} ${h(T.qa[k])}</span>`).join('')}${(rset().askMine || []).map((x, i) => `<span class="mbd-tg mbd-qa mbd-mine" data-qm="${i}" title="${h(x)}">✎ ${h(x.slice(0, 16))}${x.length > 16 ? '…' : ''}<i class="mbd-x2" data-qdel="${i}" title="${h(T.del)}">×</i></span>`).join('')}</div>
+  const R0 = rset(), mine = R0.askMine || [];
+  const asks = `<select id="mbd_qa" class="text_pole mbd-qsel"><option value="">${h(T.oocQuick)}</option>${OOC_ASK.map(([k, ic]) => `<option value="p:${k}">${ic} ${h(T.qa[k])}</option>`).join('')}${mine.length ? `<optgroup label="${h(T.qMine)}">${mine.map((x, i) => `<option value="m:${i}">✎ ${h(x.slice(0, 40))}</option>`).join('')}</optgroup>` : ''}</select>`;
+  return `<section class="mbd-card mbd-oocc"><div class="mbd-ch"><b${tipT(`${T.oocBody} ${T.oocNote}`)}>${h(T.oocTitle)}</b><span class="mbd-q2"${tipT(`${T.oocBody} ${T.oocNote}`)}>?</span></div>
+    <div class="mbd-qline">${asks}<span class="mbd-star${G.qSaved ? ' on' : ''}" id="mbd_qsave"${tipT(T.qSaveTip)}>☆</span></div>
     <textarea id="mbd_oocq" class="text_pole" placeholder="${h(T.oocAskPh)}">${h(st().oocDraft || '')}</textarea>
-    <div class="mbd-acts"><div class="menu_button mbd-primary2" data-oq="send">${h(T.oqSend)}</div><div class="menu_button" data-oq="en"${typeof api()?.toEnglish === 'function' ? '' : ' disabled'}>${h(T.oqEn)}</div><div class="menu_button" data-oq="put">${h(T.oqPut)}</div><div class="menu_button mbd-ghost" id="mbd_qsave" title="${h(T.qSaveTip)}">${h(T.qSave)}</div></div>
-    <div class="mbd-dim">${h(T.oqNote)}</div>
-    <div class="mbd-lab2">${h(T.oocOpts)}</div><div class="mbd-chips">${OOC_OPT.map(([k, ic]) => `<span class="mbd-tg${rset()[k] ? ' on' : ''}" data-oo="${k}" title="${h(T[k + 'Tip'])}">${ic} ${h(T[k])}</span>`).join('')}</div>
-    <label class="checkbox_label mbd-oochide"><input type="checkbox" id="mbd_oochide"${rset().oocHide !== false ? ' checked' : ''} /> ${h(T.oocHide)}</label>
-    <div class="mbd-acts"><div id="mbd_oocoff" class="menu_button mbd-primary">${h(T.oocOff)}</div></div><div class="mbd-dim mbd-oocn">${h(T.oocNote)}</div></section>`;
+    <div class="mbd-acts"><div class="menu_button mbd-primary2" data-oq="send"${tipT(T.oqNote)}>${h(T.oqSend)}</div><div class="menu_button" data-oq="en"${typeof api()?.toEnglish === 'function' ? '' : ' disabled'}${tipT(T.oqNote)}>${h(T.oqEn)}</div><div class="menu_button" data-oq="put"${tipT(T.oqNote)}>${h(T.oqPut)}</div></div>
+    <div class="mbd-chips mbd-oopts">${OOC_OPT.map(([k, ic]) => `<span class="mbd-tg${R0[k] ? ' on' : ''}" data-oo="${k}"${tipT(T[k + 'Tip'])}>${ic} ${h(T[k])}</span>`).join('')}</div>
+    <div class="mbd-oocend"><label class="checkbox_label mbd-oochide"${tipT(T.oocHide)}><input type="checkbox" id="mbd_oochide"${R0.oocHide !== false ? ' checked' : ''} /> ${h(T.oocHideS)}</label><div id="mbd_oocoff" class="menu_button mbd-primary">${h(T.oocOff)}</div></div></section>`;
 }
+
 
 // ---- generation ------------------------------------------------------------------------------------------------
 const QUIET = new Set(['quiet', 'impersonate', 'continue']);
