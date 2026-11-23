@@ -214,3 +214,4 @@
 #mbd_panel .mbd-oocn { margin-top: 8px; font-size: 11px; }
 #mbd_btn.ooc { position: relative; opacity: 1; }
 #mbd_btn.ooc::after { content: "OOC"; position: absolute; top: -6px; right: -8px; font-size: 8px; font-weight: 800; padding: 0 3px; border-radius: 4px; background: #6c7bd8; color: #fff; }
+#mbd_panel .mbd-oocc textarea { margin-top: 10px; min-height: 3.6em; }

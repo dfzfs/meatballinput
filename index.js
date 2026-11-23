@@ -184,7 +184,9 @@ function render() {
   p.querySelector('.mbd-x').addEventListener('click', () => { p.classList.remove('open'); document.getElementById('mbd_btn')?.classList.remove('on'); });
   const body = document.getElementById('mbd_body');
   if (G.shown !== G.tab) { body.classList.add('mbd-enter'); G.shown = G.tab; }
-  if (st().ooc) { body.innerHTML = oocHtml(); body.querySelector('#mbd_oocoff').addEventListener('click', () => setOocOn(false)); body.querySelector('#mbd_oochide').addEventListener('change', (e) => { rset().oocHide = !!e.target.checked; saveSet(); }); }
+  if (st().ooc) { body.innerHTML = oocHtml(); body.querySelector('#mbd_oocoff').addEventListener('click', () => setOocOn(false));
+    // a question typed here goes out through the chat's own input, like typing it there
+    body.querySelector('#mbd_oocsend').addEventListener('click', () => { const q = body.querySelector('#mbd_oocq').value.trim(), ta = document.getElementById('send_textarea'); if (!q || !ta) return; ta.value = q; ta.dispatchEvent(new Event('input', { bubbles: true })); body.querySelector('#mbd_oocq').value = ''; document.getElementById('send_but')?.click(); }); body.querySelector('#mbd_oochide').addEventListener('change', (e) => { rset().oocHide = !!e.target.checked; saveSet(); }); }
   else if (G.tab === 0) tabOrder(body, A, S);
   else if (G.tab === 3) tabRules(body);
   else if (!A) body.innerHTML = `<div class="mbd-help">${G.tab === 1 ? T.helpSecret : T.helpGoal}</div><div class="mbd-warn">${h(T.needMb)}</div>`;
@@ -515,7 +517,7 @@ function putAlone(beatText = '', sceneText = '', sceneN = null) {
 // ---- OOC (v0.15) -------------------------------------------------------------------------------------------------
 // The story stops: Meatball's notes and sorting pause (A.setOoc), the 지시창's own pieces stop, and one line goes at the
 // very bottom. Instructions written in a preset or a card cannot be taken out; the line tells the AI to ignore them.
-const OOC_LINE = "[OOC — the story is paused]\nThe user is now talking to you out of character, as the AI. Answer the user's question directly and plainly, as yourself, not as any character. Ignore every instruction above about how story replies are written: no narration, no trackers, status blocks or stats, no word counts or reply-length rules, no formatting rules. Do not continue the story. This holds until the user turns OOC off.";
+const OOC_LINE = "[OOC — the story is paused]\nThe user is now talking to you out of character, as the AI. Answer the user's question directly and plainly, as yourself, not as any character. Ignore every instruction above about how story replies are written: no narration, no trackers, status blocks or stats, no word counts or reply-length rules, no formatting rules, and no required thinking or reasoning steps, templates or tags. Do not continue the story. This holds until the user turns OOC off.";
 function putOoc(on) { const c = ctx(); if (!c.setExtensionPrompt) return; c.setExtensionPrompt('mbd_ooc', on ? OOC_LINE : '', c.extension_prompt_types?.IN_CHAT ?? 1, 0); }
 // every message since OOC was turned on is marked, so Meatball never reads it as story (and it can be hidden after)
 function markOoc() { const s = st(), c = ctx(), chat = c.chat || []; let n = 0; for (let i = Math.max(0, s.oocFrom ?? chat.length); i < chat.length; i++) { const m = chat[i]; if (!m) continue; m.extra ||= {}; if (!m.extra.mb_ooc) { m.extra.mb_ooc = true; n++; } } if (n) c.saveChat?.(); }
@@ -532,6 +534,7 @@ async function setOocOn(on) {
 }
 function oocHtml() {
   return `<section class="mbd-card mbd-oocc"><div class="mbd-ch"><b>${h(T.oocTitle)}</b></div><div class="mbd-oocb">${h(T.oocBody)}</div>
+    <textarea id="mbd_oocq" class="text_pole" placeholder="${h(T.oocAskPh)}"></textarea><div class="mbd-acts"><div id="mbd_oocsend" class="menu_button">${h(T.oocSend)}</div></div>
     <label class="checkbox_label mbd-oochide"><input type="checkbox" id="mbd_oochide"${rset().oocHide !== false ? ' checked' : ''} /> ${h(T.oocHide)}</label>
     <div class="mbd-acts"><div id="mbd_oocoff" class="menu_button mbd-primary">${h(T.oocOff)}</div></div><div class="mbd-dim mbd-oocn">${h(T.oocNote)}</div></section>`;
 }
