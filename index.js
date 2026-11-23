@@ -10,7 +10,7 @@
 const KEY = 'meatball_director', API_V = 1;
 const ctx = () => SillyTavern.getContext();
 // The newest 상태창 this 지시창 was made with: an older one still works, but some parts do nothing (e.g. 천천히 밀어주기)
-const NEED_MB = '0.26.2';
+const NEED_MB = '0.26.3';
 const old = (v) => { if (!v) return false; const a = String(v).split('.').map(Number), b = NEED_MB.split('.').map(Number); for (let i = 0; i < 3; i++) { if ((a[i] || 0) !== b[i]) return (a[i] || 0) < b[i]; } return false; };
 const api = () => (window.MeatballAPI?.v === API_V ? window.MeatballAPI : null);
 const h = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -23,6 +23,9 @@ const T = ko ? {
   helpOrder: '<b>AI에게 시킬 것.</b> 채팅에는 안 남고 본편 AI만 봐요.<br>· 그냥 적어 두면 <b>다음 답 한 번</b>에만 들어가요.<br>· 오래 지켜야 하면 📌 버튼으로 고정하세요. 「이 장면 동안」은 장면이 바뀌면 계속할지 물어봐요.<br>· 시간을 넘기고 싶으면 그냥 「사흘 뒤」처럼 적으면 돼요.',
   orderPh: '예: 깡캐가 먼저 말을 건다', fresh: '다음 답에 들어가요', used: '이미 들어갔어요. 그 답을 다시 뽑을 때만 또 들어가요', empty: '',
   rdTitle: '↻ 다시 뽑을 때 강하게', rdHelp: '마음에 안 든 답을 다시 뽑을 때, 뭐가 틀렸는지 적어 두면 「직전 버전은 이것 때문에 버려졌음, 반드시 고칠 것」으로 맨 끝에 붙어요. 이 답을 다시 뽑는 동안만 가고, 다음 답으로 넘어가면 지워져요.', rdPh: '예: 너무 쉽게 웃었음. 비밀을 직접 말해 버렸음', rdGo: '↻ 이걸로 다시 뽑기', rdOn: '↻ #{i}를 다시 뽑을 때마다 들어가요', rdFound: '지난 버전에서 보인 것 (누르면 들어가요)', rdLeak: '{w}의 비밀을 말해 버림', rdLeakNo: '비밀이 새어 나옴', rdRefuse: '거절을 쉽게 뒤집음', rdNoAi: '다시 뽑을 답이 아직 없어요',
+  scHow: '장면 고정 방식 (계속 기억해요)', scSkip: '⏩ 건너뛰어 바로', scFill: '➡ 이어서 채우며', scOne: '한 답으로 끝', scMulti: '여러 답에 걸쳐',
+  scSkipTip: '지금부터 그 장면까지의 시간은 짧게 넘기고 장면 자체로 바로 들어가요.', scFillTip: '직전 답이 멈춘 데서 이어 가며 그 사이를 짧게 채우고, 이번 답 안에 장면에 도착해요.',
+  scOneTip: '한 답 안에서 장면을 끝까지 하고 마무리해요. 그 답이 나오면 고정이 저절로 풀려요(다시 뽑으면 또 들어가요).', scMultiTip: '여러 답에 걸쳐 이어져요. 첫 답은 들어가기, 그다음부턴 멈춘 데서 이어 가기.', scDone: '한 답으로 끝 · 답이 나오면 풀려요',
   pinScene: '📌 이 장면 동안', pinAlways: '📌 계속', clear: '지우기', pinned: '고정된 지시', pinnedScene: '이 장면 동안', pinnedAlways: '계속',
   sceneCut: '장면이 바뀌었어요. 이 지시를 계속할까요?', keepIt: '계속', en: 'AI에게 가는 말', sign: '비밀 낱말이 들어 있어요', signWhy: 'AI 눈앞에 비밀을 적는 셈이에요', thread: '캐릭터가 이미 거절한 일이에요',
   helpSecret: '<b>AI가 먼저 말해 버리면 안 되는 것.</b> 비밀 내용은 본편 AI에 <b>아예 안 가요</b>. 미트볼만 알고 지켜요.<br>· 답에 비밀이 새면 상태창에 ⚠가 떠요. 눌러서 다시 쓰기를 고를 수 있어요.<br>· 「겉으로 보여도 되는 모습」만 AI에게 가요. 비워도 돼요.<br>· 이제 밝혀져도 되면 「풀기」를 누르세요.',
@@ -44,6 +47,9 @@ const T = ko ? {
   helpOrder: '<b>What the AI should do.</b> Not kept in the chat; only the story AI sees it.<br>· Typed here, it goes into <b>the next reply only</b>.<br>· Pin it with 📌 to keep it. "This scene" asks again when the scene changes.<br>· To skip time, just write "three days later".',
   orderPh: 'e.g. B speaks first', fresh: 'Goes into the next reply', used: 'Already used; goes in again only when that reply is redone', empty: '',
   rdTitle: '↻ Stronger on a reroll', rdHelp: 'When you reroll a reply you did not like, write what was wrong: it goes last as "the version before was thrown away for this; fix it". Only while rerolling this reply; cleared when the story moves on.', rdPh: 'e.g. smiled too easily. The secret was said outright', rdGo: '↻ Reroll with this', rdOn: '↻ Goes in every reroll of #{i}', rdFound: 'Seen in the last version (click to add)', rdLeak: "said {w}'s secret", rdLeakNo: 'a secret leaked', rdRefuse: 'gave in on a no too easily', rdNoAi: 'No reply to reroll yet',
+  scHow: 'How a pinned scene goes (remembered)', scSkip: '⏩ Jump to it', scFill: '➡ Get there from here', scOne: 'One reply', scMulti: 'Several replies',
+  scSkipTip: 'The time until the scene is passed over in a line; the reply opens on the scene itself.', scFillTip: 'Goes on from where the last reply stopped, covers the way briefly, and reaches the scene in this reply.',
+  scOneTip: 'The whole scene is played out and closed in one reply. The pin comes off once that reply arrives (a reroll still gets it).', scMultiTip: 'Runs over several replies: the first gets into it, the next carry on from where it stopped.', scDone: 'one reply · comes off after it',
   pinScene: '📌 This scene', pinAlways: '📌 Always', clear: 'Clear', pinned: 'Pinned', pinnedScene: 'this scene', pinnedAlways: 'always',
   sceneCut: 'The scene changed. Keep this order?', keepIt: 'Keep', en: 'Sent to the AI', sign: 'Holds a secret word', signWhy: 'that writes the secret right in front of the AI', thread: 'The character already turned this down',
   helpSecret: '<b>What the AI must not blurt out.</b> The secret itself <b>never reaches</b> the story AI. Only Meatball knows it.<br>· If a reply leaks it, ⚠ shows in the bar.<br>· Only "what may show" goes to the AI. May be empty.<br>· When it may come out, press "Release".',
@@ -175,10 +181,11 @@ function tabOrder(body, A, S) {
   const popUsed = s.used && s.usedSeen !== s.usedIdx; if (popUsed) { s.usedSeen = s.usedIdx; save(); }
   const status = !s.beat.trim() ? '' : s.used ? `<span class="mbd-state used${popUsed ? ' pop' : ''}" title="${h(T.sUsedTip)}">${h(fill(T.sUsed, { i: s.usedIdx }))}</span>` : `<span class="mbd-state fresh">${h(T.sFresh)}</span>`;
   const sceneN = A && s.scene.trim() ? Math.max(0, (S.gn || 0) - (s.sceneGn || 0)) : 0;
-  const pins = [s.scene.trim() ? ['scene', T.pinnedScene + (sceneN ? ` · ${fill(T.sceneFor, { n: sceneN })}` : ''), s.scene] : null, keep.trim() ? ['always', T.pinnedAlways, keep] : null].filter(Boolean);
+  const pins = [s.scene.trim() ? ['scene', T.pinnedScene + (sceneMode().len === 'one' ? ` · ${T.scDone}` : sceneN ? ` · ${fill(T.sceneFor, { n: sceneN })}` : ''), s.scene] : null, keep.trim() ? ['always', T.pinnedAlways, keep] : null].filter(Boolean);
   body.innerHTML = `<div class="mbd-help">${T.helpOrder}</div>
     <textarea id="mbd_beat" class="text_pole" placeholder="${h(T.orderPh)}">${h(s.beat)}</textarea>
     <div class="mbd-st">${status}</div><div id="mbd_beat_info"></div>
+    ${sceneHowHtml()}
     <div class="mbd-row"><div id="mbd_pin_s" class="menu_button"${tipAt('pinScene')}>${h(T.pinScene)}</div><div id="mbd_pin_a" class="menu_button"${tipAt('pinAlways')}>${h(T.pinAlways)}</div><div id="mbd_clear" class="menu_button"${tipAt('clear')}>${h(T.clear)}</div></div>
     ${cut ? `<div class="mbd-warn">${h(T.sceneCut)} <span id="mbd_scene_keep" class="menu_button">${h(T.keepIt)}</span> <span id="mbd_scene_clear" class="menu_button">${h(T.clear)}</span></div>` : ''}
     ${pins.length ? `<label>${h(T.pinned)}</label>${pins.map(([k, l, v]) => `<div class="mbd-item mbd-pin"><span><b>📌 ${h(l)}</b><br>${h(v)}</span><div class="menu_button" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}` : ''}
@@ -194,7 +201,14 @@ function tabOrder(body, A, S) {
   document.getElementById('mbd_scene_keep')?.addEventListener('click', () => { s.sceneGn = S.gn || 0; save(); render(); });
   document.getElementById('mbd_scene_clear')?.addEventListener('click', () => { s.scene = ''; save(); render(); });
   redoWire(body, s);
+  body.querySelectorAll('[data-sc]').forEach((b) => b.addEventListener('click', () => { const R0 = rset(), [k, v] = b.dataset.sc.split(':'); R0[k] = v; saveSet(); render(); }));
   info();
+}
+// v0.14.3 how a pinned scene goes — kept in the extension settings, so it stays for every chat until changed
+const sceneMode = () => { const R0 = rset(); return { enter: R0.scEnter === 'fill' ? 'fill' : 'skip', len: R0.scLen === 'one' ? 'one' : 'multi' }; };
+function sceneHowHtml() {
+  const m = sceneMode(), seg = (k, v, label, tip) => `<span class="mbd-scb${m[k === 'scEnter' ? 'enter' : 'len'] === v ? ' on' : ''}" data-sc="${k}:${v}" title="${h(tip)}">${h(label)}</span>`;
+  return `<div class="mbd-schow"><span class="mbd-dim">${h(T.scHow)}</span><span class="mbd-seg2">${seg('scEnter', 'skip', T.scSkip, T.scSkipTip)}${seg('scEnter', 'fill', T.scFill, T.scFillTip)}</span><span class="mbd-seg2">${seg('scLen', 'one', T.scOne, T.scOneTip)}${seg('scLen', 'multi', T.scMulti, T.scMultiTip)}</span></div>`;
 }
 // v0.14.1 ↻ a reroll with a reason: what was wrong with the version being thrown away goes as the strongest, last line.
 // It holds for every reroll of that reply and is cleared when the story moves on (a new reply is asked for).
@@ -439,10 +453,13 @@ function tabRules(body) {
   body.querySelector('#mbd_rt').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); add(); } });
 }
 // ---- alone (no Meatball): inject the pieces ourselves --------------------------------------------------------
-function putAlone(beatText = '', sceneText = '') {
+function putAlone(beatText = '', sceneText = '', sceneN = null) {
   const c = ctx(); if (api() || !c.setExtensionPrompt) return;
   const IN_CHAT = c.extension_prompt_types?.IN_CHAT ?? 1;
-  const sc = st(), how = (sc.sceneSent || 0) > 0 ? 'This scene is already under way: pick up exactly where the last reply stopped and carry it forward. Do not set it up again or wrap it up' : 'Get into it in this reply: a line or two of lead-up at most, then it happens on the page';
+  const sc = st(), m = sceneMode(), n = sceneN ?? (sc.sceneSent || 0);
+  const how = n > 0 ? 'This scene is already under way: pick up exactly where the last reply stopped and carry it forward. Do not set it up again or wrap it up'
+    : [m.enter === 'fill' ? 'Go on from where the last reply stopped, cover the way there briefly, and reach the scene within this reply' : 'Jump to it: a short line for the time that passes is enough, then open on the scene itself',
+      m.len === 'one' ? 'Play the whole scene out in this reply and bring it to a close' : 'It may run over several replies: this reply gets into it properly, no need to finish it'].join('. ');
   const keep = [String(sc.keep || '').trim(), sceneText.trim() ? `This scene: ${sceneText.trim()} — ${how}` : '', ...activeRules().map((t) => `Style: ${t}`)].filter(Boolean).join('\n');
   c.setExtensionPrompt('mbd_keep', keep ? `[Standing instructions]\n${keep}` : '', IN_CHAT, 1);
   c.setExtensionPrompt('mbd_beat', beatText ? `[This reply]\n${beatText}` : '', IN_CHAT, 0);
@@ -457,16 +474,23 @@ function onStart(type, opts, dryRun) {
   const again = type === 'swipe' || type === 'regenerate';
   G.apply = !!text && (!s.used || (again && s.usedIdx === lastAiIdx()));
   G.type = type || 'normal';
-  const S = A ? safeState(A) : {}, sceneOn = !!s.scene.trim() && !(A && (S.lastCut || 0) > (s.sceneGn || 0));
+  const S = A ? safeState(A) : {}, back = again && !s.scene.trim() && s.sceneLast?.idx === lastAiIdx() ? s.sceneLast.text : '';
+  const sceneText = s.scene.trim() || back, sceneOn = !!sceneText && !(A && !back && (S.lastCut || 0) > (s.sceneGn || 0));
   if (!again && type !== 'continue' && (s.redo || '').trim()) { s.redo = ''; s.redoIdx = -1; save(); }   // a new reply: the reason is done
   const redo = again && (s.redo || '').trim() && s.redoIdx === lastAiIdx() ? s.redo.trim() : '';
   G.sceneOn = sceneOn && type !== 'continue'; G.again = again;
-  const sceneN = Math.max(0, (s.sceneSent || 0) - (again && s.sceneSent ? 1 : 0));
-  if (A) { pushHabits(); A.pieces({ beat: G.apply ? text : '', scene: sceneOn ? s.scene : '', sceneN, rules: activeRules(again), redo }); }
-  else putAlone([G.apply ? text : '', redo ? `REWRITE — the version before this one was rejected for this; this version must fix it:\n${redo}` : ''].filter(Boolean).join('\n\n'), sceneOn ? s.scene : '');
+  const sceneN = back ? 0 : Math.max(0, (s.sceneSent || 0) - (again && s.sceneSent ? 1 : 0)), mode = sceneMode();
+  G.sceneText = sceneOn ? sceneText : '';
+  if (A) { pushHabits(); A.pieces({ beat: G.apply ? text : '', scene: sceneOn ? sceneText : '', sceneN, sceneMode: mode, rules: activeRules(again), redo }); }
+  else putAlone([G.apply ? text : '', redo ? `REWRITE — the version before this one was rejected for this; this version must fix it:\n${redo}` : ''].filter(Boolean).join('\n\n'), sceneOn ? sceneText : '', sceneN);
 }
 function onReceived(id) {
-  if (G.sceneOn && !G.again) { const s0 = st(); s0.sceneSent = (s0.sceneSent || 0) + 1; save(); }
+  if (G.sceneOn && !G.again) {
+    const s0 = st(); s0.sceneSent = (s0.sceneSent || 0) + 1;
+    // 「한 답으로 끝」: the scene had its reply, the pin comes off (kept aside so a reroll of that reply still gets it)
+    if (sceneMode().len === 'one' && s0.scene.trim()) { s0.sceneLast = { text: s0.scene, idx: lastAiIdx() }; s0.scene = ''; s0.sceneSent = 0; }
+    save(); setTimeout(render, 50);
+  }
   G.sceneOn = false;
   if (!G.apply) return;
   const s = st(); s.used = true; s.usedIdx = Number.isInteger(id) ? id : lastAiIdx(); save();
