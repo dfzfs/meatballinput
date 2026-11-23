@@ -216,10 +216,10 @@ const modeName = (g) => (g.push ? T.gPush : g.hint ? T.gHint : T.gNone);
 function goalCard(g, i) {
   const s = st(), seen = (s.gseen ||= {}), was = seen[g.v], step = g.step ?? (g.near ? 2 : 0), grow = was != null && step > was;
   if (was !== step) { seen[g.v] = step; save(); }
-  const facts = [g.since != null ? fill(T.gSince, { n: g.since }) : '', g.pushes ? fill(T.gPushes, { n: g.pushes }) + (g.lastPush != null ? ` (${fill(T.gLast, { i: g.lastPush })})` : '') : '', g.hits ? fill(T.gHits, { n: g.hits }) + (g.lastHit != null ? ` (${fill(T.gLast, { i: g.lastHit })})` : '') : ''].filter(Boolean).join(' · ');
+  const facts = [g.since != null ? fill(T.gSince, { n: g.since }) : '', g.pushes ? fill(T.gPushes, { n: g.pushes }) + (g.lastPush != null ? ` (${fill(T.gLast, { i: g.lastPush })})` : '') : '', g.hits ? fill(T.gHits, { n: g.hits }) + (g.lastHit != null ? ` (${fill(T.gLast, { i: g.lastHit })})` : '') : ''].filter(Boolean).map((t) => `<span>${h(t)}</span>`).join('');
   return `<div class="mbd-item mbd-goal s${step}${g.near ? ' mbd-near' : ''}${grow ? ' grow' : ''}"><span>${g.who ? `<b>${h(g.who)}</b> · ` : ''}${h(g.v)}
     <div class="mbd-gtrack" title="${h(T.gSteps[step])}">${[0, 1, 2].map((k) => `<i class="${k <= step ? 'on' : ''}${k === step && grow ? ' new' : ''}"></i>`).join('')}<em>${h(T.gSteps[step])}</em></div>
-    ${facts ? `<small class="mbd-gfacts">${h(facts)}</small>` : ''}${g.near ? `<small class="mbd-nearnote">✨ ${h(T.gNear)}</small>` : ''}</span>
+    ${facts ? `<small class="mbd-gfacts">${facts}</small>` : ''}${g.near ? `<small class="mbd-nearnote">✨ ${h(T.gNear)}</small>` : ''}</span>
     <div class="mbd-gbtns"><div class="menu_button mbd-gmode${g.push ? ' mbd-on' : ''}" data-gm="${i}"${tipAt('gModeItem')}>${h(modeName(g))}</div><div class="menu_button${g.near ? ' mbd-arrive' : ''}" data-g="${i}"${tipAt('arrived')}>${h(T.arrived)}</div></div></div>`;
 }
 function tabGoal(body, A, S) {

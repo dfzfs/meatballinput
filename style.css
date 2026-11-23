@@ -114,3 +114,10 @@
 #mbd_panel .mbd-hit.new { animation: mbdPing 1s ease-out .2s 2; }
 #mbd_panel .mbd-rule { transition: opacity .2s ease; }
 @media (prefers-reduced-motion: reduce) { #mbd_panel * { animation: none !important; transition: none !important; } }
+/* inside SillyTavern: no text shadow, the select in the theme's colours, facts wrap as whole pieces */
+#mbd_panel, #mbd_panel * { text-shadow: none !important; }
+#mbd_panel select, #mbd_panel select.text_pole { background: var(--mb-soft) !important; color: var(--mb-ink) !important; border: 1.5px solid var(--mb-line) !important; border-radius: 9px !important; padding: 2px 8px; min-height: 0; height: auto; }
+#mbd_panel .mbd-gfacts { display: flex !important; flex-wrap: wrap; gap: 0 10px; }
+#mbd_panel .mbd-gfacts span { white-space: nowrap; }
+#mbd_panel .mbd-item > span { min-width: 0; overflow-wrap: anywhere; word-break: keep-all; }
+#mbd_panel small { opacity: 1 !important; } #mbd_panel .mbd-nearnote { display: block; color: #b9802a; opacity: 1; }
