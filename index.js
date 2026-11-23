@@ -17,7 +17,7 @@ const h = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<':
 const ko = (navigator.language || '').startsWith('ko');
 const T = ko ? {
   title: '미트볼 지시창', alone: '미트볼 상태창이 꺼져 있어요: 「지시」만 쓸 수 있어요', needMb: '미트볼 상태창이 켜져 있어야 쓸 수 있어요.', oldMb: '미트볼 상태창이 옛 버전이에요({v}). {need} 이상으로 업데이트해야 다 작동해요(예: 천천히 밀어주기).',
-  tabs: ['✍ 지시', '🎨 문체', '🔒 비밀', '🧭 방향'], oTabQ: '💬 질문', mStory: '📖 이야기', mOoc: '💬 OOC', mOocTip: '이야기를 멈추고 AI에게 그냥 물어보는 모드. 미트볼 기록 · 쪽지 · 지시가 다 쉬어요.', setsL: '한 번에 고르기', fineL: '📏 매 답 (이야기 · OOC 공통)', rulesL: '내 규칙 · 말버릇', styleL: '매 답', sceneHowL: '⚙ 장면 고정 방식', redoL: '↻ 이유 적고 다시 뽑기',
+  tabs: ['✍ 지시', '🎨 문체', '🔒 비밀', '🧭 방향'], oTabQ: '💬 질문', subs: ['✍ 지시', '🔒 비밀', '🧭 방향', '📜 규칙'], commonL: '🎨 문체', commonNote: '이야기 · OOC 공통', commonTip: '매 답에 같이 가는 것: 한 번에 고르기 세트, 어디까지 · 시점 · 분량 · 더하기. 이야기에도 OOC에도 똑같이 들어가요. 눌러서 열고 닫아요.', mStory: '📖 이야기', mOoc: '💬 OOC', mOocTip: '이야기를 멈추고 AI에게 그냥 물어보는 모드. 미트볼 기록 · 쪽지 · 지시가 다 쉬어요.', setsL: '한 번에 고르기', fineL: '📏 매 답', rulesL: '내 규칙 · 말버릇', styleL: '매 답', sceneHowL: '⚙ 장면 고정 방식', redoL: '↻ 이유 적고 다시 뽑기',
   setN: { plain: '기본', talk: '💬 대화극', movie: '🎬 영화처럼', novel: '📖 소설처럼', drama: '🔥 드라마', quick: '⚡ 가볍게' }, setT: { plain: '아무것도 더하지 않아요.', talk: '대사 · 말투 · 지난 일 기억 + 인풋까지만.', movie: '빠른 템포 · 감각 · 반전 · 끝은 훅.', novel: '길게 · 감정은 행동으로 · 감각 · 숨 고르기 · 복선.', drama: '갈등 · 설렘 · NPC · 끝은 훅.', quick: '짧게 · 빠른 템포 · 유머.' },
   helpRules: '<b>지침 · 말버릇.</b> 지킬 것을 한 줄로 적기만 하면 돼요. 미트볼이 답을 정리할 때 같이 훑어보고, 어긴 게 보이면 <b>다음 답 하나에만</b> "이전 답에 이게 나왔으니 이번엔 주의"를 붙여요. 그다음엔 꺼져요. 「항상」이면 늘 붙여요.',
   rMode: { auto: '보이면 주의', always: '항상', off: '끔' }, rHit: '이전 답에서 보임 → 다음 답에 주의 붙음', rCycle: '눌러서 바꾸기: 보이면 주의 → 항상 → 끔', rEdit: '눌러서 고치기', rMine: '내 지침', rNone: '아직 없어요. 위에 한 줄 적고 Enter', rPresets: '기본 지침 {n}개', dLeft: '채팅 왼쪽에 붙이기 (PC)', dRight: '채팅 오른쪽에 붙이기 (PC)', dBottom: '🎬 위에 띄우기', close: '닫기', rNew: '새 지침', rText: '예: 깡캐를 바보처럼 그리지 않는다', rAdd: '추가', rDel: '지우기', rPreset: '기본',
@@ -61,7 +61,7 @@ const T = ko ? {
   sFresh: '✍ 다음 답에 들어가요', sUsed: '✓ #{i} 답에 들어갔어요', sUsedTip: '그 답을 다시 뽑으면 또 들어가요', sceneFor: '{n}답째', rSeen: '최근 {n}번 보임', rSeenTip: '이 채팅에서 이 버릇이 보인 답',
 } : {
   title: 'Meatball Director', alone: 'Meatball is off: only "Order" works', needMb: 'Needs Meatball status window.', oldMb: 'Meatball status window is old ({v}). Update to {need} or later for everything to work (e.g. Nudge slowly).',
-  tabs: ['✍ Order', '🎨 Style', '🔒 Secret', '🧭 Direction'], oTabQ: '💬 Ask', mStory: '📖 Story', mOoc: '💬 OOC', mOocTip: 'Pause the story and just ask the AI. Meatball records, notes and orders rest.', setsL: 'Quick sets', fineL: '📏 Every reply (story · OOC)', rulesL: 'My rules · habits', styleL: 'Every reply', sceneHowL: '⚙ How a pinned scene goes', redoL: '↻ Reroll with a reason',
+  tabs: ['✍ Order', '🎨 Style', '🔒 Secret', '🧭 Direction'], oTabQ: '💬 Ask', subs: ['✍ Order', '🔒 Secret', '🧭 Direction', '📜 Rules'], commonL: '🎨 Style', commonNote: 'story · OOC', commonTip: 'What goes with every reply: quick sets, how far, POV, length, extras. Same for the story and for OOC. Click to open or close.', mStory: '📖 Story', mOoc: '💬 OOC', mOocTip: 'Pause the story and just ask the AI. Meatball records, notes and orders rest.', setsL: 'Quick sets', fineL: '📏 Every reply', rulesL: 'My rules · habits', styleL: 'Every reply', sceneHowL: '⚙ How a pinned scene goes', redoL: '↻ Reroll with a reason',
   setN: { plain: 'Plain', talk: '💬 Dialogue', movie: '🎬 Cinematic', novel: '📖 Novel', drama: '🔥 Drama', quick: '⚡ Light' }, setT: { plain: 'Nothing extra.', talk: 'Dialogue, voices, memory + only my input.', movie: 'Brisk, senses, twists, end on a hook.', novel: 'Long, subtext, senses, quiet moments, foreshadowing.', drama: 'Conflict, romance, NPCs, end on a hook.', quick: 'Short, brisk, humour.' },
   helpRules: '<b>Guidelines · habits.</b> Just write the rule in one line. Meatball checks the reply while sorting it; if the rule was broken, the next reply only gets "the last reply did this, watch it". "Always" sends it every time.',
   rMode: { auto: 'warn when seen', always: 'always', off: 'off' }, rHit: 'seen in the last reply → warned in the next', rCycle: 'click: warn when seen → always → off', rEdit: 'click to edit', rMine: 'My rules', rNone: 'None yet. Type one above and press Enter', rPresets: '{n} preset rules', dLeft: 'dock left of the chat (PC)', dRight: 'dock right of the chat (PC)', dBottom: 'pop up above 🎬', close: 'Close', rNew: 'New rule', rText: 'e.g. never treat B like a child', rAdd: 'Add', rDel: 'Delete', rPreset: 'preset',
@@ -197,21 +197,20 @@ function render() {
   const face = A ? 'idle' : 'sleep', d = rset().dock || 'bottom';
   p.innerHTML = `<div class="mbd-bar"><span class="mbd-dots"><i></i><i></i><i></i></span><img class="mbd-cat" data-face="${face}" src="${catUrl(face)}" alt="" draggable="false"><span class="mbd-title">meatball.exe</span><span class="mbd-q" title="">?</span>
     <span class="mbd-dock">${[['left', '⇤', T.dLeft], ['bottom', '⬓', T.dBottom], ['right', '⇥', T.dRight]].map(([k, ic, t]) => `<b data-dock="${k}" title="${h(t)}" class="${d === k ? 'on' : ''}">${ic}</b>`).join('')}</span><b class="mbd-x" title="${h(T.close)}">✕</b></div>
-    <div class="mbd-mode"${tipT(T.mOocTip)}><span class="mbd-mb${st().ooc ? '' : ' on'}" data-mode="story">${h(T.mStory)}</span><span class="mbd-mb${st().ooc ? ' on ooc' : ''}" data-mode="ooc">${h(T.mOoc)}</span></div>
-    ${st().ooc ? `<div class="mbd-tabs">${[T.oTabQ, T.tabs[1]].map((t, i) => `<div class="mbd-tab${(G.oTab || 0) === i ? ' on' : ''}" data-otab="${i}">${h(t)}</div>`).join('')}</div>`
-      : `<div class="mbd-tabs">${T.tabs.map((t, i) => `<div class="mbd-tab${G.tab === i ? ' on' : ''}" data-tab="${i}">${h(t)}</div>`).join('')}</div>`}
+    <div class="mbd-common${G.common ? ' open' : ''}"><div class="mbd-cl" data-common="1"${tipT(T.commonTip)}><b>${h(T.commonL)}</b><span class="mbd-cnote">${h(T.commonNote)}</span><span class="mbd-sum">${h(styleSum())}</span><i>›</i></div>${G.common ? '<div id="mbd_common" class="mbd-cin"></div>' : ''}</div>
+    <div class="mbd-tabs mbd-mtabs"><div class="mbd-tab${st().ooc ? '' : ' on'}" data-mode="story">${h(T.mStory)}</div><div class="mbd-tab${st().ooc ? ' on ooc' : ''}" data-mode="ooc"${tipT(T.mOocTip)}>${h(T.mOoc)}</div></div>
     <div class="mbd-sheet">${A ? '' : `<div class="mbd-dim">${h(T.alone)}</div>`}${A && old(S?.version) ? `<div class="mbd-warn">⬆ ${h(T.oldMb.replace('{v}', S.version).replace('{need}', NEED_MB))}</div>` : ''}<div id="mbd_body"></div></div>`;
   p.querySelector('.mbd-cat')?.addEventListener('click', (e) => poke(e.currentTarget));
   p.classList.toggle('ooc', !!st().ooc); document.getElementById('mbd_btn')?.classList.toggle('ooc', !!st().ooc);
   p.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => { const want = b.dataset.mode === 'ooc'; if (want !== !!st().ooc) setOocOn(want); }));
   p.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => { G.tab = +b.dataset.tab; render(); }));
-  p.querySelectorAll('[data-otab]').forEach((b) => b.addEventListener('click', () => { G.oTab = +b.dataset.otab; render(); }));
+  p.querySelector('[data-common]')?.addEventListener('click', () => { G.common = !G.common; render(); });
+  if (G.common) tabStyle(p.querySelector('#mbd_common'));
   p.querySelectorAll('[data-dock]').forEach((b) => b.addEventListener('click', () => { rset().dock = b.dataset.dock; saveSet(); dock(); render(); }));
   p.querySelector('.mbd-x').addEventListener('click', () => { p.classList.remove('open'); document.getElementById('mbd_btn')?.classList.remove('on'); });
   const body = document.getElementById('mbd_body');
   if (G.shown !== G.tab) { body.classList.add('mbd-enter'); G.shown = G.tab; }
-  if (st().ooc && G.oTab === 1) tabStyle(body);
-  else if (st().ooc) { body.innerHTML = oocHtml(); body.querySelector('#mbd_oocoff').addEventListener('click', () => setOocOn(false));
+  if (st().ooc) { body.innerHTML = oocHtml(); body.querySelector('#mbd_oocoff').addEventListener('click', () => setOocOn(false));
     // the question goes into the chat input with "(OOC: …)" around it: sent now, put in as it is, or put in in English
     const qta = body.querySelector('#mbd_oocq'), keepQ = () => { st().oocDraft = qta.value; save(); };
     qta.addEventListener('input', keepQ);
@@ -228,11 +227,17 @@ function render() {
     body.querySelector('[data-oevery]')?.addEventListener('click', (e) => { const R0 = rset(); R0.oocEvery = R0.oocEvery === false; saveSet(); putOoc(true); e.currentTarget.classList.toggle('on', R0.oocEvery !== false); });
     body.querySelector('#mbd_oochide').addEventListener('change', (e) => { rset().oocHide = !!e.target.checked; saveSet(); });
   }
-  else if (G.tab === 0) tabOrder(body, A, S);
-  else if (G.tab === 1) tabStyle(body);
-  else if (!A) body.innerHTML = `<div class="mbd-help">${G.tab === 2 ? T.helpSecret : T.helpGoal}</div><div class="mbd-warn">${h(T.needMb)}</div>`;
-  else if (G.tab === 2) tabSecret(body, A, S);
-  else tabGoal(body, A, S);
+  else {
+    const tab = G.tab > 3 ? 0 : G.tab || 0;
+    body.innerHTML = `<div class="mbd-subs">${T.subs.map((t, i) => `<span class="mbd-subt${tab === i ? ' on' : ''}" data-tab="${i}">${h(t)}</span>`).join('')}</div><div id="mbd_sub"></div>`;
+    body.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => { G.tab = +b.dataset.tab; render(); }));
+    const sub = body.querySelector('#mbd_sub');
+    if (tab === 0) tabOrder(sub, A, S);
+    else if (tab === 3) tabRules(sub);
+    else if (!A) sub.innerHTML = `<div class="mbd-help">${tab === 1 ? T.helpSecret : T.helpGoal}</div><div class="mbd-warn">${h(T.needMb)}</div>`;
+    else if (tab === 1) tabSecret(sub, A, S);
+    else tabGoal(sub, A, S);
+  }
   const hp = body.querySelector('.mbd-help'), q = p.querySelector('.mbd-q');
   q.title = hp ? hp.textContent.replace(/\s+/g, ' ').trim() : '';
   // phones have no hover: tapping ? opens the same help inside the panel
@@ -605,13 +610,13 @@ function setNow() {
   const hit = SETS.find(([, x]) => (x.reach || 'auto') === (R0.reach || 'auto') && (x.len || 'auto') === (R0.len || 'auto') && (R0.pov || 'auto') === 'auto' && [...(x.boost || [])].sort().join(',') === on);
   return hit ? hit[0] : '';
 }
+function styleSum() { const k = setNow(); return k && k !== 'plain' ? T.setN[k] : everySum(); }
 function tabStyle(body) {
   const cur = setNow();
   body.innerHTML = `<section class="mbd-card"><div class="mbd-ch"><b>${h(T.setsL)}</b></div><div class="mbd-chips mbd-sets">${SETS.map(([k]) => `<span class="mbd-tg${cur === k ? ' on' : ''}" data-set="${k}"${tipT(T.setT[k])}>${h(T.setN[k])}</span>`).join('')}</div></section>
-    <section class="mbd-card mbd-ops"><div class="mbd-op${G.opStyle !== false ? ' open' : ''}"><div class="mbd-opl" data-op2="opStyle"${tipT(T.oEverySub)}><span>${h(T.fineL)}</span><span class="mbd-sum">${h(everySum())}</span><i>›</i></div>${G.opStyle !== false ? `<div class="mbd-opin">${optRow('reach', 'kReach')}${optRow('pov', 'kPov')}${boostHtml()}</div>` : ''}</div></section>
-    ${st().ooc ? '' : `<section class="mbd-card"><div class="mbd-ch"><b${tipT(T.helpRules.replace(/<[^>]+>/g, ''))}>${h(T.rulesL)}</b></div><div id="mbd_rules"></div></section>`}`;
+    <section class="mbd-card"><div class="mbd-ch"><b${tipT(T.oEverySub)}>${h(T.fineL)}</b></div>${optRow('reach', 'kReach')}${optRow('pov', 'kPov')}${boostHtml()}</section>
+`;
   boostWire(body);
-  body.querySelectorAll('[data-op2]').forEach((b) => b.addEventListener('click', () => { G.opStyle = G.opStyle === false; render(); }));
   body.querySelectorAll('[data-opt]').forEach((b) => b.addEventListener('click', () => { const [k, v] = b.dataset.opt.split(':'); rset()[k] = v; saveSet(); render(); }));
   body.querySelectorAll('[data-set]').forEach((b) => b.addEventListener('click', () => {
     const x = SETS.find(([k]) => k === b.dataset.set)[1], R0 = rset();

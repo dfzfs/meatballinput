@@ -324,3 +324,16 @@
 #mbd_panel .mbd-sets .mbd-tg { font-size: 12px; padding: 4px 11px; }
 #mbd_panel #mbd_rules .mbd-rule { margin: 5px 0; }
 #mbd_panel #mbd_rules > .mbd-row:first-child { margin-top: 0; }
+
+/* ===================== v0.18.2 · shared 🎨 문체 on top, then 📖 이야기 · 💬 OOC ===================== */
+#mbd_panel .mbd-common { margin: 8px 10px 0; border: 1.5px solid var(--mb-line); border-radius: 12px; background: var(--mbt-card, #fff); }
+#mbd_panel .mbd-cl { display: flex; align-items: center; gap: 8px; padding: 8px 11px; cursor: pointer; user-select: none; }
+#mbd_panel .mbd-cl b { font-size: 12.5px; white-space: nowrap; }
+#mbd_panel .mbd-cnote { font-size: 10.5px; color: var(--mb-dim); padding: 1px 7px; border-radius: 99px; background: var(--mb-soft); white-space: nowrap; }
+#mbd_panel .mbd-cl .mbd-sum { flex: 1; }
+#mbd_panel .mbd-cl > i { font-style: normal; color: var(--mb-dim); transition: transform .2s; }
+#mbd_panel .mbd-common.open .mbd-cl > i { transform: rotate(90deg); }
+#mbd_panel .mbd-cin { padding: 2px 10px 10px; max-height: 46vh; overflow-y: auto; border-top: 1px solid color-mix(in srgb, var(--mb-line) 70%, transparent); animation: mbdIn .2s ease-out; }
+#mbd_panel .mbd-cin .mbd-card { box-shadow: none; margin-top: 8px; }
+#mbd_panel .mbd-mtabs .mbd-tab.on.ooc { color: #fff; background: #6c7bd8; border-color: #6c7bd8; }
+#mbd_panel .mbd-mode { display: none; }
