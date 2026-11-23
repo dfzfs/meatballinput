@@ -167,3 +167,50 @@
 #mbd_panel .mbd-scsel { width: 100%; margin: 0; font-size: 12px; padding: 3px 6px !important; }
 #mbd_panel .mbd-sctip { width: 100%; font-size: 11px; color: var(--mb-dim); line-height: 1.5; animation: mbdIn .25s ease-out; }
 @media (max-width: 420px) { #mbd_panel .mbd-scrow { grid-template-columns: 1fr 1fr; } }
+
+/* ===================== v0.15 · 지시 tab, calmer: one card per job, room between them, choices as segmented pills ===================== */
+#mbd_panel .mbd-sheet { padding: 10px 12px 14px; }
+#mbd_panel .mbd-card { background: var(--mbt-card, #fff); border: 1.5px solid var(--mb-line); border-radius: 14px; padding: 11px 12px 12px; margin: 0 0 10px; }
+#mbd_panel .mbd-card:last-child { margin-bottom: 0; }
+#mbd_panel .mbd-ch { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; margin-bottom: 8px; }
+#mbd_panel .mbd-ch > b { font-size: 13px; font-weight: 700; color: var(--mb-ink); }
+#mbd_panel .mbd-ch > .mbd-dim { font-size: 11px; }
+#mbd_panel .mbd-ch > .mbd-st { margin: 0 0 0 auto; min-height: 0; }
+#mbd_panel .mbd-card textarea { min-height: 4.2em; margin: 0; }
+#mbd_panel .mbd-acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+#mbd_panel .mbd-acts .menu_button { padding: 4px 11px; border-radius: 99px; }
+#mbd_panel .menu_button.mbd-ghost { background: transparent !important; color: var(--mb-dim) !important; }
+#mbd_panel .menu_button.mbd-primary { background: var(--mb-acc) !important; color: #fff !important; border-color: var(--mb-acc) !important; }
+/* pinned */
+#mbd_panel .mbd-pinrow { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-top: 1px dashed var(--mb-line); }
+#mbd_panel .mbd-pinrow:first-of-type { border-top: 0; padding-top: 0; }
+#mbd_panel .mbd-pinrow > div:first-child { flex: 1; min-width: 0; }
+#mbd_panel .mbd-pinl { font-size: 11px; color: var(--mb-dim); font-weight: 600; }
+#mbd_panel .mbd-pinv { font-size: 12.5px; white-space: pre-wrap; overflow-wrap: anywhere; }
+/* option rows: label on the left, pills, one line saying what the picked one does */
+#mbd_panel .mbd-orow { display: grid; grid-template-columns: 4.6em minmax(0, 1fr); align-items: center; gap: 4px 10px; padding: 8px 0; border-top: 1px dashed var(--mb-line); }
+#mbd_panel .mbd-ch + .mbd-orow { border-top: 0; padding-top: 0; }
+#mbd_panel .mbd-olab { font-size: 12px; font-weight: 600; color: var(--mb-ink); }
+#mbd_panel .mbd-seg3 { display: flex; padding: 3px; gap: 3px; border-radius: 99px; background: var(--mb-soft); border: 1px solid var(--mb-line); }
+#mbd_panel .mbd-sb { flex: 1; text-align: center; padding: 4px 6px; border-radius: 99px; font-size: 12px; color: var(--mb-dim); cursor: pointer; white-space: nowrap; transition: background .18s, color .18s, box-shadow .18s; }
+#mbd_panel .mbd-sb:hover { color: var(--mb-ink); }
+#mbd_panel .mbd-sb.on { background: var(--mbt-card, #fff); color: var(--mb-ink); font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+#mbd_panel .mbd-odesc { grid-column: 2; font-size: 11px; line-height: 1.5; color: var(--mb-dim); }
+@media (max-width: 400px) { #mbd_panel .mbd-orow { grid-template-columns: 1fr; } #mbd_panel .mbd-odesc { grid-column: 1; } #mbd_panel .mbd-sb { white-space: normal; } }
+/* the reroll box as a card too */
+#mbd_panel .mbd-redo { background: var(--mbt-card, #fff); border: 1.5px solid var(--mb-line); border-radius: 14px; padding: 10px 12px; margin: 0; }
+#mbd_panel .mbd-redo > summary { list-style: none; } #mbd_panel .mbd-redo > summary::-webkit-details-marker { display: none; }
+#mbd_panel .mbd-redo > summary::before { content: "›"; display: inline-block; width: 1em; color: var(--mb-dim); transition: transform .18s; }
+#mbd_panel .mbd-redo[open] > summary::before { transform: rotate(90deg); }
+/* OOC */
+#mbd_panel .mbd-oocbtn { font-size: 10.5px; font-weight: 800; letter-spacing: .5px; padding: 1px 8px; border-radius: 99px; border: 1.5px solid var(--mb-line); color: var(--mb-dim); cursor: pointer; }
+#mbd_panel .mbd-oocbtn:hover { color: var(--mb-ink); }
+#mbd_panel .mbd-oocbtn.on { background: #6c7bd8; border-color: #6c7bd8; color: #fff; }
+#mbd_panel.ooc { border-color: #6c7bd8; }
+#mbd_panel.ooc .mbd-bar { background: color-mix(in srgb, #6c7bd8 14%, var(--mb-soft)); }
+#mbd_panel .mbd-oocc { border-color: color-mix(in srgb, #6c7bd8 45%, var(--mb-line)); }
+#mbd_panel .mbd-oocb { font-size: 12.5px; line-height: 1.6; }
+#mbd_panel .mbd-oochide { margin: 10px 0 0; font-size: 12px; color: var(--mb-ink); display: flex; align-items: center; gap: 6px; }
+#mbd_panel .mbd-oocn { margin-top: 8px; font-size: 11px; }
+#mbd_btn.ooc { position: relative; opacity: 1; }
+#mbd_btn.ooc::after { content: "OOC"; position: absolute; top: -6px; right: -8px; font-size: 8px; font-weight: 800; padding: 0 3px; border-radius: 4px; background: #6c7bd8; color: #fff; }

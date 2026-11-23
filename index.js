@@ -10,7 +10,7 @@
 const KEY = 'meatball_director', API_V = 1;
 const ctx = () => SillyTavern.getContext();
 // The newest 상태창 this 지시창 was made with: an older one still works, but some parts do nothing (e.g. 천천히 밀어주기)
-const NEED_MB = '0.26.4';
+const NEED_MB = '0.27.0';
 const old = (v) => { if (!v) return false; const a = String(v).split('.').map(Number), b = NEED_MB.split('.').map(Number); for (let i = 0; i < 3; i++) { if ((a[i] || 0) !== b[i]) return (a[i] || 0) < b[i]; } return false; };
 const api = () => (window.MeatballAPI?.v === API_V ? window.MeatballAPI : null);
 const h = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -23,6 +23,15 @@ const T = ko ? {
   helpOrder: '<b>AI에게 시킬 것.</b> 채팅에는 안 남고 본편 AI만 봐요.<br>· 그냥 적어 두면 <b>다음 답 한 번</b>에만 들어가요.<br>· 오래 지켜야 하면 📌 버튼으로 고정하세요. 「이 장면 동안」은 장면이 바뀌면 계속할지 물어봐요.<br>· 시간을 넘기고 싶으면 그냥 「사흘 뒤」처럼 적으면 돼요.',
   orderPh: '예: 깡캐가 먼저 말을 건다', fresh: '다음 답에 들어가요', used: '이미 들어갔어요. 그 답을 다시 뽑을 때만 또 들어가요', empty: '',
   rdTitle: '↻ 다시 뽑을 때 강하게', rdHelp: '마음에 안 든 답을 다시 뽑을 때, 뭐가 틀렸는지 적어 두면 「직전 버전은 이것 때문에 버려졌음, 반드시 고칠 것」으로 맨 끝에 붙어요. 이 답을 다시 뽑는 동안만 가고, 다음 답으로 넘어가면 지워져요.', rdPh: '예: 너무 쉽게 웃었음. 비밀을 직접 말해 버렸음', rdGo: '↻ 이걸로 다시 뽑기', rdOn: '↻ #{i}를 다시 뽑을 때마다 들어가요', rdFound: '지난 버전에서 보인 것 (누르면 들어가요)', rdLeak: '{w}의 비밀을 말해 버림', rdLeakNo: '비밀이 새어 나옴', rdRefuse: '거절을 쉽게 뒤집음', rdNoAi: '다시 뽑을 답이 아직 없어요',
+  oBeat: '✍ 이번 답 지시', oPin: '📌 고정해 둔 지시', oScene: '🎬 장면을 고정할 때', oSceneSub: '「📌 이 장면 동안」을 누르면 이대로 가요', oEvery: '📏 매 답', oEverySub: '지시가 없어도 늘 들어가요',
+  kEnter: '장면까지', kIntro: '도입부', kSplit: '나누기', kReach: '어디까지',
+  vSkip: '⏩ 타임스킵', vFill: '➡ 이어서', vIntroYes: '채우기', vIntroNo: '바로 본론', vMulti: '여러 답으로', vOne: '한 답에 기승전결', vAuto: '알아서', vUpto: '인풋까지만', vBeyond: '인풋 다음도',
+  dSkip: '시간을 건너뛰어 장면으로. 인풋에 「사흘 뒤」처럼 적혀 있으면 그만큼, 없으면 알아서 적당히.', dFill: '직전 답이 멈춘 데서 자연스럽게 이어 가며 사이를 채우고 장면을 시작해요.',
+  dIntroYes: '장소 · 분위기를 짧게 깔고 시작해요.', dIntroNo: '묘사로 시작하지 않고 바로 일이 벌어져요.',
+  dMulti: '인풋을 한 답에 다 쓰지 않고 적당히 나눠서, 다음 답들에 이어 가요.', dOne: '한 답 안에 기승전결로 끝까지. 그 답이 나오면 고정이 풀려요(다시 뽑으면 또 들어가요).',
+  dAuto: '따로 정하지 않아요.', dUpto: '내 인풋이 다루는 데까지만 쓰고 멈춰요. 내 캐릭터의 다음 행동을 대신 정하지 않아요.', dBeyond: '인풋이 다루는 것 다음까지 AI가 이야기를 더 이어 가요.',
+  oocBtn: 'OOC', oocTip: 'OOC: 이야기를 멈추고 AI에게 그냥 물어봐요(분석 · 왜 이렇게 됐는지 등). 미트볼 쪽지 · 기록 · 지시 · 장면 고정이 전부 꺼지고, 맨 밑에 「위의 형식 · 트래커 · 스탯 · 분량 지시 전부 무시하고 질문에 답할 것」이 들어가요.',
+  oocTitle: '💬 OOC 중 · 이야기 멈춤', oocBody: '채팅창에 질문을 그냥 보내면 돼요. 미트볼 쪽지 · 기록 정리 · 지시 · 장면 고정 · 방향은 다 꺼져 있어요.', oocHide: '끌 때 OOC 대화 숨기기 (다음 이야기에 안 섞이게)', oocOff: '이야기로 돌아가기', oocHidden: 'OOC 대화 {n}개를 숨겼어요.', oocNote: '프리셋 · 카드에 적힌 지시는 지울 수 없어서, 맨 밑에서 「무시할 것」으로 덮어요.',
   scEnterL: '들어가기', scLenL: '길이', scFocusL: '초점', scHow: '장면 고정 방식 (계속 기억해요)', scSkip: '⏩ 건너뛰어 바로', scFill: '➡ 이어서 채우며', scOne: '한 답으로 끝', scMulti: '여러 답에 걸쳐',
   scSkipTip: '지금부터 그 장면까지의 시간은 짧게 넘기고 장면 자체로 바로 들어가요.', scFillTip: '직전 답이 멈춘 데서 이어 가며 그 사이를 짧게 채우고, 이번 답 안에 장면에 도착해요.',
   scOneTip: '한 답 안에서 장면을 끝까지 하고 마무리해요. 그 답이 나오면 고정이 저절로 풀려요(다시 뽑으면 또 들어가요).', scMultiTip: '여러 답에 걸쳐 이어져요. 첫 답은 들어가기, 그다음부턴 멈춘 데서 이어 가기.', scDone: '한 답짜리 · 답이 나오면 풀려요',
@@ -47,6 +56,15 @@ const T = ko ? {
   helpOrder: '<b>What the AI should do.</b> Not kept in the chat; only the story AI sees it.<br>· Typed here, it goes into <b>the next reply only</b>.<br>· Pin it with 📌 to keep it. "This scene" asks again when the scene changes.<br>· To skip time, just write "three days later".',
   orderPh: 'e.g. B speaks first', fresh: 'Goes into the next reply', used: 'Already used; goes in again only when that reply is redone', empty: '',
   rdTitle: '↻ Stronger on a reroll', rdHelp: 'When you reroll a reply you did not like, write what was wrong: it goes last as "the version before was thrown away for this; fix it". Only while rerolling this reply; cleared when the story moves on.', rdPh: 'e.g. smiled too easily. The secret was said outright', rdGo: '↻ Reroll with this', rdOn: '↻ Goes in every reroll of #{i}', rdFound: 'Seen in the last version (click to add)', rdLeak: "said {w}'s secret", rdLeakNo: 'a secret leaked', rdRefuse: 'gave in on a no too easily', rdNoAi: 'No reply to reroll yet',
+  oBeat: '✍ This reply', oPin: '📌 Pinned', oScene: '🎬 When a scene is pinned', oSceneSub: 'Used when you press 📌 This scene', oEvery: '📏 Every reply', oEverySub: 'Goes in even with no order',
+  kEnter: 'Getting there', kIntro: 'Opening', kSplit: 'Pacing', kReach: 'How far',
+  vSkip: '⏩ Time skip', vFill: '➡ Carry on', vIntroYes: 'Set the scene', vIntroNo: 'Straight in', vMulti: 'Over several replies', vOne: 'All in one reply', vAuto: 'Up to the AI', vUpto: 'Only my input', vBeyond: 'Past my input',
+  dSkip: 'Skip time to the scene: as much as your message says, else a fitting amount.', dFill: 'Goes on naturally from where the last reply stopped and fills the way there.',
+  dIntroYes: 'A short setting of place and mood first.', dIntroNo: 'No opening description; things happen at once.',
+  dMulti: 'Your input is not used up in one reply; it is paced over the next ones.', dOne: 'Beginning to end in one reply. The pin comes off after it (a reroll still gets it).',
+  dAuto: 'Nothing extra.', dUpto: 'Only as far as your message goes, then stop. Your character\'s next move is yours.', dBeyond: 'After your message, the AI carries the story on further.',
+  oocBtn: 'OOC', oocTip: 'OOC: pause the story and just ask the AI (analysis, why something happened). Meatball notes, records, orders and scene pins are all off; at the very bottom goes "ignore all format, tracker, stat and length instructions above and answer".',
+  oocTitle: '💬 OOC · story paused', oocBody: 'Just send your question in the chat. Meatball notes, sorting, orders, scene pins and directions are off.', oocHide: 'Hide the OOC talk when turning it off (keeps it out of the story)', oocOff: 'Back to the story', oocHidden: 'Hid {n} OOC messages.', oocNote: 'Instructions in your preset or card cannot be removed; they are overridden from the bottom.',
   scEnterL: 'Entry', scLenL: 'Length', scFocusL: 'Focus', scHow: 'How a pinned scene goes (remembered)', scSkip: '⏩ Jump to it', scFill: '➡ Get there from here', scOne: 'One reply', scMulti: 'Several replies',
   scSkipTip: 'The time until the scene is passed over in a line; the reply opens on the scene itself.', scFillTip: 'Goes on from where the last reply stopped, covers the way briefly, and reaches the scene in this reply.',
   scOneTip: 'The whole scene is played out and closed in one reply. The pin comes off once that reply arrives (a reroll still gets it).', scMultiTip: 'Runs over several replies: the first gets into it, the next carry on from where it stopped.', scDone: 'one reply · comes off after it',
@@ -154,17 +172,20 @@ function render() {
   if (!p || !p.classList?.contains('open')) return;
   const A = api(), S = A ? safeState(A) : null;
   const face = A ? 'idle' : 'sleep', d = rset().dock || 'bottom';
-  p.innerHTML = `<div class="mbd-bar"><span class="mbd-dots"><i></i><i></i><i></i></span><img class="mbd-cat" data-face="${face}" src="${catUrl(face)}" alt="" draggable="false"><span class="mbd-title">meatball.exe</span><span class="mbd-q" title="">?</span>
+  p.innerHTML = `<div class="mbd-bar"><span class="mbd-dots"><i></i><i></i><i></i></span><img class="mbd-cat" data-face="${face}" src="${catUrl(face)}" alt="" draggable="false"><span class="mbd-title">meatball.exe</span><span class="mbd-oocbtn${st().ooc ? ' on' : ''}" title="${h(T.oocTip)}">${h(T.oocBtn)}</span><span class="mbd-q" title="">?</span>
     <span class="mbd-dock">${[['left', '⇤', T.dLeft], ['bottom', '⬓', T.dBottom], ['right', '⇥', T.dRight]].map(([k, ic, t]) => `<b data-dock="${k}" title="${h(t)}" class="${d === k ? 'on' : ''}">${ic}</b>`).join('')}</span><b class="mbd-x" title="${h(T.close)}">✕</b></div>
     <div class="mbd-tabs">${T.tabs.map((t, i) => `<div class="mbd-tab${G.tab === i ? ' on' : ''}" data-tab="${i}">${h(t)}</div>`).join('')}</div>
     <div class="mbd-sheet">${A ? '' : `<div class="mbd-dim">${h(T.alone)}</div>`}${A && old(S?.version) ? `<div class="mbd-warn">⬆ ${h(T.oldMb.replace('{v}', S.version).replace('{need}', NEED_MB))}</div>` : ''}<div id="mbd_body"></div></div>`;
   p.querySelector('.mbd-cat')?.addEventListener('click', (e) => poke(e.currentTarget));
+  p.classList.toggle('ooc', !!st().ooc); document.getElementById('mbd_btn')?.classList.toggle('ooc', !!st().ooc);
+  p.querySelector('.mbd-oocbtn')?.addEventListener('click', () => setOocOn(!st().ooc));
   p.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => { G.tab = +b.dataset.tab; render(); }));
   p.querySelectorAll('[data-dock]').forEach((b) => b.addEventListener('click', () => { rset().dock = b.dataset.dock; saveSet(); dock(); render(); }));
   p.querySelector('.mbd-x').addEventListener('click', () => { p.classList.remove('open'); document.getElementById('mbd_btn')?.classList.remove('on'); });
   const body = document.getElementById('mbd_body');
   if (G.shown !== G.tab) { body.classList.add('mbd-enter'); G.shown = G.tab; }
-  if (G.tab === 0) tabOrder(body, A, S);
+  if (st().ooc) { body.innerHTML = oocHtml(); body.querySelector('#mbd_oocoff').addEventListener('click', () => setOocOn(false)); body.querySelector('#mbd_oochide').addEventListener('change', (e) => { rset().oocHide = !!e.target.checked; saveSet(); }); }
+  else if (G.tab === 0) tabOrder(body, A, S);
   else if (G.tab === 3) tabRules(body);
   else if (!A) body.innerHTML = `<div class="mbd-help">${G.tab === 1 ? T.helpSecret : T.helpGoal}</div><div class="mbd-warn">${h(T.needMb)}</div>`;
   else if (G.tab === 1) tabSecret(body, A, S);
@@ -183,12 +204,13 @@ function tabOrder(body, A, S) {
   const sceneN = A && s.scene.trim() ? Math.max(0, (S.gn || 0) - (s.sceneGn || 0)) : 0;
   const pins = [s.scene.trim() ? ['scene', T.pinnedScene + (sceneOnce() ? ` · ${T.scDone}` : sceneN ? ` · ${fill(T.sceneFor, { n: sceneN })}` : ''), s.scene] : null, keep.trim() ? ['always', T.pinnedAlways, keep] : null].filter(Boolean);
   body.innerHTML = `<div class="mbd-help">${T.helpOrder}</div>
-    <textarea id="mbd_beat" class="text_pole" placeholder="${h(T.orderPh)}">${h(s.beat)}</textarea>
-    <div class="mbd-st">${status}</div><div id="mbd_beat_info"></div>
-    ${sceneHowHtml()}
-    <div class="mbd-row"><div id="mbd_pin_s" class="menu_button"${tipAt('pinScene')}>${h(T.pinScene)}</div><div id="mbd_pin_a" class="menu_button"${tipAt('pinAlways')}>${h(T.pinAlways)}</div><div id="mbd_clear" class="menu_button"${tipAt('clear')}>${h(T.clear)}</div></div>
-    ${cut ? `<div class="mbd-warn">${h(T.sceneCut)} <span id="mbd_scene_keep" class="menu_button">${h(T.keepIt)}</span> <span id="mbd_scene_clear" class="menu_button">${h(T.clear)}</span></div>` : ''}
-    ${pins.length ? `<label>${h(T.pinned)}</label>${pins.map(([k, l, v]) => `<div class="mbd-item mbd-pin"><span><b>📌 ${h(l)}</b><br>${h(v)}</span><div class="menu_button" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}` : ''}
+    <section class="mbd-card"><div class="mbd-ch"><b>${h(T.oBeat)}</b><span class="mbd-st">${status}</span></div>
+      <textarea id="mbd_beat" class="text_pole" placeholder="${h(T.orderPh)}">${h(s.beat)}</textarea><div id="mbd_beat_info"></div>
+      <div class="mbd-acts"><div id="mbd_pin_s" class="menu_button"${tipAt('pinScene')}>${h(T.pinScene)}</div><div id="mbd_pin_a" class="menu_button"${tipAt('pinAlways')}>${h(T.pinAlways)}</div><div id="mbd_clear" class="menu_button mbd-ghost"${tipAt('clear')}>${h(T.clear)}</div></div>
+      ${cut ? `<div class="mbd-warn">${h(T.sceneCut)} <span id="mbd_scene_keep" class="menu_button">${h(T.keepIt)}</span> <span id="mbd_scene_clear" class="menu_button">${h(T.clear)}</span></div>` : ''}</section>
+    ${pins.length ? `<section class="mbd-card"><div class="mbd-ch"><b>${h(T.oPin)}</b></div>${pins.map(([k, l, v]) => `<div class="mbd-pinrow"><div><div class="mbd-pinl">${h(l)}</div><div class="mbd-pinv">${h(v)}</div></div><div class="menu_button mbd-ghost" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}</section>` : ''}
+    <section class="mbd-card"><div class="mbd-ch"><b>${h(T.oScene)}</b><span class="mbd-dim">${h(T.oSceneSub)}</span></div>${optRow('scEnter', 'kEnter')}${optRow('scIntro', 'kIntro')}${optRow('scLen', 'kSplit')}</section>
+    <section class="mbd-card"><div class="mbd-ch"><b>${h(T.oEvery)}</b><span class="mbd-dim">${h(T.oEverySub)}</span></div>${optRow('reach', 'kReach')}</section>
     ${redoHtml(s, S)}`;
   const beat = document.getElementById('mbd_beat');
   beat.addEventListener('input', () => { const was = !!s.beat.trim() && !s.used; s.beat = beat.value; s.used = false; s.usedIdx = -1; save(); info();
@@ -201,53 +223,41 @@ function tabOrder(body, A, S) {
   document.getElementById('mbd_scene_keep')?.addEventListener('click', () => { s.sceneGn = S.gn || 0; save(); render(); });
   document.getElementById('mbd_scene_clear')?.addEventListener('click', () => { s.scene = ''; save(); render(); });
   redoWire(body, s);
-  body.querySelectorAll('[data-scsel]').forEach((b) => b.addEventListener('change', () => { rset()[b.dataset.scsel] = b.value; saveSet(); render(); }));
+  body.querySelectorAll('[data-opt]').forEach((b) => b.addEventListener('click', () => { const [k, v] = b.dataset.opt.split(':'); rset()[k] = v; saveSet(); render(); }));
   info();
 }
-// v0.14.4 how a pinned scene goes — three dropdowns (entry · length · focus), kept in the extension settings for every
-// chat until changed. Each kind carries the English words sent with the scene: `start` for its first reply, `going` after.
-// `once`: the scene is done in one reply, so the pin comes off when that reply arrives (a reroll of it still gets it).
-const SC_ENTER = [
-  ['skip', { ko: '⏩ 건너뛰어 바로', en: '⏩ Jump to it' }, { ko: '그사이 시간은 한 줄로 넘기고 장면 자체로 시작해요.', en: 'The time in between passes in a line; the reply opens on the scene.' }, 'Jump to it: a short line for the time that passes is enough, then open on the scene itself'],
-  ['fill', { ko: '➡ 이어서 채우며', en: '➡ Get there from here' }, { ko: '직전 답이 멈춘 데서 이어 가며 그 사이를 짧게 채우고, 이번 답 안에 도착해요.', en: 'Goes on from where the last reply stopped and reaches the scene in this reply.' }, 'Go on from where the last reply stopped, cover the way there briefly, and reach the scene within this reply'],
-  ['mid', { ko: '🎬 한창일 때부터', en: '🎬 In the middle of it' }, { ko: '도착 · 준비 없이, 이미 벌어지고 있는 장면 한가운데서 시작해요.', en: 'No arrival, no setting up: it is already happening when the reply begins.' }, 'Open in the middle of it: the scene is already happening when the reply begins. No arrival, no setting up'],
-  ['cut', { ko: '✂ 컷 전환', en: '✂ Cut away' }, { ko: '이어 붙이지 않고 다른 곳 · 다른 사람으로 화면을 확 바꿔요.', en: 'A clean scene change to another place or other people, no bridge.' }, 'Cut away to it: a clean scene change (another place or other people) with no bridge from the last reply'],
-  ['flash', { ko: '⏪ 회상', en: '⏪ Flashback' }, { ko: '과거에 있었던 일로. 처음에 과거라는 걸 알리고, 장면이 끝나면 지금으로 돌아와요.', en: 'Set in the past: made clear at the start, back to the present at the end.' }, 'As a flashback: the scene happened in the past. Make that clear at the start, play it, and come back to the present when the scene ends'],
-  ['dream', { ko: '🌙 꿈 · 상상', en: '🌙 Dream or imagined' }, { ko: '꿈이나 상상 속 장면. 끝날 때는 현실이 아니었다는 게 드러나요.', en: 'A dream or something imagined; by the end it is clear it was not real.' }, 'As a dream or something imagined: by the end of the scene it is clear it was not real'],
-];
+// v0.15 the person's own breakdown: getting there (time skip · carry on) · opening (set the scene · straight in) ·
+// pacing (over several replies · all in one) — for a pinned scene; and how far (only my input · past it) for every reply.
+// Kept in the extension settings for every chat until changed. Each choice carries the English words that are sent.
 const GOING = 'This scene is already under way: pick up exactly where the last reply stopped and carry it forward. Do not set it up again, re-describe the place or the mood, or wrap it up';
-const SC_LEN = [
-  ['multi', { ko: '여러 답에 걸쳐', en: 'Several replies' }, { ko: '첫 답은 제대로 들어가기까지, 그다음부턴 멈춘 데서 이어 가요. 장면이 바뀌면 물어봐요.', en: 'The first reply gets into it; the next carry on from where it stopped.' }, 'It may run over several replies: this reply gets into it properly, no need to finish it', GOING],
-  ['one', { ko: '한 답으로 끝', en: 'One reply' }, { ko: '한 답 안에서 끝까지 하고 마무리. 그 답이 나오면 고정이 풀려요.', en: 'Played out and closed in one reply; the pin comes off after it.' }, 'Play the whole scene out in this reply and bring it to a close', '', true],
-  ['slow', { ko: '🐢 천천히 길게', en: '🐢 Slowly, at length' }, { ko: '답마다 작은 한 걸음씩. 머뭇거림 · 세부를 살리며 오래 끌어요.', en: 'One small beat per reply, with room for detail and pauses.' }, 'Take it slowly over many replies: this reply covers only the first small beat, with room for detail and pauses', 'Still under way, slowly: one small next beat from where the last reply stopped. Linger on it; do not jump ahead or wrap it up'],
-  ['brief', { ko: '💨 짧게 스치듯', en: '💨 A brief moment' }, { ko: '몇 줄짜리 짧은 순간으로 지나가고, 같은 답 안에서 이야기가 계속돼요.', en: 'A few lines of it inside the reply, then the story moves on.' }, 'A brief moment only: a few lines of it inside this reply, then the story moves on', '', true],
-  ['cliff', { ko: '❗ 끊으며 끝', en: '❗ End on a cliffhanger' }, { ko: '한 답 안에서 하되, 풀리지 않은 긴장된 순간에서 딱 끊어요.', en: 'Played in one reply but stopped at an open, unresolved moment.' }, 'Play it out in this reply but stop at an open, unresolved moment: a cliffhanger, not a close', '', true],
-  ['open', { ko: '🔒 내가 끝낼 때까지', en: '🔒 Until I end it' }, { ko: 'AI가 알아서 마무리하지 않아요. 고정을 풀 때까지 계속 이어 가요.', en: 'Never closed by the AI; it goes on until you unpin it.' }, 'This scene goes on until the user ends it: this reply gets into it; never close it on your own', 'Still under way: carry it on from where the last reply stopped. Do not close the scene or move past it; it ends only when the user ends it'],
-];
-const SC_FOCUS = [
-  ['auto', { ko: '알아서', en: 'Up to the scene' }, { ko: '따로 정하지 않아요.', en: 'Nothing extra.' }, ''],
-  ['talk', { ko: '💬 대화 위주', en: '💬 Dialogue' }, { ko: '인물들이 말로 풀어 가게 해요.', en: 'Let the characters talk it out.' }, 'Lean on dialogue: let the characters talk it out'],
-  ['act', { ko: '🏃 행동 위주', en: '🏃 Action' }, { ko: '몸으로 하는 것 · 움직임 위주, 말은 짧게.', en: 'What bodies do; talk kept short.' }, 'Lean on action and what bodies do; keep the talk short'],
-  ['inner', { ko: '💭 속마음 위주', en: '💭 Inner life' }, { ko: '겉으로 안 하는 생각 · 감정을 깊게.', en: 'What they feel and think underneath.' }, 'Lean on what the characters feel and think underneath'],
-  ['mood', { ko: '🌫 분위기 묘사', en: '🌫 Atmosphere' }, { ko: '감각 · 빛 · 소리 · 공간을 살려요.', en: 'Senses, light, sound, the place.' }, 'Lean on atmosphere: the senses, light, sound and the place'],
-  ['tension', { ko: '⚡ 긴장 유지', en: '⚡ Keep the tension' }, { ko: '풀어지거나 다독이는 장면 없이 팽팽하게.', en: 'No easing off, no comfort beats.' }, 'Keep the tension high: no easing off, no comfort beats'],
-  ['soft', { ko: '🫖 잔잔하게', en: '🫖 Gentle' }, { ko: '큰 사건 없이 조용하고 따뜻하게.', en: 'Quiet and warm, no big events.' }, 'Keep it gentle and quiet: no big turns, small warm moments'],
-];
-const pickOf = (list, id) => list.find((x) => x[0] === id) || list[0];
-const sceneMode = () => { const R0 = rset(); return { enter: pickOf(SC_ENTER, R0.scEnter)[0], len: pickOf(SC_LEN, R0.scLen)[0], focus: pickOf(SC_FOCUS, R0.scFocus)[0] }; };
-const sceneOnce = () => !!pickOf(SC_LEN, sceneMode().len)[5];
-// the English words for the picked kinds
+const OPT = {
+  scEnter: [['skip', 'vSkip', 'dSkip', "Time skip to the scene: if the user's message says how much time passes, use that; otherwise pick a fitting amount. One line for the passing time, then the scene"],
+    ['fill', 'vFill', 'dFill', 'Go on naturally from where the last reply stopped, filling in what happens on the way, then start the scene']],
+  scIntro: [['no', 'vIntroNo', 'dIntroNo', 'No opening description: start straight with what happens'],
+    ['yes', 'vIntroYes', 'dIntroYes', 'Open the scene with a short setting of the place and the mood']],
+  scLen: [['multi', 'vMulti', 'dMulti', 'Pace it over several replies: do not use up everything the user asked for in this one reply; take the first part and leave the rest for the next replies'],
+    ['one', 'vOne', 'dOne', 'Tell the whole scene in this reply, beginning to end: setup, development, turn and close']],
+  reach: [['auto', 'vAuto', 'dAuto', ''],
+    ['upto', 'vUpto', 'dUpto', "Write only as far as the user's message goes, then stop. Do not go past it or decide what the user's character does next"],
+    ['beyond', 'vBeyond', 'dBeyond', "After what the user's message covers, carry the story on a little further on your own"]],
+};
+const OLD = { mid: 'skip', cut: 'skip', flash: 'skip', dream: 'skip', slow: 'multi', open: 'multi', brief: 'one', cliff: 'one' };   // kinds from 0.14.4
+const optOf = (k) => { const R0 = rset(), v = OLD[R0[k]] || R0[k]; return OPT[k].find((x) => x[0] === v) || OPT[k][0]; };
+const sceneMode = () => ({ enter: optOf('scEnter')[0], intro: optOf('scIntro')[0], len: optOf('scLen')[0] });
+const sceneOnce = () => optOf('scLen')[0] === 'one';
+const reachWords = () => optOf('reach')[3];
+// the English words for a pinned scene: start (its first reply) · going (the ones after)
 function sceneWords() {
-  const m = sceneMode(), E = pickOf(SC_ENTER, m.enter), L0 = pickOf(SC_LEN, m.len), F = pickOf(SC_FOCUS, m.focus);
-  return { start: `${E[3]}. ${L0[3]}`, going: L0[4] || GOING, focus: F[3] };
+  const one = sceneOnce(), upto = optOf('reach')[0] === 'upto';
+  const len = one && upto ? "Tell the whole scene within what the user's message covers: setup, development, turn and close, without going past it" : optOf('scLen')[3];
+  return { start: [optOf('scEnter')[3], optOf('scIntro')[3], len].join('. '), going: one ? '' : `${GOING}. Take the next part only; keep the rest for later replies`, focus: '' };
 }
-function sceneHowHtml() {
-  const m = sceneMode(), sel = (k, list, cur, label) => `<label class="mbd-scl"><span>${h(label)}</span><select class="text_pole mbd-scsel" data-scsel="${k}">${list.map(([id, l]) => `<option value="${id}"${id === cur ? ' selected' : ''}>${h(l[lg])}</option>`).join('')}</select></label>`;
-  const tip = (list, cur) => pickOf(list, cur)[2][lg];
-  return `<div class="mbd-schow"><div class="mbd-dim">${h(T.scHow)}</div>
-    <div class="mbd-scrow">${sel('scEnter', SC_ENTER, m.enter, T.scEnterL)}${sel('scLen', SC_LEN, m.len, T.scLenL)}${sel('scFocus', SC_FOCUS, m.focus, T.scFocusL)}</div>
-    <div class="mbd-sctip">${h([tip(SC_ENTER, m.enter), tip(SC_LEN, m.len), m.focus !== 'auto' ? tip(SC_FOCUS, m.focus) : ''].filter(Boolean).join(' '))}</div></div>`;
+// one row: a label, a segmented choice, and the words for what is picked right now
+function optRow(k, label) {
+  const cur = optOf(k);
+  return `<div class="mbd-orow"><div class="mbd-olab">${h(T[label])}</div><div class="mbd-seg3">${OPT[k].map(([id, v]) => `<span class="mbd-sb${cur[0] === id ? ' on' : ''}" data-opt="${k}:${id}">${h(T[v])}</span>`).join('')}</div><div class="mbd-odesc">${h(T[cur[2]])}</div></div>`;
 }
+
 
 // v0.14.1 ↻ a reroll with a reason: what was wrong with the version being thrown away goes as the strongest, last line.
 // It holds for every reroll of that reply and is cleared when the story moves on (a new reply is asked for).
@@ -496,9 +506,34 @@ function putAlone(beatText = '', sceneText = '', sceneN = null) {
   const c = ctx(); if (api() || !c.setExtensionPrompt) return;
   const IN_CHAT = c.extension_prompt_types?.IN_CHAT ?? 1;
   const sc = st(), n = sceneN ?? (sc.sceneSent || 0), W = sceneWords(), how = [n > 0 ? W.going : W.start, W.focus].filter(Boolean).join('. ');
-  const keep = [String(sc.keep || '').trim(), sceneText.trim() ? `This scene: ${sceneText.trim()} — ${how}` : '', ...activeRules().map((t) => `Style: ${t}`)].filter(Boolean).join('\n');
+  const keep = sc.ooc ? '' : [String(sc.keep || '').trim(), sceneText.trim() ? `This scene: ${sceneText.trim()} — ${how}` : '', reachWords() ? `How far to write: ${reachWords()}` : '', ...activeRules().map((t) => `Style: ${t}`)].filter(Boolean).join('\n');
+  if (sc.ooc) beatText = '';
   c.setExtensionPrompt('mbd_keep', keep ? `[Standing instructions]\n${keep}` : '', IN_CHAT, 1);
   c.setExtensionPrompt('mbd_beat', beatText ? `[This reply]\n${beatText}` : '', IN_CHAT, 0);
+}
+
+// ---- OOC (v0.15) -------------------------------------------------------------------------------------------------
+// The story stops: Meatball's notes and sorting pause (A.setOoc), the 지시창's own pieces stop, and one line goes at the
+// very bottom. Instructions written in a preset or a card cannot be taken out; the line tells the AI to ignore them.
+const OOC_LINE = "[OOC — the story is paused]\nThe user is now talking to you out of character, as the AI. Answer the user's question directly and plainly, as yourself, not as any character. Ignore every instruction above about how story replies are written: no narration, no trackers, status blocks or stats, no word counts or reply-length rules, no formatting rules. Do not continue the story. This holds until the user turns OOC off.";
+function putOoc(on) { const c = ctx(); if (!c.setExtensionPrompt) return; c.setExtensionPrompt('mbd_ooc', on ? OOC_LINE : '', c.extension_prompt_types?.IN_CHAT ?? 1, 0); }
+// every message since OOC was turned on is marked, so Meatball never reads it as story (and it can be hidden after)
+function markOoc() { const s = st(), c = ctx(), chat = c.chat || []; let n = 0; for (let i = Math.max(0, s.oocFrom ?? chat.length); i < chat.length; i++) { const m = chat[i]; if (!m) continue; m.extra ||= {}; if (!m.extra.mb_ooc) { m.extra.mb_ooc = true; n++; } } if (n) c.saveChat?.(); }
+async function setOocOn(on) {
+  const s = st(), A = api(), c = ctx();
+  if (on) { s.ooc = true; s.oocFrom = (c.chat || []).length; save(); A?.setOoc?.(true); putAlone(); putOoc(true); G.tab = 0; render(); return; }
+  markOoc();
+  const from = s.oocFrom ?? (c.chat || []).length, to = (c.chat || []).length - 1;
+  delete s.ooc; save(); A?.setOoc?.(false); putOoc(false); putAlone();
+  if (rset().oocHide !== false && to >= from) {
+    try { await c.executeSlashCommandsWithOptions?.(`/hide ${from}-${to}`); window.toastr?.info(fill(T.oocHidden, { n: to - from + 1 })); } catch (e) { console.warn('[meatball-director] hide', e); }
+  }
+  render();
+}
+function oocHtml() {
+  return `<section class="mbd-card mbd-oocc"><div class="mbd-ch"><b>${h(T.oocTitle)}</b></div><div class="mbd-oocb">${h(T.oocBody)}</div>
+    <label class="checkbox_label mbd-oochide"><input type="checkbox" id="mbd_oochide"${rset().oocHide !== false ? ' checked' : ''} /> ${h(T.oocHide)}</label>
+    <div class="mbd-acts"><div id="mbd_oocoff" class="menu_button mbd-primary">${h(T.oocOff)}</div></div><div class="mbd-dim mbd-oocn">${h(T.oocNote)}</div></section>`;
 }
 
 // ---- generation ------------------------------------------------------------------------------------------------
@@ -508,6 +543,8 @@ function onStart(type, opts, dryRun) {
   if (dryRun || QUIET.has(type) || opts?.quiet_prompt) { api()?.pieces(null); return; }
   const s = st(), text = String(s.beat || '').trim(), A = api();
   const again = type === 'swipe' || type === 'regenerate';
+  if (s.ooc) { G.ooc = true; markOoc(); if (A) A.pieces(null); else putAlone(); putOoc(true); return; }   // OOC: only the OOC line goes
+  G.ooc = false;
   G.apply = !!text && (!s.used || (again && s.usedIdx === lastAiIdx()));
   G.type = type || 'normal';
   const S = A ? safeState(A) : {}, back = again && !s.scene.trim() && s.sceneLast?.idx === lastAiIdx() ? s.sceneLast.text : '';
@@ -517,10 +554,11 @@ function onStart(type, opts, dryRun) {
   G.sceneOn = sceneOn && type !== 'continue'; G.again = again;
   const sceneN = back ? 0 : Math.max(0, (s.sceneSent || 0) - (again && s.sceneSent ? 1 : 0));
   G.sceneText = sceneOn ? sceneText : '';
-  if (A) { pushHabits(); A.pieces({ beat: G.apply ? text : '', scene: sceneOn ? sceneText : '', sceneN, sceneHow: sceneWords(), rules: activeRules(again), redo }); }
+  if (A) { pushHabits(); A.pieces({ beat: G.apply ? text : '', scene: sceneOn ? sceneText : '', sceneN, sceneHow: sceneWords(), reach: reachWords(), rules: activeRules(again), redo }); }
   else putAlone([G.apply ? text : '', redo ? `REWRITE — the version before this one was rejected for this; this version must fix it:\n${redo}` : ''].filter(Boolean).join('\n\n'), sceneOn ? sceneText : '', sceneN);
 }
 function onReceived(id) {
+  if (G.ooc) { markOoc(); G.ooc = false; return; }
   if (G.sceneOn && !G.again) {
     const s0 = st(); s0.sceneSent = (s0.sceneSent || 0) + 1;
     // 「한 답으로 끝」: the scene had its reply, the pin comes off (kept aside so a reroll of that reply still gets it)
@@ -540,7 +578,7 @@ function onReceived(id) {
   const up = () => { if (!document.getElementById('mbd_btn')) mount(); putAlone(); setTimeout(pushHabits, 1500); };
   eventSource.on(E.APP_READY, up);
   if (document.getElementById('send_form')) up();   // loaded late (after the app was ready): mount now
-  eventSource.on(E.CHAT_CHANGED, () => { G.apply = false; putAlone(); render(); });
+  eventSource.on(E.CHAT_CHANGED, () => { G.apply = false; putAlone(); putOoc(!!st().ooc); render(); });
   eventSource.on(E.GENERATION_STARTED, onStart);
   eventSource.on(E.MESSAGE_RECEIVED, onReceived);
   for (const ev of [E.GENERATION_ENDED, E.GENERATION_STOPPED]) eventSource.on(ev, () => { if (!api()) putAlone(''); setTimeout(render, 300); });
