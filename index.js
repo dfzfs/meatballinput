@@ -17,7 +17,7 @@ const h = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<':
 const ko = (navigator.language || '').startsWith('ko');
 const T = ko ? {
   title: '미트볼 지시창', alone: '미트볼 상태창이 꺼져 있어요: 「지시」만 쓸 수 있어요', needMb: '미트볼 상태창이 켜져 있어야 쓸 수 있어요.', oldMb: '미트볼 상태창이 옛 버전이에요({v}). {need} 이상으로 업데이트해야 다 작동해요(예: 천천히 밀어주기).',
-  tabs: ['✍ 지시', '🎨 문체', '🔒 비밀', '🧭 방향'], vCustom: '✎ 직접', customPh: '직접 적기 (한국어도 돼요) · Enter', customTip: '원하는 대로 직접 적어요.', ownPh: '＋ 내 것 적고 Enter', editTip: '눌러서 고르기 · 내 것 추가', setMix: '내가 고른 대로', setSavePh: '＋ 지금 고른 걸 내 느낌으로 저장 · 이름 적고 Enter', oocStyleL: '🎨 문체', oocEveryOn: '같이 적용', oocEveryOff: '안 씀', oocOptL: '더하기', oTabQ: '💬 질문', subs: ['✍ 지시', '🔒 비밀', '🧭 방향', '📜 규칙'],  commonL: '🎨 문체', commonNote: '이야기 · OOC 공통', commonTip: '매 답에 같이 가는 것: 글 느낌(대화극 · 영화처럼 같은 묶음), 어디까지 · 시점 · 분량 · 더하기. 이야기에도 OOC에도 똑같이 들어가요. 눌러서 열고 닫아요.', mStory: '✍ 이야기', mOoc: '💬 OOC', mOocTip: '이야기를 멈추고 AI에게 그냥 물어보는 모드. 미트볼 기록 · 쪽지 · 지시가 다 쉬어요.', setsL: '글 느낌', fineL: '📏 매 답', rulesL: '내 규칙 · 말버릇', styleL: '매 답', sceneHowL: '⚙ 장면 고정 방식', redoL: '↻ 이유 적고 다시 뽑기',
+  tabs: ['✍ 지시', '🎨 문체', '🔒 비밀', '🧭 방향'], vCustom: '✎ 직접', setsTip: '대화극 · 영화처럼 같은 묶음을 한 번에 골라요. 지금 고른 걸 이름 붙여 저장할 수도 있어요.', fAdd: '새로 만들기', fFix: '고치기 · 지우기', fDone: '다 했어요', fBack: '숨긴 기본 {n}개 되살리기', fHint: '고칠 걸 누르세요. ×는 지우기', fNew: '새로 만들기', fEdit: '고치기', fTitlePh: '제목 (칩에 보이는 이름)', fTextPh: '내용: AI에게 할 말 (한국어도 돼요)', fLenPh: '내용: 예) 800자 안팎, 대사 위주로', fSave: '저장', fCancel: '취소', fReset: '↺ 원래대로', fResetTip: '처음 들어 있던 대로 되돌려요.', fUpd: '지금 고른 걸로 바꾸기', fUpdTip: '이 묶음 안 내용을 지금 고른 것(어디까지 · 시점 · 분량 · 더하기)으로 바꿔요.', fSetNote: '지금 고른 것(어디까지 · 시점 · 분량 · 더하기)이 이 이름으로 저장돼요.', fSetBase: '기본 묶음은 이름만 바꿀 수 있어요.', fAddTip: '제목과 내용을 적어 내 것을 만들어요.', delTip: '지우기', hideTip: '목록에서 숨기기 (↺로 되살릴 수 있어요)', fGone: '「{t}」 지웠어요', fHidden: '「{t}」 숨겼어요', customPh: '직접 적기 (한국어도 돼요) · Enter', customTip: '원하는 대로 직접 적어요.', ownPh: '＋ 내 것 적고 Enter', editTip: '눌러서 고르기 · 내 것 추가', setMix: '내가 고른 대로', setSavePh: '＋ 지금 고른 걸 내 느낌으로 저장 · 이름 적고 Enter', oocStyleL: '🎨 문체', oocEveryOn: '같이 적용', oocEveryOff: '안 씀', oocOptL: '더하기', oTabQ: '💬 질문', subs: ['✍ 지시', '🔒 비밀', '🧭 방향', '📜 규칙'],  commonL: '🎨 문체', commonNote: '이야기 · OOC 공통', commonTip: '매 답에 같이 가는 것: 글 느낌(대화극 · 영화처럼 같은 묶음), 어디까지 · 시점 · 분량 · 더하기. 이야기에도 OOC에도 똑같이 들어가요. 눌러서 열고 닫아요.', mStory: '✍ 이야기', mOoc: '💬 OOC', mOocTip: '이야기를 멈추고 AI에게 그냥 물어보는 모드. 미트볼 기록 · 쪽지 · 지시가 다 쉬어요.', setsL: '글 느낌', fineL: '📏 매 답', rulesL: '내 규칙 · 말버릇', styleL: '매 답', sceneHowL: '⚙ 장면 고정 방식', redoL: '↻ 이유 적고 다시 뽑기',
   setN: { plain: '🍃 기본', talk: '💬 대화극', movie: '🎬 영화처럼', novel: '📖 소설처럼', drama: '🔥 드라마', quick: '⚡ 가볍게' }, setT: { plain: '아무것도 더하지 않아요.', talk: '대사 · 말투 · 지난 일 기억 + 인풋까지만.', movie: '빠른 템포 · 감각 · 반전 · 끝은 훅.', novel: '길게 · 감정은 행동으로 · 감각 · 숨 고르기 · 복선.', drama: '갈등 · 설렘 · NPC · 끝은 훅.', quick: '짧게 · 빠른 템포 · 유머.' },
   helpRules: '<b>지침 · 말버릇.</b> 지킬 것을 한 줄로 적기만 하면 돼요. 미트볼이 답을 정리할 때 같이 훑어보고, 어긴 게 보이면 <b>다음 답 하나에만</b> "이전 답에 이게 나왔으니 이번엔 주의"를 붙여요. 그다음엔 꺼져요. 「항상」이면 늘 붙여요.',
   rMode: { auto: '보이면 주의', always: '항상', off: '끔' }, rHit: '이전 답에서 보임 → 다음 답에 주의 붙음', rCycle: '눌러서 바꾸기: 보이면 주의 → 항상 → 끔', rEdit: '눌러서 고치기', rMine: '내 지침', rNone: '아직 없어요. 위에 한 줄 적고 Enter', rPresets: '기본 지침 {n}개', dLeft: '채팅 왼쪽에 붙이기 (PC)', dRight: '채팅 오른쪽에 붙이기 (PC)', dBottom: '🎬 위에 띄우기', close: '닫기', rNew: '새 지침', rText: '예: 깡캐를 바보처럼 그리지 않는다', rAdd: '추가', rDel: '지우기', rPreset: '기본',
@@ -61,7 +61,7 @@ const T = ko ? {
   sFresh: '✍ 다음 답에 들어가요', sUsed: '✓ #{i} 답에 들어갔어요', sUsedTip: '그 답을 다시 뽑으면 또 들어가요', sceneFor: '{n}답째', rSeen: '최근 {n}번 보임', rSeenTip: '이 채팅에서 이 버릇이 보인 답',
 } : {
   title: 'Meatball Director', alone: 'Meatball is off: only "Order" works', needMb: 'Needs Meatball status window.', oldMb: 'Meatball status window is old ({v}). Update to {need} or later for everything to work (e.g. Nudge slowly).',
-  tabs: ['✍ Order', '🎨 Style', '🔒 Secret', '🧭 Direction'], vCustom: '✎ Own', customPh: 'Write your own · Enter', customTip: 'Write it the way you want.', ownPh: '＋ Your own, then Enter', editTip: 'Tap to pick · add your own', setMix: 'Mixed', setSavePh: '＋ Save the picks as my set · name, then Enter', oocStyleL: '🎨 Style', oocEveryOn: 'applies', oocEveryOff: 'off', oocOptL: 'Extras', oTabQ: '💬 Ask', subs: ['✍ Order', '🔒 Secret', '🧭 Direction', '📜 Rules'], commonL: '🎨 Style', commonNote: 'story · OOC', commonTip: 'What goes with every reply: quick sets, how far, POV, length, extras. Same for the story and for OOC. Click to open or close.', mStory: '✍ Story', mOoc: '💬 OOC', mOocTip: 'Pause the story and just ask the AI. Meatball records, notes and orders rest.', setsL: 'Quick sets', fineL: '📏 Every reply', rulesL: 'My rules · habits', styleL: 'Every reply', sceneHowL: '⚙ How a pinned scene goes', redoL: '↻ Reroll with a reason',
+  tabs: ['✍ Order', '🎨 Style', '🔒 Secret', '🧭 Direction'], vCustom: '✎ Own', setsTip: 'Pick a bundle like Dialogue or Cinematic at once. You can save what you picked under a name.', fAdd: 'New', fFix: 'Edit · delete', fDone: 'Done', fBack: 'Bring back {n} hidden', fHint: 'Tap one to edit. × deletes', fNew: 'New', fEdit: 'Edit', fTitlePh: 'Title (shown on the chip)', fTextPh: 'Words for the AI', fLenPh: 'e.g. about 500 words, mostly dialogue', fSave: 'Save', fCancel: 'Cancel', fReset: '↺ Reset', fResetTip: 'Back to how it came.', fUpd: 'Use what is picked now', fUpdTip: 'Replace this bundle with what is picked now.', fSetNote: 'What is picked now (how far · POV · length · extras) is saved under this name.', fSetBase: 'Built-in bundles can only be renamed.', fAddTip: 'Write a title and the words to make your own.', delTip: 'Delete', hideTip: 'Hide from the list (↺ brings it back)', fGone: 'Deleted “{t}”', fHidden: 'Hid “{t}”', customPh: 'Write your own · Enter', customTip: 'Write it the way you want.', ownPh: '＋ Your own, then Enter', editTip: 'Tap to pick · add your own', setMix: 'Mixed', setSavePh: '＋ Save the picks as my set · name, then Enter', oocStyleL: '🎨 Style', oocEveryOn: 'applies', oocEveryOff: 'off', oocOptL: 'Extras', oTabQ: '💬 Ask', subs: ['✍ Order', '🔒 Secret', '🧭 Direction', '📜 Rules'], commonL: '🎨 Style', commonNote: 'story · OOC', commonTip: 'What goes with every reply: quick sets, how far, POV, length, extras. Same for the story and for OOC. Click to open or close.', mStory: '✍ Story', mOoc: '💬 OOC', mOocTip: 'Pause the story and just ask the AI. Meatball records, notes and orders rest.', setsL: 'Quick sets', fineL: '📏 Every reply', rulesL: 'My rules · habits', styleL: 'Every reply', sceneHowL: '⚙ How a pinned scene goes', redoL: '↻ Reroll with a reason',
   setN: { plain: 'Plain', talk: '💬 Dialogue', movie: '🎬 Cinematic', novel: '📖 Novel', drama: '🔥 Drama', quick: '⚡ Light' }, setT: { plain: 'Nothing extra.', talk: 'Dialogue, voices, memory + only my input.', movie: 'Brisk, senses, twists, end on a hook.', novel: 'Long, subtext, senses, quiet moments, foreshadowing.', drama: 'Conflict, romance, NPCs, end on a hook.', quick: 'Short, brisk, humour.' },
   helpRules: '<b>Guidelines · habits.</b> Just write the rule in one line. Meatball checks the reply while sorting it; if the rule was broken, the next reply only gets "the last reply did this, watch it". "Always" sends it every time.',
   rMode: { auto: 'warn when seen', always: 'always', off: 'off' }, rHit: 'seen in the last reply → warned in the next', rCycle: 'click: warn when seen → always → off', rEdit: 'click to edit', rMine: 'My rules', rNone: 'None yet. Type one above and press Enter', rPresets: '{n} preset rules', dLeft: 'dock left of the chat (PC)', dRight: 'dock right of the chat (PC)', dBottom: 'pop up above 🎬', close: 'Close', rNew: 'New rule', rText: 'e.g. never treat B like a child', rAdd: 'Add', rDel: 'Delete', rPreset: 'preset',
@@ -195,6 +195,8 @@ function render() {
   if (!p || !p.classList?.contains('open')) return;
   const A = api(), S = A ? safeState(A) : null;
   const face = A ? 'idle' : 'sleep', d = rset().dock || 'bottom';
+  migrateMine();
+  const same = G.shown === G.tab, keep = same ? [p.querySelector('.mbd-sheet')?.scrollTop || 0, p.scrollTop || 0, p.querySelector('.mbd-cin')?.scrollTop || 0] : [0, 0, 0];
   p.innerHTML = `<div class="mbd-bar"><span class="mbd-dots"><i></i><i></i><i></i></span><img class="mbd-cat" data-face="${face}" src="${catUrl(face)}" alt="" draggable="false"><span class="mbd-title">meatball.exe</span><span class="mbd-q" title="">?</span>
     <span class="mbd-dock">${[['left', '⇤', T.dLeft], ['bottom', '⬓', T.dBottom], ['right', '⇥', T.dRight]].map(([k, ic, t]) => `<b data-dock="${k}" title="${h(t)}" class="${d === k ? 'on' : ''}">${ic}</b>`).join('')}</span><b class="mbd-x" title="${h(T.close)}">✕</b></div>
     <div class="mbd-tabs">${T.subs.map((t, i) => `<div class="mbd-tab${(G.tab || 0) === i ? ' on' : ''}" data-tab="${i}">${h(t)}</div>`).join('')}</div>
@@ -207,6 +209,7 @@ function render() {
   p.querySelector('.mbd-x').addEventListener('click', () => { p.classList.remove('open'); document.getElementById('mbd_btn')?.classList.remove('on'); });
   const body = document.getElementById('mbd_body');
   if (G.shown !== G.tab) { body.classList.add('mbd-enter'); G.shown = G.tab; }
+  p.classList.toggle('mbd-still', same);
   {
     const tab = G.tab > 3 ? 0 : G.tab || 0;
     const sub = body;
@@ -216,6 +219,8 @@ function render() {
     else if (tab === 1) tabSecret(sub, A, S);
     else tabGoal(sub, A, S);
   }
+  // a tap redraws the panel: stay where you were
+  if (same) { const sh = p.querySelector('.mbd-sheet'), ci = p.querySelector('.mbd-cin'); if (sh) sh.scrollTop = keep[0]; p.scrollTop = keep[1]; if (ci) ci.scrollTop = keep[2]; }
   const hp = body.querySelector('.mbd-help'), q = p.querySelector('.mbd-q');
   q.title = hp ? hp.textContent.replace(/\s+/g, ' ').trim() : '';
   // phones have no hover: tapping ? opens the same help inside the panel
@@ -301,15 +306,15 @@ const OPT = {
     ['beyond', 'vBeyond', 'dBeyond', "After what the user's message covers, carry the story on a little further on your own"]],
 };
 const OLD = { mid: 'skip', cut: 'skip', flash: 'skip', dream: 'skip', slow: 'multi', open: 'multi', brief: 'one', cliff: 'one' };   // kinds from 0.14.4
-const optOf = (k) => { const R0 = rset(), v = OLD[R0[k]] || R0[k]; if (v === 'custom') return ['custom', '', '', String(R0[k + 'Custom'] || '').trim()]; return OPT[k].find((x) => x[0] === v) || OPT[k][0]; };
-const optName = (k) => { const o = optOf(k); return o[0] === 'custom' ? (o[3] ? `✎ ${o[3].slice(0, 16)}${o[3].length > 16 ? '…' : ''}` : T.vCustom) : T[o[1]]; };
+const optOf = (k) => { const x = findItem(k, curId(k)) || { id: 'auto', n: T.vAuto, tip: '', t: '' }; return [x.id, x.n, x.tip, x.mine && k === 'len' ? (x.t ? `Reply length: ${x.t}` : '') : (x.t || '')]; };
+const optName = (k) => optOf(k)[1];
 const sceneMode = () => ({ enter: optOf('scEnter')[0], intro: optOf('scIntro')[0], len: optOf('scLen')[0] });
 const sceneOnce = () => optOf('scLen')[0] === 'one';
 const reachWords = () => optOf('reach')[3];
 // the English words for a pinned scene: start (its first reply) · going (the ones after)
 function sceneWords() {
   const one = sceneOnce(), upto = optOf('reach')[0] === 'upto';
-  const len = one && upto && optOf('scLen')[0] !== 'custom' ? "Tell the whole scene within what the user's message covers: setup, development, turn and close, without going past it" : optOf('scLen')[3];
+  const len = one && upto ? "Tell the whole scene within what the user's message covers: setup, development, turn and close, without going past it" : optOf('scLen')[3];
   return { start: [optOf('scEnter')[3], optOf('scIntro')[3], len].join('. '), going: one ? '' : `${GOING}. Take the next part only; keep the rest for later replies`, focus: '' };
 }
 // v0.15.3 ✨ boosters: pick any; each goes into every story reply as a style line (off while OOC)
@@ -335,9 +340,9 @@ const BOOST = [
 ];
 // 분량 (reply length): up to the AI · short · medium · long · the person's own words ("800자", "about 500 words")
 const LEN = [['auto', ''], ['short', 'Reply length: short, one or two paragraphs'], ['mid', 'Reply length: medium, three to five paragraphs'], ['long', 'Reply length: long, six paragraphs or more; take the room the scene needs']];
-const lenLine = () => { const R0 = rset(); if (R0.len === 'custom') return (R0.lenCustom || '').trim() ? `Reply length: ${R0.lenCustom.trim()}` : ''; return (LEN.find((x) => x[0] === R0.len) || LEN[0])[1]; };
+const lenLine = () => optOf('len')[3];
 // the person's own extras: any line, on/off like the others
-const boostLines = () => { const R0 = rset(), on = R0.boost || {}; return [lenLine(), optOf('pov')[3], ...BOOST.filter(([k]) => on[k]).map(([, , t]) => t), ...(R0.boostMine || []).filter((x) => x.on && x.text).map((x) => x.text)].filter(Boolean); };
+const boostLines = () => [lenLine(), optOf('pov')[3], ...itemsOf('boost').filter((x) => chipOn('boost', x.id)).map((x) => x.t)].filter(Boolean);
 // one row: a label, a segmented choice, and the words for what is picked right now
 // a folded card: the title and what is picked now in one line; open to change. Which are open is kept for the session.
 function foldHtml(id, title, sum, inner, tip) {
@@ -347,57 +352,134 @@ function foldHtml(id, title, sum, inner, tip) {
 
 
 
-// v0.19 compact pickers: a row shows only what is picked; tap it to see the choices (and write your own). Chip groups
-// show only what is on, plus ＋ to open the whole list. One picker is open at a time.
-const lenName = () => { const R0 = rset(); return R0.len === 'custom' ? (R0.lenCustom ? `✎ ${R0.lenCustom.slice(0, 16)}` : T.vCustom) : T.lenN[R0.len || 'auto']; };
-function pickRow(k, label, items, curId, curName) {
-  const open = G.pk === k, R0 = rset();
-  const custom = items.some(([id]) => id === 'custom');
-  return `<div class="mbd-prow"><span class="mbd-plab">${h(label)}</span><span class="mbd-pk${open ? ' open' : ''}${curId !== 'auto' && curId !== 'plain' && curId ? ' set' : ''}" data-pk="${k}">${h(curName)}<i>▾</i></span></div>
-    ${open ? `<div class="mbd-pkopts"><div class="mbd-chips">${items.map(([id, l, tip]) => `<span class="mbd-tg${curId === id ? ' on' : ''}" data-pv="${k}:${id}"${tipT(tip)}>${h(l)}</span>`).join('')}</div>
-      ${custom && curId === 'custom' ? `<input class="text_pole mbd-pkin" data-pc="${k}" placeholder="${h(T.customPh)}" value="${h(R0[k + 'Custom'] || '')}" />` : ''}</div>` : ''}`;
+// v0.20 one store for every list: built-in items can be renamed, rewritten or hidden; the person's own items carry a
+// title (what the chip shows) and the words (what the AI gets, shown on hover). A row shows only what is picked; tap it
+// for the choices, ✎ to fix or delete, ＋ to make a new one.
+const uid = () => `u${Date.now().toString(36)}${Math.random().toString(36).slice(2, 5)}`;
+const ovr = (k) => ((rset().ovr ||= {})[k] ||= {});
+const hid = (k) => ((rset().hid ||= {})[k] ||= {});
+const mineOf = (k) => ((rset().mine ||= {})[k] ||= []);
+const PICKS = ['scEnter', 'scIntro', 'scLen', 'pov', 'reach', 'len'];
+function baseOf(k) {
+  if (k === 'len') return LEN.map(([id, t]) => ({ id, n: T.lenN[id], tip: T.lenD[id], t }));
+  if (k === 'boost') return BOOST.map(([id, ic, t]) => ({ id, n: `${ic} ${T.bName[id]}`, tip: T.bTip[id], t }));
+  if (k === 'oocopt') return OOC_OPT.map(([id, ic, t]) => ({ id, n: `${ic} ${T[id]}`, tip: T[id + 'Tip'], t }));
+  if (k === 'set') return SETS.map(([id]) => ({ id, n: T.setN[id], tip: T.setT[id], t: '' }));
+  return OPT[k].map(([id, v, d, t]) => ({ id, n: T[v], tip: T[d], t }));
 }
-const optItems = (k) => [...OPT[k].map(([id, v, d]) => [id, T[v], T[d]]), ['custom', T.vCustom, T.customTip]];
-const optPick = (k, label) => pickRow(k, T[label], optItems(k), optOf(k)[0], optName(k));
-const lenPick = () => pickRow('len', T.kLen, [...['auto', 'short', 'mid', 'long'].map((x) => [x, T.lenN[x], T.lenD[x]]), ['custom', T.vCustom, T.lenPh]], rset().len || 'auto', lenName());
-// chips: only the ones on, then ＋ (opens all, with a box for your own)
-function chipPick(k, label, list, onOf, mineKey) {
-  const R0 = rset(), open = G.pk === k, mine = R0[mineKey] || [];
-  const onList = list.filter(([id]) => onOf(id)), onMine = mine.map((x, i) => [i, x]).filter(([, x]) => x.on);
-  const all = open ? `<div class="mbd-pkopts"><div class="mbd-chips">${list.map(([id, ic, name, tip]) => `<span class="mbd-tg${onOf(id) ? ' on' : ''}" data-cv="${k}:${id}"${tipT(tip)}>${ic} ${h(name)}</span>`).join('')}
-      ${mine.map((x, i) => `<span class="mbd-tg mbd-mine${x.on ? ' on' : ''}" data-cm="${k}:${i}"${tipT(x.text)}>✎ ${h(x.text.slice(0, 14))}${x.text.length > 14 ? '…' : ''}<i class="mbd-x2" data-cd="${k}:${i}">×</i></span>`).join('')}</div>
-      <div class="mbd-addrow2"><input class="text_pole" data-ca="${k}" placeholder="${h(T.ownPh)}" /></div></div>` : '';
-  return `<div class="mbd-prow mbd-crow"><span class="mbd-plab">${h(label)}</span><span class="mbd-chips mbd-onl">${onList.map(([id, ic, name, tip]) => `<span class="mbd-tg on mini"${tipT(tip)}>${ic} ${h(name)}</span>`).join('')}${onMine.map(([, x]) => `<span class="mbd-tg on mini"${tipT(x.text)}>✎ ${h(x.text.slice(0, 10))}</span>`).join('')}<span class="mbd-tg mbd-addtg${open ? ' open' : ''}" data-pk="${k}"${tipT(T.editTip)}>${open ? '✓' : onList.length || onMine.length ? '✎' : '＋'}</span></span></div>${all}`;
+function itemsOf(k, all) {
+  const o = ovr(k), hd = hid(k);
+  const b = baseOf(k).filter((x) => all || x.id === 'auto' || !hd[x.id]).map((x) => (o[x.id] ? { ...x, n: o[x.id].n || x.n, t: o[x.id].t ?? x.t, tip: o[x.id].t || x.tip, edited: true } : x));
+  const m = k === 'set' ? (rset().setsMine || []).map((x, i) => ({ id: `m${i}`, n: x.name, tip: '', mine: true })) : mineOf(k).map((x) => ({ ...x, tip: x.t, mine: true }));
+  return [...b, ...m];
 }
-const CHIPS = {
-  boost: { list: () => BOOST.map(([k, ic]) => [k, ic, T.bName[k], T.bTip[k]]), on: (id) => !!(rset().boost || {})[id], flip: (id) => { const o = (rset().boost ||= {}); o[id] = !o[id]; }, mine: 'boostMine' },
-  oocopt: { list: () => OOC_OPT.map(([k, ic]) => [k, ic, T[k], T[k + 'Tip']]), on: (id) => !!rset()[id], flip: (id) => { const R0 = rset(); R0[id] = !R0[id]; }, mine: 'oocMine' },
-};
+const findItem = (k, id) => itemsOf(k, true).find((x) => x.id === id);
+const curId = (k) => { const R0 = rset(), v = OLD[R0[k]] || R0[k], all = itemsOf(k); return all.some((x) => x.id === v) ? v : all[0].id; };
+const chipOn = (k, id) => (k === 'boost' ? !!(rset().boost || {})[id] : String(id).startsWith('u') ? !!(rset().oocOn || {})[id] : !!rset()[id]);
+function chipSet(k, id, on) {
+  const R0 = rset();
+  if (k === 'boost') (R0.boost ||= {})[id] = on; else if (String(id).startsWith('u')) (R0.oocOn ||= {})[id] = on; else R0[id] = on;
+}
+// older saves: "✎ 직접" text and own lines without a title become own items
+function migrateMine() {
+  const R0 = rset(); if (R0.mineV === 2) return;
+  PICKS.forEach((k) => {
+    if (R0[k] === 'custom') { const t = String(R0[k + 'Custom'] || '').trim(); if (t) { const id = uid(); mineOf(k).push({ id, n: t.slice(0, 16), t }); R0[k] = id; } else delete R0[k]; }
+    delete R0[k + 'Custom'];
+  });
+  (R0.boostMine || []).forEach((x) => { if (!x.text) return; const id = uid(); mineOf('boost').push({ id, n: x.text.slice(0, 16), t: x.text }); if (x.on) (R0.boost ||= {})[id] = true; });
+  (R0.oocMine || []).forEach((x) => { if (!x.text) return; const id = uid(); mineOf('oocopt').push({ id, n: x.text.slice(0, 16), t: x.text }); if (x.on) (R0.oocOn ||= {})[id] = true; });
+  delete R0.boostMine; delete R0.oocMine; R0.mineV = 2; saveSet();
+}
+// the tray under a row: the choices, then ＋ new · ✎ fix or delete; a small form for a title and the words
+function trayHtml(k, kind) {
+  const edit = G.ed === k, all = itemsOf(k), hd = Object.keys(hid(k)).filter((x) => hid(k)[x]).length, f = G.form && G.form.k === k ? G.form : null;
+  const cur = kind === 'pick' ? curId(k) : kind === 'set' ? setNow() : null;
+  const chip = (x) => {
+    const fixed = x.id === 'auto' || (kind === 'pick' && x.id === 'auto');
+    if (edit) return `<span class="mbd-tg mbd-edc${fixed ? ' fixed' : ''}${f && f.id === x.id ? ' on' : ''}"${fixed ? '' : ` data-te="${k}:${x.id}"`}${tipT(x.tip)}>${x.mine ? '✎ ' : ''}${h(x.n)}${fixed ? '' : `<i class="mbd-x2" data-tdel="${k}:${x.id}"${tipT(x.mine ? T.delTip : T.hideTip)}>×</i>`}</span>`;
+    const on = kind === 'chip' ? chipOn(k, x.id) : cur === x.id;
+    const data = kind === 'chip' ? `data-cv="${k}:${x.id}"` : kind === 'set' ? `data-pv="set:${x.id}"` : `data-pv="${k}:${x.id}"`;
+    return `<span class="mbd-tg${on ? ' on' : ''}${x.mine ? ' mbd-mine' : ''}${G.pop === `${k}:${x.id}` ? ' pop' : ''}" ${data}${tipT(x.tip)}>${x.mine ? '✎ ' : ''}${h(x.n)}</span>`;
+  };
+  let form = '';
+  if (f) {
+    const it = f.id ? findItem(k, f.id) : null, base = f.id && !it?.mine ? baseOf(k).find((x) => x.id === f.id) : null;
+    const words = kind === 'set' ? `<div class="mbd-fnote">${h(f.id && !it?.mine ? T.fSetBase : T.fSetNote)}</div>` : `<textarea class="text_pole" data-fx rows="3" placeholder="${h(k === 'len' ? T.fLenPh : T.fTextPh)}">${h(it ? it.t || '' : '')}</textarea>`;
+    form = `<div class="mbd-form"><div class="mbd-fhead">${h(f.id ? T.fEdit : T.fNew)}</div>
+      <input class="text_pole" data-ft maxlength="24" placeholder="${h(T.fTitlePh)}" value="${h(it ? it.n : '')}" />${words}
+      <div class="mbd-facts">${base && it?.edited ? `<span class="mbd-flink" data-freset${tipT(T.fResetTip)}>${h(T.fReset)}</span>` : ''}${kind === 'set' && it?.mine ? `<span class="mbd-flink" data-fupd${tipT(T.fUpdTip)}>${h(T.fUpd)}</span>` : ''}<span class="mbd-sp"></span><div class="menu_button mbd-ghost" data-fcancel>${h(T.fCancel)}</div><div class="menu_button mbd-primary" data-fsave>${h(T.fSave)}</div></div></div>`;
+  }
+  const foot = `<div class="mbd-tfoot"><span data-tadd="${k}"${tipT(kind === 'set' ? T.fSetNote : T.fAddTip)}>＋ ${h(T.fAdd)}</span><span data-tedit="${k}" class="${edit ? 'on' : ''}">${edit ? `✓ ${h(T.fDone)}` : `✎ ${h(T.fFix)}`}</span>${edit && hd ? `<span data-tback="${k}">↺ ${h(fill(T.fBack, { n: hd }))}</span>` : ''}</div>`;
+  return `<div class="mbd-pkopts${G.fresh === k ? ' fresh' : ''}">${edit ? `<div class="mbd-fhint">${h(T.fHint)}</div>` : ''}<div class="mbd-chips">${all.map(chip).join('')}</div>${form}${foot}</div>`;
+}
+function pickRow(k, label) {
+  const open = G.pk === k, id = curId(k), x = findItem(k, id);
+  return `<div class="mbd-prow"><span class="mbd-plab">${h(label)}</span><span class="mbd-pk${open ? ' open' : ''}${id !== 'auto' && id !== baseOf(k)[0].id ? ' set' : ''}" data-pk="${k}"${tipT(x?.tip || T.editTip)}>${x?.mine ? '✎ ' : ''}${h(x?.n || '')}<i>▾</i></span></div>${open ? trayHtml(k, 'pick') : ''}`;
+}
+const optPick = (k, label) => pickRow(k, T[label]);
+const lenPick = () => pickRow('len', T.kLen);
+// chips: only the ones on, then ＋ (opens all)
+function chipPick(k, label) {
+  const open = G.pk === k, on = itemsOf(k).filter((x) => chipOn(k, x.id));
+  return `<div class="mbd-prow mbd-crow"><span class="mbd-plab">${h(label)}</span><span class="mbd-chips mbd-onl">${on.map((x) => `<span class="mbd-tg on mini"${tipT(x.tip)}>${x.mine ? '✎ ' : ''}${h(x.n)}</span>`).join('')}<span class="mbd-tg mbd-addtg${open ? ' open' : ''}" data-pk="${k}"${tipT(T.editTip)}>${open ? '✓' : on.length ? '✎' : '＋'}</span></span></div>${open ? trayHtml(k, 'chip') : ''}`;
+}
 function pickWire(body) {
   const R0 = rset(), redraw = () => { saveSet(); if (st().ooc) putOoc(true); render(); };
-  body.querySelectorAll('[data-pk]').forEach((b) => b.addEventListener('click', () => { G.pk = G.pk === b.dataset.pk ? null : b.dataset.pk; render(); }));
+  const kindOf = (k) => (k === 'set' ? 'set' : k === 'boost' || k === 'oocopt' ? 'chip' : 'pick');
+  body.querySelectorAll('[data-pk]').forEach((b) => b.addEventListener('click', () => { const k = b.dataset.pk; G.pk = G.pk === k ? null : k; G.fresh = G.pk; G.ed = null; G.form = null; render(); }));
   body.querySelectorAll('[data-pv]').forEach((b) => b.addEventListener('click', () => {
     const [k, v] = b.dataset.pv.split(':');
-    if (k === 'set') { applySet(v); G.pk = null; redraw(); return; }
-    R0[k] = v; if (v !== 'custom') G.pk = null; redraw();
-    if (v === 'custom') setTimeout(() => document.querySelector(`[data-pc="${k}"]`)?.focus(), 30);
+    if (k === 'set') applySet(v); else R0[k] = v;
+    G.pk = null; redraw();
   }));
-  body.querySelectorAll('[data-pc]').forEach((el) => { el.addEventListener('input', () => { R0[el.dataset.pc + 'Custom'] = el.value.slice(0, 300); saveSet(); if (st().ooc) putOoc(true); });
-    el.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); G.pk = null; render(); } }); });
-  body.querySelectorAll('[data-cv]').forEach((b) => b.addEventListener('click', () => { const [k, id] = b.dataset.cv.split(':'); CHIPS[k].flip(id); redraw(); }));
-  body.querySelectorAll('[data-cm]').forEach((b) => b.addEventListener('click', (e) => { const [k, i] = b.dataset.cm.split(':'), list = R0[CHIPS[k].mine];
-    if (e.target.dataset.cd != null) list.splice(+i, 1); else list[+i].on = !list[+i].on; redraw(); }));
-  body.querySelectorAll('[data-ca]').forEach((el) => el.addEventListener('keydown', (e) => { if (e.key !== 'Enter') return; e.preventDefault(); const t = el.value.trim(); if (!t) return;
-    (R0[CHIPS[el.dataset.ca].mine] ||= []).push({ text: t.slice(0, 300), on: true }); redraw(); }));
-  // my own sets: save the picks now under a name
-  body.querySelector('[data-setsave]')?.addEventListener('keydown', (e) => { if (e.key !== 'Enter') return; e.preventDefault(); const n = e.target.value.trim(); if (!n) return;
-    (R0.setsMine ||= []).push({ name: n.slice(0, 30), ...pickNow() }); G.pk = null; redraw(); });
-  body.querySelectorAll('[data-setdel]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); R0.setsMine.splice(+b.dataset.setdel, 1); redraw(); }));
+  body.querySelectorAll('[data-cv]').forEach((b) => b.addEventListener('click', () => { const [k, id] = b.dataset.cv.split(':'); chipSet(k, id, !chipOn(k, id)); G.pop = chipOn(k, id) ? `${k}:${id}` : null; redraw(); }));
+  // ＋ new · ✎ fix or delete · ↺ bring hidden ones back
+  body.querySelectorAll('[data-tadd]').forEach((b) => b.addEventListener('click', () => { G.form = { k: b.dataset.tadd, id: null }; render(); setTimeout(() => body.querySelector('[data-ft]')?.focus(), 30); }));
+  body.querySelectorAll('[data-tedit]').forEach((b) => b.addEventListener('click', () => { const k = b.dataset.tedit; G.ed = G.ed === k ? null : k; G.form = null; render(); }));
+  body.querySelectorAll('[data-tback]').forEach((b) => b.addEventListener('click', () => { delete R0.hid[b.dataset.tback]; redraw(); }));
+  body.querySelectorAll('[data-te]').forEach((b) => b.addEventListener('click', (e) => { if (e.target.dataset.tdel != null) return; const [k, id] = b.dataset.te.split(':'); G.form = { k, id }; render(); setTimeout(() => body.querySelector('[data-ft]')?.focus(), 30); }));
+  body.querySelectorAll('[data-tdel]').forEach((b) => b.addEventListener('click', (e) => {
+    e.stopPropagation(); const [k, id] = b.dataset.tdel.split(':'), kind = kindOf(k), it = findItem(k, id); if (!it) return;
+    if (k === 'set' && it.mine) R0.setsMine.splice(+id.slice(1), 1);
+    else if (it.mine) { const l = mineOf(k), i = l.findIndex((x) => x.id === id); if (i >= 0) l.splice(i, 1); }
+    else hid(k)[id] = true;
+    if (kind === 'chip') chipSet(k, id, false); else if (kind === 'pick' && R0[k] === id) delete R0[k];
+    if (G.form?.id === id) G.form = null;
+    window.toastr?.info(fill(it.mine ? T.fGone : T.fHidden, { t: it.n }));
+    redraw();
+  }));
+  const form = body.querySelector('.mbd-form');
+  if (form) {
+    const f = G.form, kind = kindOf(f.k), ti = form.querySelector('[data-ft]'), tx = form.querySelector('[data-fx]');
+    const save = () => {
+      const t = (tx?.value || '').trim().slice(0, 600), n = (ti.value || '').trim().slice(0, 24) || t.slice(0, 16);
+      if (kind === 'set') {
+        if (!n) { ti.focus(); return; }
+        if (!f.id) (R0.setsMine ||= []).push({ name: n, ...pickNow() });
+        else if (f.id.startsWith('m')) R0.setsMine[+f.id.slice(1)].name = n;
+        else { const b = baseOf('set').find((x) => x.id === f.id); if (n === b.n) delete ovr('set')[f.id]; else ovr('set')[f.id] = { n }; }
+      } else {
+        if (!t && !(f.id && !findItem(f.k, f.id)?.mine)) { (tx || ti).focus(); return; }
+        if (!f.id) { const id = uid(); mineOf(f.k).push({ id, n, t }); if (kind === 'chip') chipSet(f.k, id, true); else R0[f.k] = id; }
+        else if (findItem(f.k, f.id)?.mine) { const x = mineOf(f.k).find((y) => y.id === f.id); x.n = n; x.t = t; }
+        else { const b = baseOf(f.k).find((x) => x.id === f.id); const o = { n: n && n !== b.n ? n : undefined, t: t !== b.t ? t : undefined }; if (o.n || o.t != null) ovr(f.k)[f.id] = o; else delete ovr(f.k)[f.id]; }
+      }
+      G.form = null; redraw();
+    };
+    form.querySelector('[data-fsave]').addEventListener('click', save);
+    form.querySelector('[data-fcancel]').addEventListener('click', () => { G.form = null; render(); });
+    form.querySelector('[data-freset]')?.addEventListener('click', () => { delete ovr(f.k)[f.id]; G.form = null; redraw(); });
+    form.querySelector('[data-fupd]')?.addEventListener('click', () => { const i = +f.id.slice(1); R0.setsMine[i] = { name: R0.setsMine[i].name, ...pickNow() }; G.form = null; redraw(); });
+    ti.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); (tx && !tx.value.trim() ? tx : null)?.focus() || save(); } if (e.key === 'Escape') { G.form = null; render(); } });
+    tx?.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); save(); } if (e.key === 'Escape') { G.form = null; render(); } });
+  }
+  G.fresh = null; G.pop = null;
 }
 const sceneSum = () => ['scEnter', 'scIntro', 'scLen'].map(optName).join(' · ');
 function everySum() {
-  const R0 = rset(), n = BOOST.filter(([k]) => (R0.boost || {})[k]).length + (R0.boostMine || []).filter((x) => x.on).length;
-  return [optOf('reach')[0] !== 'auto' ? optName('reach') : '', optOf('pov')[0] !== 'auto' ? optName('pov') : '', R0.len && R0.len !== 'auto' ? lenName() : '', n ? `✨ ${n}` : ''].filter(Boolean).join(' · ') || T.vAuto;
+  const n = itemsOf('boost').filter((x) => chipOn('boost', x.id)).length;
+  return [curId('reach') !== 'auto' ? optName('reach') : '', curId('pov') !== 'auto' ? optName('pov') : '', curId('len') !== 'auto' ? optName('len') : '', n ? `✨ ${n}` : ''].filter(Boolean).join(' · ') || T.vAuto;
 }
 
 // v0.14.1 ↻ a reroll with a reason: what was wrong with the version being thrown away goes as the strongest, last line.
@@ -609,10 +691,11 @@ function activeRules(again = false) {
 // v0.18.3 지시 = 🎨 문체 (shared, on top) + two tabs underneath: ✍ 이야기 (the order) · 💬 OOC (pressing it turns OOC on)
 function tabDirect(body, A, S) {
   const ooc = !!st().ooc;
-  body.innerHTML = `<div class="mbd-common${G.common ? ' open' : ''}"><div class="mbd-cl" data-common="1"${tipT(T.commonTip)}><b>${h(T.commonL)}</b><span class="mbd-cnote">${h(T.commonNote)}</span><span class="mbd-sum">${h(styleSum())}</span><i>›</i></div>${G.common ? '<div id="mbd_common" class="mbd-cin"></div>' : ''}</div>
+  body.innerHTML = `<div class="mbd-common${G.common ? ' open' : ''}"><div class="mbd-cl" data-common="1"${tipT(T.commonTip)}><b>${h(T.commonL)}</b><span class="mbd-cnote">${h(T.commonNote)}</span><span class="mbd-sum">${h(styleSum())}</span><i>›</i></div>${G.common ? `<div id="mbd_common" class="mbd-cin${G.freshC ? ' fresh' : ''}"></div>` : ''}</div>
     <div class="mbd-subs mbd-mtabs"><span class="mbd-subt${ooc ? '' : ' on'}" data-mode="story">${h(T.mStory)}</span><span class="mbd-subt${ooc ? ' on ooc' : ''}" data-mode="ooc"${tipT(T.mOocTip)}>${h(T.mOoc)}</span></div>
     <div id="mbd_dir"></div>`;
-  body.querySelector('[data-common]').addEventListener('click', () => { G.common = !G.common; render(); });
+  body.querySelector('[data-common]').addEventListener('click', () => { G.common = !G.common; G.freshC = G.common; render(); });
+  G.freshC = false;
   if (G.common) tabStyle(body.querySelector('#mbd_common'));
   body.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => { const want = b.dataset.mode === 'ooc'; if (want !== ooc) setOocOn(want); }));
   const box = body.querySelector('#mbd_dir');
@@ -639,30 +722,28 @@ function tabOoc(body) { body.innerHTML = oocHtml(); body.querySelector('#mbd_ooc
 const SETS = [['plain', {}], ['talk', { reach: 'upto', boost: ['talk', 'voice', 'memory'] }], ['movie', { boost: ['pace', 'sense', 'hook', 'twist'] }],
   ['novel', { len: 'long', boost: ['subtext', 'sense', 'breath', 'foreshadow'] }], ['drama', { boost: ['conflict', 'spark', 'hook', 'npc'] }], ['quick', { len: 'short', boost: ['pace', 'humor'] }]];
 
-const pickNow = () => { const R0 = rset(); return { reach: R0.reach || 'auto', reachCustom: R0.reachCustom || '', pov: R0.pov || 'auto', povCustom: R0.povCustom || '', len: R0.len || 'auto', lenCustom: R0.lenCustom || '', boost: { ...(R0.boost || {}) }, boostMine: (R0.boostMine || []).map((x) => ({ ...x })) }; };
+const pickNow = () => ({ reach: curId('reach'), pov: curId('pov'), len: curId('len'), boost: itemsOf('boost').filter((x) => chipOn('boost', x.id)).map((x) => x.id).sort() });
+const setKey = (x) => JSON.stringify({ reach: x.reach || 'auto', pov: x.pov || 'auto', len: x.len || 'auto', boost: (Array.isArray(x.boost) ? x.boost : Object.keys(x.boost || {}).filter((k) => x.boost[k])).slice().sort() });
 function applySet(id) {
   const R0 = rset();
-  if (id.startsWith('m')) { const x = (R0.setsMine || [])[+id.slice(1)]; if (x) Object.assign(R0, JSON.parse(JSON.stringify({ reach: x.reach, reachCustom: x.reachCustom, pov: x.pov, povCustom: x.povCustom, len: x.len, lenCustom: x.lenCustom, boost: x.boost, boostMine: x.boostMine }))); return; }
-  const x = (SETS.find(([k]) => k === id) || SETS[0])[1];
-  R0.reach = x.reach || 'auto'; R0.len = x.len || 'auto'; R0.pov = 'auto'; R0.boost = Object.fromEntries((x.boost || []).map((k) => [k, true]));
+  const x = id.startsWith('m') ? (R0.setsMine || [])[+id.slice(1)] : (SETS.find(([k]) => k === id) || SETS[0])[1]; if (!x) return;
+  const b = Array.isArray(x.boost) ? x.boost : Object.keys(x.boost || {}).filter((k) => x.boost[k]);
+  R0.reach = x.reach && x.reach !== 'custom' ? x.reach : 'auto'; R0.pov = x.pov && x.pov !== 'custom' ? x.pov : 'auto'; R0.len = x.len && x.len !== 'custom' ? x.len : 'auto';
+  R0.boost = Object.fromEntries(b.map((k) => [k, true]));
 }
 function setNow() {
-  const now = JSON.stringify(pickNow()), R0 = rset();
-  const mi = (R0.setsMine || []).findIndex((x) => JSON.stringify({ reach: x.reach, reachCustom: x.reachCustom, pov: x.pov, povCustom: x.povCustom, len: x.len, lenCustom: x.lenCustom, boost: x.boost, boostMine: x.boostMine }) === now);
+  const now = setKey(pickNow()), R0 = rset();
+  const mi = (R0.setsMine || []).findIndex((x) => setKey(x) === now);
   if (mi >= 0) return `m${mi}`;
-  const on = Object.keys(R0.boost || {}).filter((k) => R0.boost[k]).sort().join(','), mineOn = (R0.boostMine || []).some((x) => x.on);
-  const hit = !mineOn && SETS.find(([, x]) => (x.reach || 'auto') === (R0.reach || 'auto') && (x.len || 'auto') === (R0.len || 'auto') && (R0.pov || 'auto') === 'auto' && [...(x.boost || [])].sort().join(',') === on);
+  const hit = SETS.find(([k, x]) => !hid('set')[k] && setKey(x) === now);
   return hit ? hit[0] : '';
 }
-const setName = (id) => (id.startsWith('m') ? `✎ ${(rset().setsMine || [])[+id.slice(1)]?.name || ''}` : T.setN[id]);
+const setName = (id) => findItem('set', id)?.n || '';
 function styleSum() { const k = setNow(); return k && k !== 'plain' ? setName(k) : everySum(); }
 function tabStyle(body) {
-  const cur = setNow(), R0 = rset(), open = G.pk === 'set';
-  const setRow = `<div class="mbd-prow"><span class="mbd-plab">${h(T.setsL)}</span><span class="mbd-pk${open ? ' open' : ''}${cur && cur !== 'plain' ? ' set' : ''}" data-pk="set">${h(cur ? setName(cur) : T.setMix)}<i>▾</i></span></div>
-    ${open ? `<div class="mbd-pkopts"><div class="mbd-chips">${SETS.map(([k]) => `<span class="mbd-tg${cur === k ? ' on' : ''}" data-pv="set:${k}"${tipT(T.setT[k])}>${h(T.setN[k])}</span>`).join('')}
-      ${(R0.setsMine || []).map((x, i) => `<span class="mbd-tg mbd-mine${cur === `m${i}` ? ' on' : ''}" data-pv="set:m${i}">✎ ${h(x.name)}<i class="mbd-x2" data-setdel="${i}">×</i></span>`).join('')}</div>
-      <div class="mbd-addrow2"><input class="text_pole" data-setsave="1" placeholder="${h(T.setSavePh)}" /></div></div>` : ''}`;
-  body.innerHTML = `<div class="mbd-picks">${setRow}${optPick('reach', 'kReach')}${optPick('pov', 'kPov')}${lenPick()}${chipPick('boost', T.kBoost, CHIPS.boost.list(), CHIPS.boost.on, 'boostMine')}</div>`;
+  const cur = setNow(), open = G.pk === 'set';
+  const setRow = `<div class="mbd-prow"><span class="mbd-plab">${h(T.setsL)}</span><span class="mbd-pk${open ? ' open' : ''}${cur && cur !== 'plain' ? ' set' : ''}" data-pk="set"${tipT(T.setsTip)}>${h(cur ? setName(cur) : T.setMix)}<i>▾</i></span></div>${open ? trayHtml('set', 'set') : ''}`;
+  body.innerHTML = `<div class="mbd-picks">${setRow}${optPick('reach', 'kReach')}${optPick('pov', 'kPov')}${lenPick()}${chipPick('boost', T.kBoost)}</div>`;
   pickWire(body);
 }
 function tabRules(body) {
@@ -743,7 +824,7 @@ function toEn(text) {
 function oocLine() {
   // 📏 매 답 picks (how far · POV · length · extras · own lines) go along unless turned off; they win over the "ignore" above
   const R0 = rset(), every = R0.oocEvery !== false ? [reachWords(), ...boostLines()].filter(Boolean) : [];
-  const extra = [...OOC_OPT.filter(([k]) => R0[k]).map(([, , t]) => t), ...(R0.oocMine || []).filter((x) => x.on && x.text).map((x) => x.text), ...every];
+  const extra = [...itemsOf('oocopt').filter((x) => chipOn('oocopt', x.id) && x.t).map((x) => x.t), ...every];
   return ["[OOC — the story is paused]", "The user is now talking to you out of character, as the AI. Answer the user's question or request directly and plainly, as yourself, not as any character. Ignore every instruction above about how story replies are written: no narration unless asked, no trackers, status blocks or stats, no word counts or reply-length rules, no formatting rules, and no required thinking or reasoning steps, templates or tags. Do not continue the main story. This holds until the user turns OOC off.", ...(extra.length ? ['The user\'s own picks for this, which do apply:'] : []), ...extra.map((t) => `- ${t}`)].join('\n');
 }
 function putOoc(on) { const c = ctx(); if (!c.setExtensionPrompt) return; c.setExtensionPrompt('mbd_ooc', on ? oocLine() : '', c.extension_prompt_types?.IN_CHAT ?? 1, 0); }
@@ -767,7 +848,7 @@ function oocHtml() {
     <div class="mbd-qline">${asks}<span class="mbd-star${G.qSaved ? ' on' : ''}" id="mbd_qsave"${tipT(T.qSaveTip)}>☆</span></div>
     <textarea id="mbd_oocq" class="text_pole" placeholder="${h(T.oocAskPh)}">${h(st().oocDraft || '')}</textarea>
     <div class="mbd-acts"><div class="menu_button mbd-primary2" data-oq="send"${tipT(T.oqNote)}>${h(T.oqSend)}</div><div class="menu_button" data-oq="en"${typeof api()?.toEnglish === 'function' ? '' : ' disabled'}${tipT(T.oqNote)}>${h(T.oqEn)}</div><div class="menu_button" data-oq="put"${tipT(T.oqNote)}>${h(T.oqPut)}</div></div>
-    <div class="mbd-picks mbd-oopts"><div class="mbd-prow"><span class="mbd-plab">${h(T.oocStyleL)}</span><span class="mbd-sw2${R0.oocEvery !== false ? ' on' : ''}" data-oevery="1"${tipT(T.oocEveryTip)}><i></i>${h(R0.oocEvery !== false ? T.oocEveryOn : T.oocEveryOff)}</span></div>${chipPick('oocopt', T.oocOptL, CHIPS.oocopt.list(), CHIPS.oocopt.on, 'oocMine')}</div>
+    <div class="mbd-picks mbd-oopts"><div class="mbd-prow"><span class="mbd-plab">${h(T.oocStyleL)}</span><span class="mbd-sw2${R0.oocEvery !== false ? ' on' : ''}" data-oevery="1"${tipT(T.oocEveryTip)}><i></i>${h(R0.oocEvery !== false ? T.oocEveryOn : T.oocEveryOff)}</span></div>${chipPick('oocopt', T.oocOptL)}</div>
     <div class="mbd-oocend"><label class="checkbox_label mbd-oochide"${tipT(T.oocHide)}><input type="checkbox" id="mbd_oochide"${R0.oocHide !== false ? ' checked' : ''} /> ${h(T.oocHideS)}</label><div id="mbd_oocoff" class="menu_button mbd-primary">${h(T.oocOff)}</div></div></section>`;
 }
 
