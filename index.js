@@ -267,16 +267,28 @@ function tabOrder(body, A, S) {
 }
 // v0.16.3 saved orders: a title and the text, for every chat. Pick one to put it in; ☆ saves what is written (with a
 // title), and when the box holds a saved one unchanged, ★ shows and 🗑 takes it out of the list.
+// a dropdown drawn inside the panel. items: [{ v, n, g }] (g = group title shown before it)
+function ddHtml(id, label, items) {
+  let last = '';
+  const rows = items.map((x) => { const head = x.g && x.g !== last ? `<div class="mbd-ddg">${h(x.g)}</div>` : ''; last = x.g || last; return `${head}<div class="mbd-ddi${x.cls ? ` ${x.cls}` : ''}" data-ddv="${h(x.v)}">${h(x.n)}</div>`; }).join('');
+  return `<div class="mbd-dd" id="${id}"><span class="mbd-ddb">${h(label)}<i>▾</i></span><div class="mbd-ddl">${rows}</div></div>`;
+}
+function ddWire(root, id, onPick) {
+  const d = root.querySelector(`#${id}`); if (!d) return;
+  d.querySelector('.mbd-ddb').addEventListener('click', (e) => { e.stopPropagation(); const open = !d.classList.contains('open'); root.querySelectorAll('.mbd-dd.open').forEach((x) => x.classList.remove('open')); d.classList.toggle('open', open); });
+  d.querySelectorAll('[data-ddv]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); d.classList.remove('open'); onPick(b.dataset.ddv); }));
+}
+document.addEventListener?.('click', (e) => { if (!e.target.closest?.('.mbd-dd')) document.querySelectorAll('#mbd_panel .mbd-dd.open').forEach((x) => x.classList.remove('open')); });
 function savedLine(cur) {
   const list = rset().beatSaved || [], i = list.findIndex((x) => x.text === String(cur || '').trim());
-  return `<div class="mbd-qline mbd-savedl">${list.length ? `<select id="mbd_bsel" class="text_pole mbd-qsel"><option value="">${h(T.bsPick)}</option>${list.map((x, k) => `<option value="${k}">${h(x.title)}</option>`).join('')}</select>` : `<span class="mbd-dim mbd-bsnone">${h(T.bsNone)}</span>`}
+  return `<div class="mbd-qline mbd-savedl">${list.length ? ddHtml('mbd_bsel', T.bsPick, list.map((x, k) => ({ v: String(k), n: x.title }))) : `<span class="mbd-dim mbd-bsnone">${h(T.bsNone)}</span>`}
     ${i >= 0 ? `<span class="mbd-star on"${tipT(T.bsSaved)}>★</span><span class="mbd-star" id="mbd_bdel"${tipT(T.bsDel)}>🗑</span>` : `<span class="mbd-star" id="mbd_bsave"${tipT(T.bsSave)}>☆</span>`}</div>
     <div class="mbd-addrow mbd-bsrow" id="mbd_bsrow" hidden><input id="mbd_bstitle" class="text_pole" placeholder="${h(T.bsTitlePh)}" /><div id="mbd_bsok" class="menu_button">${h(T.bsOk)}</div></div>`;
 }
 function savedWire(body, s) {
   const ta = body.querySelector('#mbd_beat'); if (!ta) return;
   const R0 = rset(), list = (R0.beatSaved ||= []);
-  body.querySelector('#mbd_bsel')?.addEventListener('change', (e) => { const x = list[+e.target.value]; if (!x) return; ta.value = x.text; ta.dispatchEvent(new Event('input')); render(); });
+  ddWire(body, 'mbd_bsel', (v) => { const x = list[+v]; if (!x) return; ta.value = x.text; ta.dispatchEvent(new Event('input')); render(); });
   body.querySelector('#mbd_bsave')?.addEventListener('click', () => {
     const t = ta.value.trim(); if (!t) { ta.focus(); return; }
     const row = body.querySelector('#mbd_bsrow'), inp = body.querySelector('#mbd_bstitle');
@@ -712,9 +724,9 @@ function tabOoc(body) { body.innerHTML = oocHtml(); body.querySelector('#mbd_ooc
     const match = () => { const t = qta.value.trim(); return t ? askList().find((x) => x.t === t) : null; };
     const sync = () => { const m = match(); star.classList.toggle('on', !!m?.mine); star.textContent = m?.mine ? '★' : '☆'; star.dataset.mbdtip = m?.mine ? T.qSavedTip : T.qSaveTip; del.hidden = !m; del.dataset.mbdtip = m?.mine ? T.delTip : T.hideTip; };
     qta.addEventListener('input', () => { keepQ(); sync(); }); sync();
-    body.querySelector('#mbd_qa').addEventListener('change', (e) => { const v = e.target.value; if (!v) return;
+    ddWire(body, 'mbd_qa', (v) => {
       if (v === 'back') { delete rset().hid.ask; saveSet(); render(); return; }
-      const x = askList().find((y) => y.id === v); if (x) qta.value = x.t; keepQ(); sync(); qta.focus(); e.target.value = ''; });
+      const x = askList().find((y) => y.id === v); if (x) qta.value = x.t; keepQ(); sync(); qta.focus(); });
     star.addEventListener('click', () => { const t = qta.value.trim(); if (!t) { qta.focus(); return; } if (match()?.mine) return; row.hidden = false; tin.value = t.split('\n')[0].slice(0, 24); tin.focus(); tin.select(); });
     const okQ = () => { const t = qta.value.trim(); if (!t) return; const title = (tin.value.trim() || t.slice(0, 24)).slice(0, 24), a = rset().askMine;
       const k = a.findIndex((x) => x.title === title); if (k >= 0) a[k].text = t.slice(0, 600); else a.push({ title, text: t.slice(0, 600) }); saveSet(); window.toastr?.success(fill(T.bsDone, { t: title })); render(); };
@@ -864,7 +876,7 @@ function askList() {
 }
 function oocHtml() {
   const R0 = rset(), list = askList(), hd = Object.keys(hid('ask')).filter((k) => hid('ask')[k]).length;
-  const asks = `<select id="mbd_qa" class="text_pole mbd-qsel"><option value="">${h(T.oocQuick)}</option>${list.filter((x) => !x.mine).map((x) => `<option value="${x.id}">${h(x.n)}</option>`).join('')}${list.some((x) => x.mine) ? `<optgroup label="${h(T.qMine)}">${list.filter((x) => x.mine).map((x) => `<option value="${x.id}">${h(x.n)}</option>`).join('')}</optgroup>` : ''}${hd ? `<option value="back">${h(fill(T.qBack, { n: hd }))}</option>` : ''}</select>`;
+  const asks = ddHtml('mbd_qa', T.oocQuick, [...list.filter((x) => !x.mine).map((x) => ({ v: x.id, n: x.n })), ...list.filter((x) => x.mine).map((x) => ({ v: x.id, n: x.n, g: T.qMine })), ...(hd ? [{ v: 'back', n: fill(T.qBack, { n: hd }), cls: 'back' }] : [])]);
   return `<section class="mbd-card mbd-oocc"><div class="mbd-ch"><b${tipT(`${T.oocBody} ${T.oocNote}`)}>${h(T.oocTitle)}</b><span class="mbd-q2"${tipT(`${T.oocBody} ${T.oocNote}`)}>?</span></div>
     <div class="mbd-qline">${asks}<span class="mbd-star" id="mbd_qsave"${tipT(T.qSaveTip)}>☆</span><span class="mbd-star" id="mbd_qdel" hidden>🗑</span></div>
     <div class="mbd-addrow mbd-bsrow" id="mbd_qsrow" hidden><input id="mbd_qstitle" class="text_pole" maxlength="24" placeholder="${h(T.bsTitlePh)}" /><div id="mbd_qsok" class="menu_button mbd-primary2">${h(T.bsOk)}</div></div>

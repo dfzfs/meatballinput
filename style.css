@@ -550,3 +550,17 @@
 #mbd_panel .mbd-star[hidden] { display: none !important; }
 #mbd_panel .mbd-star + .mbd-star { margin-left: 0; }
 #mbd_panel select.mbd-qsel { field-sizing: content; }
+/* v0.21.3 · our own dropdown (the browser's picker opened outside the panel) */
+#mbd_panel .mbd-dd { position: relative; flex: 0 1 auto; min-width: 0; }
+#mbd_panel .mbd-ddb { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; padding: 4px 10px 4px 8px; border-radius: 8px; font-size: 12px; color: var(--mb-dim); cursor: pointer; user-select: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background .15s, color .15s; }
+#mbd_panel .mbd-ddb i { font-style: normal; font-size: 10px; opacity: .7; transition: transform .2s; }
+#mbd_panel .mbd-ddb:hover, #mbd_panel .mbd-dd.open .mbd-ddb { background: var(--mb-soft); color: var(--mb-ink); }
+#mbd_panel .mbd-dd.open .mbd-ddb i { transform: rotate(180deg); }
+#mbd_panel .mbd-ddl { display: none; position: absolute; z-index: 30; top: calc(100% + 4px); left: 0; min-width: 210px; max-width: min(320px, 80vw); max-height: 260px; overflow-y: auto; padding: 5px; border-radius: 12px; background: var(--mbt-card, #fff); border: 1px solid var(--mbd-hair, var(--mb-line)); box-shadow: 0 10px 28px -10px rgba(0,0,0,.3), 0 2px 6px rgba(0,0,0,.06); }
+#mbd_panel .mbd-dd.open .mbd-ddl { display: block; animation: mbdDrop .15s ease-out !important; }
+#mbd_panel .mbd-ddi { padding: 7px 10px; border-radius: 8px; font-size: 12.5px; color: var(--mb-ink); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#mbd_panel .mbd-ddi:hover { background: var(--mb-soft); }
+#mbd_panel .mbd-ddi.back { color: var(--mb-dim); font-size: 11.5px; border-top: 1px solid var(--mbd-hair, var(--mb-line)); margin-top: 4px; border-radius: 0 0 8px 8px; }
+#mbd_panel .mbd-ddg { padding: 8px 10px 3px; font-size: 10.5px; font-weight: 700; color: var(--mb-dim); }
+#mbd_panel .mbd-oocc .mbd-ddi:hover { background: color-mix(in srgb, #6c7bd8 10%, var(--mbt-card, #fff)); }
+#mbd_panel .mbd-card { overflow: visible; }
