@@ -17,7 +17,8 @@ const h = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<':
 const ko = (navigator.language || '').startsWith('ko');
 const T = ko ? {
   title: '미트볼 지시창', alone: '미트볼 상태창이 꺼져 있어요: 「지시」만 쓸 수 있어요', needMb: '미트볼 상태창이 켜져 있어야 쓸 수 있어요.', oldMb: '미트볼 상태창이 옛 버전이에요({v}). {need} 이상으로 업데이트해야 다 작동해요(예: 천천히 밀어주기).',
-  tabs: ['지시', '비밀', '방향', '규칙'],
+  tabs: ['✍ 지시', '🎨 문체', '🔒 비밀', '🧭 방향'], mStory: '📖 이야기', mOoc: '💬 OOC', mOocTip: '이야기를 멈추고 AI에게 그냥 물어보는 모드. 미트볼 기록 · 쪽지 · 지시가 다 쉬어요.', setsL: '한 번에 고르기', fineL: '🎛 하나씩 고르기', rulesL: '내 규칙 · 말버릇', styleL: '매 답', sceneHowL: '⚙ 장면 고정 방식', redoL: '↻ 이유 적고 다시 뽑기',
+  setN: { plain: '기본', talk: '💬 대화극', movie: '🎬 영화처럼', novel: '📖 소설처럼', drama: '🔥 드라마', quick: '⚡ 가볍게' }, setT: { plain: '아무것도 더하지 않아요.', talk: '대사 · 말투 · 지난 일 기억 + 인풋까지만.', movie: '빠른 템포 · 감각 · 반전 · 끝은 훅.', novel: '길게 · 감정은 행동으로 · 감각 · 숨 고르기 · 복선.', drama: '갈등 · 설렘 · NPC · 끝은 훅.', quick: '짧게 · 빠른 템포 · 유머.' },
   helpRules: '<b>지침 · 말버릇.</b> 지킬 것을 한 줄로 적기만 하면 돼요. 미트볼이 답을 정리할 때 같이 훑어보고, 어긴 게 보이면 <b>다음 답 하나에만</b> "이전 답에 이게 나왔으니 이번엔 주의"를 붙여요. 그다음엔 꺼져요. 「항상」이면 늘 붙여요.',
   rMode: { auto: '보이면 주의', always: '항상', off: '끔' }, rHit: '이전 답에서 보임 → 다음 답에 주의 붙음', rCycle: '눌러서 바꾸기: 보이면 주의 → 항상 → 끔', rEdit: '눌러서 고치기', rMine: '내 지침', rNone: '아직 없어요. 위에 한 줄 적고 Enter', rPresets: '기본 지침 {n}개', dLeft: '채팅 왼쪽에 붙이기 (PC)', dRight: '채팅 오른쪽에 붙이기 (PC)', dBottom: '🎬 위에 띄우기', close: '닫기', rNew: '새 지침', rText: '예: 깡캐를 바보처럼 그리지 않는다', rAdd: '추가', rDel: '지우기', rPreset: '기본',
   helpOrder: '<b>AI에게 시킬 것.</b> 채팅에는 안 남고 본편 AI만 봐요.<br>· 그냥 적어 두면 <b>다음 답 한 번</b>에만 들어가요.<br>· 오래 지켜야 하면 📌 버튼으로 고정하세요. 「이 장면 동안」은 장면이 바뀌면 계속할지 물어봐요.<br>· 시간을 넘기고 싶으면 그냥 「사흘 뒤」처럼 적으면 돼요.',
@@ -60,7 +61,8 @@ const T = ko ? {
   sFresh: '✍ 다음 답에 들어가요', sUsed: '✓ #{i} 답에 들어갔어요', sUsedTip: '그 답을 다시 뽑으면 또 들어가요', sceneFor: '{n}답째', rSeen: '최근 {n}번 보임', rSeenTip: '이 채팅에서 이 버릇이 보인 답',
 } : {
   title: 'Meatball Director', alone: 'Meatball is off: only "Order" works', needMb: 'Needs Meatball status window.', oldMb: 'Meatball status window is old ({v}). Update to {need} or later for everything to work (e.g. Nudge slowly).',
-  tabs: ['Order', 'Secret', 'Direction', 'Rules'],
+  tabs: ['✍ Order', '🎨 Style', '🔒 Secret', '🧭 Direction'], mStory: '📖 Story', mOoc: '💬 OOC', mOocTip: 'Pause the story and just ask the AI. Meatball records, notes and orders rest.', setsL: 'Quick sets', fineL: '🎛 Pick one by one', rulesL: 'My rules · habits', styleL: 'Every reply', sceneHowL: '⚙ How a pinned scene goes', redoL: '↻ Reroll with a reason',
+  setN: { plain: 'Plain', talk: '💬 Dialogue', movie: '🎬 Cinematic', novel: '📖 Novel', drama: '🔥 Drama', quick: '⚡ Light' }, setT: { plain: 'Nothing extra.', talk: 'Dialogue, voices, memory + only my input.', movie: 'Brisk, senses, twists, end on a hook.', novel: 'Long, subtext, senses, quiet moments, foreshadowing.', drama: 'Conflict, romance, NPCs, end on a hook.', quick: 'Short, brisk, humour.' },
   helpRules: '<b>Guidelines · habits.</b> Just write the rule in one line. Meatball checks the reply while sorting it; if the rule was broken, the next reply only gets "the last reply did this, watch it". "Always" sends it every time.',
   rMode: { auto: 'warn when seen', always: 'always', off: 'off' }, rHit: 'seen in the last reply → warned in the next', rCycle: 'click: warn when seen → always → off', rEdit: 'click to edit', rMine: 'My rules', rNone: 'None yet. Type one above and press Enter', rPresets: '{n} preset rules', dLeft: 'dock left of the chat (PC)', dRight: 'dock right of the chat (PC)', dBottom: 'pop up above 🎬', close: 'Close', rNew: 'New rule', rText: 'e.g. never treat B like a child', rAdd: 'Add', rDel: 'Delete', rPreset: 'preset',
   helpOrder: '<b>What the AI should do.</b> Not kept in the chat; only the story AI sees it.<br>· Typed here, it goes into <b>the next reply only</b>.<br>· Pin it with 📌 to keep it. "This scene" asks again when the scene changes.<br>· To skip time, just write "three days later".',
@@ -193,13 +195,14 @@ function render() {
   if (!p || !p.classList?.contains('open')) return;
   const A = api(), S = A ? safeState(A) : null;
   const face = A ? 'idle' : 'sleep', d = rset().dock || 'bottom';
-  p.innerHTML = `<div class="mbd-bar"><span class="mbd-dots"><i></i><i></i><i></i></span><img class="mbd-cat" data-face="${face}" src="${catUrl(face)}" alt="" draggable="false"><span class="mbd-title">meatball.exe</span><span class="mbd-oocbtn${st().ooc ? ' on' : ''}" title="${h(T.oocTip)}">${h(T.oocBtn)}</span><span class="mbd-q" title="">?</span>
+  p.innerHTML = `<div class="mbd-bar"><span class="mbd-dots"><i></i><i></i><i></i></span><img class="mbd-cat" data-face="${face}" src="${catUrl(face)}" alt="" draggable="false"><span class="mbd-title">meatball.exe</span><span class="mbd-q" title="">?</span>
     <span class="mbd-dock">${[['left', '⇤', T.dLeft], ['bottom', '⬓', T.dBottom], ['right', '⇥', T.dRight]].map(([k, ic, t]) => `<b data-dock="${k}" title="${h(t)}" class="${d === k ? 'on' : ''}">${ic}</b>`).join('')}</span><b class="mbd-x" title="${h(T.close)}">✕</b></div>
-    <div class="mbd-tabs">${T.tabs.map((t, i) => `<div class="mbd-tab${G.tab === i ? ' on' : ''}" data-tab="${i}">${h(t)}</div>`).join('')}</div>
+    <div class="mbd-mode"${tipT(T.mOocTip)}><span class="mbd-mb${st().ooc ? '' : ' on'}" data-mode="story">${h(T.mStory)}</span><span class="mbd-mb${st().ooc ? ' on ooc' : ''}" data-mode="ooc">${h(T.mOoc)}</span></div>
+    ${st().ooc ? '' : `<div class="mbd-tabs">${T.tabs.map((t, i) => `<div class="mbd-tab${G.tab === i ? ' on' : ''}" data-tab="${i}">${h(t)}</div>`).join('')}</div>`}
     <div class="mbd-sheet">${A ? '' : `<div class="mbd-dim">${h(T.alone)}</div>`}${A && old(S?.version) ? `<div class="mbd-warn">⬆ ${h(T.oldMb.replace('{v}', S.version).replace('{need}', NEED_MB))}</div>` : ''}<div id="mbd_body"></div></div>`;
   p.querySelector('.mbd-cat')?.addEventListener('click', (e) => poke(e.currentTarget));
   p.classList.toggle('ooc', !!st().ooc); document.getElementById('mbd_btn')?.classList.toggle('ooc', !!st().ooc);
-  p.querySelector('.mbd-oocbtn')?.addEventListener('click', () => setOocOn(!st().ooc));
+  p.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => { const want = b.dataset.mode === 'ooc'; if (want !== !!st().ooc) setOocOn(want); }));
   p.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => { G.tab = +b.dataset.tab; render(); }));
   p.querySelectorAll('[data-dock]').forEach((b) => b.addEventListener('click', () => { rset().dock = b.dataset.dock; saveSet(); dock(); render(); }));
   p.querySelector('.mbd-x').addEventListener('click', () => { p.classList.remove('open'); document.getElementById('mbd_btn')?.classList.remove('on'); });
@@ -223,9 +226,9 @@ function render() {
     body.querySelector('#mbd_oochide').addEventListener('change', (e) => { rset().oocHide = !!e.target.checked; saveSet(); });
   }
   else if (G.tab === 0) tabOrder(body, A, S);
-  else if (G.tab === 3) tabRules(body);
-  else if (!A) body.innerHTML = `<div class="mbd-help">${G.tab === 1 ? T.helpSecret : T.helpGoal}</div><div class="mbd-warn">${h(T.needMb)}</div>`;
-  else if (G.tab === 1) tabSecret(body, A, S);
+  else if (G.tab === 1) tabStyle(body);
+  else if (!A) body.innerHTML = `<div class="mbd-help">${G.tab === 2 ? T.helpSecret : T.helpGoal}</div><div class="mbd-warn">${h(T.needMb)}</div>`;
+  else if (G.tab === 2) tabSecret(body, A, S);
   else tabGoal(body, A, S);
   const hp = body.querySelector('.mbd-help'), q = p.querySelector('.mbd-q');
   q.title = hp ? hp.textContent.replace(/\s+/g, ' ').trim() : '';
@@ -240,24 +243,17 @@ function tabOrder(body, A, S) {
   const status = !s.beat.trim() ? '' : s.used ? `<span class="mbd-state used${popUsed ? ' pop' : ''}" title="${h(T.sUsedTip)}">${h(fill(T.sUsed, { i: s.usedIdx }))}</span>` : `<span class="mbd-state fresh">${h(T.sFresh)}</span>`;
   const sceneN = A && s.scene.trim() ? Math.max(0, (S.gn || 0) - (s.sceneGn || 0)) : 0;
   const pins = [s.scene.trim() ? ['scene', T.pinnedScene + (sceneOnce() ? ` · ${T.scDone}` : sceneN ? ` · ${fill(T.sceneFor, { n: sceneN })}` : ''), s.scene] : null, keep.trim() ? ['always', T.pinnedAlways, keep] : null].filter(Boolean);
-  // v0.16.3 sub-tabs inside 지시: one job on screen at a time. A dot shows a sub-tab that has something set.
-  const sub = G.sub || 'beat';
-  const dot = { beat: !!(s.beat.trim() || pins.length), scene: !!s.scene.trim(), every: everySum() !== T.vAuto, redo: !!((s.redo || '').trim() && s.redoIdx === lastAiIdx()) };
-  const subs = [['beat', T.sbBeat], ['scene', T.sbScene], ['every', T.sbEvery], ['redo', T.sbRedo]];
-  let pane = '';
-  if (sub === 'beat') pane = `<section class="mbd-card"><div class="mbd-ch"><b>${h(T.oBeat)}</b><span class="mbd-st">${status}</span></div>
-      ${savedLine(s.beat)}
-      <textarea id="mbd_beat" class="text_pole" placeholder="${h(T.orderPh)}">${h(s.beat)}</textarea><div id="mbd_beat_info"></div>
-      <div class="mbd-acts"><div id="mbd_pin_s" class="menu_button"${tipAt('pinScene')}>${h(T.pinScene)}</div><div id="mbd_pin_a" class="menu_button"${tipAt('pinAlways')}>${h(T.pinAlways)}</div><div id="mbd_clear" class="menu_button mbd-ghost"${tipAt('clear')}>${h(T.clear)}</div></div>
-      ${cut ? `<div class="mbd-warn">${h(T.sceneCut)} <span id="mbd_scene_keep" class="menu_button">${h(T.keepIt)}</span> <span id="mbd_scene_clear" class="menu_button">${h(T.clear)}</span></div>` : ''}</section>
-    ${pins.length ? `<section class="mbd-card"><div class="mbd-ch"><b>${h(T.oPin)}</b></div>${pins.map(([k, l, v]) => `<div class="mbd-pinrow"><div><div class="mbd-pinl">${h(l)}</div><div class="mbd-pinv">${h(v)}</div></div><div class="menu_button mbd-ghost" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}</section>` : ''}`;
-  else if (sub === 'scene') pane = `<section class="mbd-card"><div class="mbd-ch"><b${tipT(T.oSceneSub)}>${h(T.oScene)}</b></div>${optRow('scEnter', 'kEnter')}${optRow('scIntro', 'kIntro')}${optRow('scLen', 'kSplit')}</section>`;
-  else if (sub === 'every') pane = `<section class="mbd-card"><div class="mbd-ch"><b${tipT(T.oEverySub)}>${h(T.oEvery)}</b></div>${optRow('reach', 'kReach')}${optRow('pov', 'kPov')}${boostHtml()}</section>`;
-  else pane = redoHtml(s, S);
+  // v0.17.1 one screen: what to say, how long it holds, and two quiet openers (scene method · reroll with a reason)
+  const opener = (id, label, sum, inner) => `<div class="mbd-op${G[id] ? ' open' : ''}"><div class="mbd-opl" data-op2="${id}"><span>${h(label)}</span><span class="mbd-sum">${h(sum)}</span><i>›</i></div>${G[id] ? `<div class="mbd-opin">${inner}</div>` : ''}</div>`;
   body.innerHTML = `<div class="mbd-help">${T.helpOrder}</div>
-    <div class="mbd-subs">${subs.map(([k, l]) => `<span class="mbd-subt${sub === k ? ' on' : ''}" data-sub="${k}">${h(l)}${dot[k] ? '<i class="mbd-dot"></i>' : ''}</span>`).join('')}</div>
-    <div class="mbd-pane">${pane}</div>`;
-  body.querySelectorAll('[data-sub]').forEach((b) => b.addEventListener('click', () => { G.sub = b.dataset.sub; render(); }));
+    <section class="mbd-card mbd-main">${savedLine(s.beat)}
+      <textarea id="mbd_beat" class="text_pole" placeholder="${h(T.orderPh)}">${h(s.beat)}</textarea><div id="mbd_beat_info"></div>
+      <div class="mbd-acts"><span class="mbd-st">${status}</span><span class="mbd-sp"></span><div id="mbd_pin_s" class="menu_button"${tipAt('pinScene')}>${h(T.pinScene)}</div><div id="mbd_pin_a" class="menu_button"${tipAt('pinAlways')}>${h(T.pinAlways)}</div><div id="mbd_clear" class="menu_button mbd-ghost"${tipAt('clear')}>${h(T.clear)}</div></div>
+      ${cut ? `<div class="mbd-warn">${h(T.sceneCut)} <span id="mbd_scene_keep" class="menu_button">${h(T.keepIt)}</span> <span id="mbd_scene_clear" class="menu_button">${h(T.clear)}</span></div>` : ''}</section>
+    ${pins.length ? `<section class="mbd-card">${pins.map(([k, l, v]) => `<div class="mbd-pinrow"><div><div class="mbd-pinl">📌 ${h(l)}</div><div class="mbd-pinv">${h(v)}</div></div><div class="menu_button mbd-ghost" data-unpin="${k}">${h(T.clear)}</div></div>`).join('')}</section>` : ''}
+    <section class="mbd-card mbd-ops">${opener('opScene', T.sceneHowL, sceneSum(), `${optRow('scEnter', 'kEnter')}${optRow('scIntro', 'kIntro')}${optRow('scLen', 'kSplit')}`)}${opener('opRedo', T.redoL, (s.redo || '').trim() && s.redoIdx === lastAiIdx() ? '●' : '', redoHtml(s, S))}</section>`;
+  body.querySelectorAll('[data-op2]').forEach((b) => b.addEventListener('click', () => { G[b.dataset.op2] = !G[b.dataset.op2]; render(); }));
+  const sub = 'beat';
   const beat = document.getElementById('mbd_beat');
   if (beat) {
   beat.addEventListener('input', () => { const was = !!s.beat.trim() && !s.used; s.beat = beat.value; s.used = false; s.usedIdx = -1; save(); info();
@@ -403,10 +399,10 @@ function redoProblems(S) {
 }
 function redoHtml(s, S) {
   const li = lastAiIdx(), on = !!(s.redo || '').trim() && s.redoIdx === li, probs = li >= 0 ? redoProblems(S) : [];
-  return `<section class="mbd-card mbd-redo2"><div class="mbd-ch"><b${tipT(T.rdHelp)}>${h(T.rdTitle)}</b></div>
+  return `<div class="mbd-redo2"${tipT(T.rdHelp)}>
     ${probs.length ? `<div class="mbd-dim">${h(T.rdFound)}</div><div class="mbd-rdchips">${probs.map((p) => `<span class="mbd-chip mbd-rdchip" data-rd="${h(p)}">+ ${h(p)}</span>`).join('')}</div>` : ''}
     <textarea id="mbd_redo" class="text_pole" placeholder="${h(T.rdPh)}">${h(s.redoIdx === li ? s.redo || '' : '')}</textarea>
-    <div class="mbd-row">${on ? `<span class="mbd-state fresh">${h(fill(T.rdOn, { i: li }))}</span>` : '<span></span>'}<div id="mbd_redo_go" class="menu_button"${li < 0 ? ' disabled' : ''}>${h(li < 0 ? T.rdNoAi : T.rdGo)}</div></div></section>`;
+    <div class="mbd-row">${on ? `<span class="mbd-state fresh">${h(fill(T.rdOn, { i: li }))}</span>` : '<span></span>'}<div id="mbd_redo_go" class="menu_button"${li < 0 ? ' disabled' : ''}>${h(li < 0 ? T.rdNoAi : T.rdGo)}</div></div></div>`;
 }
 function redoWire(body, s) {
   const ta = body.querySelector('#mbd_redo'); if (!ta) return;
@@ -598,6 +594,27 @@ function activeRules(again = false) {
   return [...boostLines(), ...allRules().filter((r) => r.mode === 'always' || (r.mode === 'auto' && (hit.has(r.id) || (!A && !r.preset))))
     .map((r) => (r.mode === 'auto' && hit.has(r.id) ? (again ? `The version being rewritten slipped into this (${r.en}) and was thrown away for it. This version must not: ${r.text}` : `The previous reply slipped into this (${r.en}). Watch it in this reply: ${r.text}`) : r.text))];
 }
+// v0.17.1 🎨 문체 — everything that goes with every reply, in one place. Quick sets pick several at once.
+const SETS = [['plain', {}], ['talk', { reach: 'upto', boost: ['talk', 'voice', 'memory'] }], ['movie', { boost: ['pace', 'sense', 'hook', 'twist'] }],
+  ['novel', { len: 'long', boost: ['subtext', 'sense', 'breath', 'foreshadow'] }], ['drama', { boost: ['conflict', 'spark', 'hook', 'npc'] }], ['quick', { len: 'short', boost: ['pace', 'humor'] }]];
+function setNow() {
+  const R0 = rset(), on = Object.keys(R0.boost || {}).filter((k) => R0.boost[k]).sort().join(',');
+  const hit = SETS.find(([, x]) => (x.reach || 'auto') === (R0.reach || 'auto') && (x.len || 'auto') === (R0.len || 'auto') && (R0.pov || 'auto') === 'auto' && [...(x.boost || [])].sort().join(',') === on);
+  return hit ? hit[0] : '';
+}
+function tabStyle(body) {
+  const cur = setNow();
+  body.innerHTML = `<section class="mbd-card"><div class="mbd-ch"><b>${h(T.setsL)}</b></div><div class="mbd-chips mbd-sets">${SETS.map(([k]) => `<span class="mbd-tg${cur === k ? ' on' : ''}" data-set="${k}"${tipT(T.setT[k])}>${h(T.setN[k])}</span>`).join('')}</div></section>
+    <section class="mbd-card mbd-ops"><div class="mbd-op${G.opStyle ? ' open' : ''}"><div class="mbd-opl" data-op2="opStyle"${tipT(T.oEverySub)}><span>${h(T.fineL)}</span><span class="mbd-sum">${h(everySum())}</span><i>›</i></div>${G.opStyle ? `<div class="mbd-opin">${optRow('reach', 'kReach')}${optRow('pov', 'kPov')}${boostHtml()}</div>` : ''}</div></section>
+    <section class="mbd-card"><div class="mbd-ch"><b${tipT(T.helpRules.replace(/<[^>]+>/g, ''))}>${h(T.rulesL)}</b></div><div id="mbd_rules"></div></section>`;
+  boostWire(body);
+  body.querySelectorAll('[data-op2]').forEach((b) => b.addEventListener('click', () => { G[b.dataset.op2] = !G[b.dataset.op2]; render(); }));
+  body.querySelectorAll('[data-opt]').forEach((b) => b.addEventListener('click', () => { const [k, v] = b.dataset.opt.split(':'); rset()[k] = v; saveSet(); render(); }));
+  body.querySelectorAll('[data-set]').forEach((b) => b.addEventListener('click', () => {
+    const x = SETS.find(([k]) => k === b.dataset.set)[1], R0 = rset();
+    R0.reach = x.reach || 'auto'; R0.len = x.len || 'auto'; R0.pov = 'auto'; R0.boost = Object.fromEntries((x.boost || []).map((k) => [k, true])); saveSet(); render(); }));
+  tabRules(body.querySelector('#mbd_rules'));
+}
 function tabRules(body) {
   const R = rset(), hit = hitRules(), rules = allRules(), mine = rules.filter((r) => !r.preset), pre = rules.filter((r) => r.preset);
   // v0.25: the replies where each habit showed, kept per chat (the last 20); a hit on a reply not seen before pings once
@@ -607,9 +624,7 @@ function tabRules(body) {
   const n = (id) => (log[id] || []).filter((i) => i <= li).length;
   const row = (r) => `<div class="mbd-rule${r.mode === 'off' ? ' off' : ''}" title="${h(r.text)}"><span class="mbd-rt" data-re="${h(r.id)}" title="${h(r.text)} · ${h(T.rEdit)}">${h(r.preset ? r.name : r.text)}${hit.has(r.id) ? ` <i class="mbd-hit${fresh.has(r.id) ? ' new' : ''}" title="${h(T.rHit)}">●</i>` : ''}</span>${n(r.id) ? `<small class="mbd-rseen" title="${h(T.rSeenTip)}">${h(fill(T.rSeen, { n: n(r.id) }))}</small>` : ''}
     <b class="mbd-pill m-${r.mode}" data-rm="${h(r.id)}" title="${h(T.rCycle)}">${h(T.rMode[r.mode])}</b>${r.preset ? '' : `<b class="mbd-del" data-rd="${h(r.id)}" title="${h(T.rDel)}">✕</b>`}</div>`;
-  body.innerHTML = `<div class="mbd-help">${T.helpRules}</div>
-    <div class="mbd-lab">${h(T.rMine)}${q('rText')}</div>
-    <div class="mbd-row"><input id="mbd_rt" class="mbd-in" placeholder="${h(T.rText)}" style="flex:1" /><b id="mbd_ra" class="mbd-btn">${h(T.rAdd)}</b></div>
+  body.innerHTML = `<div class="mbd-row"><input id="mbd_rt" class="mbd-in" placeholder="${h(T.rText)}" style="flex:1" /><b id="mbd_ra" class="mbd-btn">${h(T.rAdd)}</b></div>
     ${mine.map(row).join('') || `<div class="mbd-dim">${h(T.rNone)}</div>`}
     <details class="mbd-pre"><summary>${h(T.rPresets.replace('{n}', pre.length))}${q('rPresets')}</summary>${pre.map(row).join('')}</details>`;
   const order = ['auto', 'always', 'off'];

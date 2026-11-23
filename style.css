@@ -297,3 +297,30 @@
 #mbd_panel .mbd-bsnone { flex: 1; font-size: 11.5px; }
 #mbd_panel .mbd-bsrow { margin: -4px 0 8px; }
 #mbd_panel .mbd-star.on { color: #e8a33d; }
+
+/* ===================== v0.17.1 · simpler: a story / OOC switch on top, one screen per tab ===================== */
+#mbd_panel .mbd-mode { display: flex; gap: 3px; margin: 8px 10px 0; padding: 3px; border-radius: 12px; background: var(--mb-soft); border: 1px solid var(--mb-line); }
+#mbd_panel .mbd-mb { flex: 1; text-align: center; padding: 5px 0; border-radius: 9px; font-size: 12.5px; color: var(--mb-dim); cursor: pointer; transition: background .2s, color .2s; }
+#mbd_panel .mbd-mb:hover { color: var(--mb-ink); }
+#mbd_panel .mbd-mb.on { background: var(--mbt-card, #fff); color: var(--mb-ink); font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+#mbd_panel .mbd-mb.on.ooc { background: #6c7bd8; color: #fff; }
+#mbd_panel.ooc .mbd-sheet { padding-top: 10px; }
+/* 지시: the main card */
+#mbd_panel .mbd-main .mbd-acts { align-items: center; }
+#mbd_panel .mbd-main .mbd-st { margin: 0; }
+#mbd_panel .mbd-sp { flex: 1; }
+#mbd_panel .mbd-main textarea { margin-top: 0; }
+#mbd_panel .mbd-pinrow:first-child { border-top: 0; padding-top: 0; }
+/* quiet one-line openers */
+#mbd_panel .mbd-ops { padding: 2px 12px; }
+#mbd_panel .mbd-op + .mbd-op { border-top: 1px solid color-mix(in srgb, var(--mb-line) 70%, transparent); }
+#mbd_panel .mbd-opl { display: flex; align-items: center; gap: 8px; padding: 10px 0; cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--mb-ink); user-select: none; }
+#mbd_panel .mbd-opl:hover { color: var(--mb-acc); }
+#mbd_panel .mbd-opl > i { font-style: normal; color: var(--mb-dim); transition: transform .2s; }
+#mbd_panel .mbd-op.open .mbd-opl > i { transform: rotate(90deg); }
+#mbd_panel .mbd-opin { padding: 0 0 10px; animation: mbdIn .2s ease-out; }
+#mbd_panel .mbd-opin .mbd-orow:first-child { border-top: 0; padding-top: 0; }
+#mbd_panel .mbd-ch .mbd-sum { text-align: right; }
+#mbd_panel .mbd-sets .mbd-tg { font-size: 12px; padding: 4px 11px; }
+#mbd_panel #mbd_rules .mbd-rule { margin: 5px 0; }
+#mbd_panel #mbd_rules > .mbd-row:first-child { margin-top: 0; }
