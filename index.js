@@ -856,7 +856,9 @@ function oocLine() {
 }
 function putOoc(on) { const c = ctx(); if (!c.setExtensionPrompt) return; c.setExtensionPrompt('mbd_ooc', on ? oocLine() : '', c.extension_prompt_types?.IN_CHAT ?? 1, 0); }
 // every message since OOC was turned on is marked, so Meatball never reads it as story (and it can be hidden after)
-function markOoc() { const s = st(), c = ctx(), chat = c.chat || []; let n = 0; for (let i = Math.max(0, s.oocFrom ?? chat.length); i < chat.length; i++) { const m = chat[i]; if (!m) continue; m.extra ||= {}; if (!m.extra.mb_ooc) { m.extra.mb_ooc = true; n++; } } if (n) c.saveChat?.(); }
+// v0.21.4: a reply the person put back into the story during OOC (🐾 in the status window sets mb_story) stays story:
+// it is not marked again and not hidden when OOC ends, so its record stays
+function markOoc() { const s = st(), c = ctx(), chat = c.chat || []; let n = 0; for (let i = Math.max(0, s.oocFrom ?? chat.length); i < chat.length; i++) { const m = chat[i]; if (!m || m.extra?.mb_story) continue; m.extra ||= {}; if (!m.extra.mb_ooc) { m.extra.mb_ooc = true; n++; } } if (n) c.saveChat?.(); }
 async function setOocOn(on) {
   const s = st(), A = api(), c = ctx();
   if (on) { s.ooc = true; s.oocFrom = (c.chat || []).length; save(); A?.setOoc?.(true); putAlone(); putOoc(true); G.tab = 0; render(); return; }
@@ -864,7 +866,11 @@ async function setOocOn(on) {
   const from = s.oocFrom ?? (c.chat || []).length, to = (c.chat || []).length - 1;
   delete s.ooc; save(); A?.setOoc?.(false); putOoc(false); putAlone();
   if (rset().oocHide !== false && to >= from) {
-    try { await c.executeSlashCommandsWithOptions?.(`/hide ${from}-${to}`); window.toastr?.info(fill(T.oocHidden, { n: to - from + 1 })); } catch (e) { console.warn('[meatball-director] hide', e); }
+    // only the OOC talk itself: runs of marked messages, skipping any reply kept as story
+    const chat = c.chat || [], runs = [];
+    for (let i = from; i <= to; i++) { if (!chat[i]?.extra?.mb_ooc || chat[i]?.extra?.mb_story) continue; const r = runs.at(-1); if (r && r[1] === i - 1) r[1] = i; else runs.push([i, i]); }
+    const n = runs.reduce((a, [x, y]) => a + y - x + 1, 0);
+    try { for (const [x, y] of runs) await c.executeSlashCommandsWithOptions?.(`/hide ${x}-${y}`); if (n) window.toastr?.info(fill(T.oocHidden, { n })); } catch (e) { console.warn('[meatball-director] hide', e); }
   }
   render();
 }

@@ -4,7 +4,7 @@
   "js": "index.js",
   "css": "style.css",
   "author": "meatball",
-  "version": "0.21.3",
+  "version": "0.21.4",
   "homePage": "https://github.com/dfzfs/meatballinput",
   "auto_update": false
 }
